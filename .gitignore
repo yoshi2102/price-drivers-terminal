@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+apps/web/public/data/
+apps/web/.env*.local
+apps/web/tsconfig.tsbuildinfo
+__pycache__/
+*.pyc
+data/lake/
+data/snapshots/
+.vercel
+# Published snapshot JSON carries Bloomberg-licensed consensus and broker-level
+# estimates. Keep it out of git; the worker writes it and Vercel reads it from
+# storage at build time.
+apps/web/data/
