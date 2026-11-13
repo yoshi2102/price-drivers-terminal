@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import {
   LayoutDashboard, Layers, CandlestickChart, Sigma, CalendarClock, Scale, Route, FlaskConical, Activity,
-  FileStack, Search, Sun, Moon, Command, X,
+  FileStack, Search, Sun, Moon, Command, X, BookOpen,
 } from "lucide-react";
 
 export const NAV = [
@@ -18,6 +18,7 @@ export const NAV = [
   { href: "/backtest", label: "Backtest lab", icon: FlaskConical },
   { href: "/health", label: "Data health", icon: Activity },
   { href: "/studio", label: "Research studio", icon: FileStack },
+  { href: "/guide", label: "Guide", icon: BookOpen },
 ];
 
 type Item = { label: string; hint: string; href: string };
@@ -150,7 +151,7 @@ export default function Shell({ children, stocks, snapshot }: { children: ReactN
             <ThemeToggle />
           </div>
           <nav className="flex gap-1 overflow-x-auto px-4 pb-2 lg:hidden" aria-label="Screens">
-            {NAV.slice(0, 7).map((n) => (
+            {[...NAV.slice(0, 7), NAV[NAV.length - 1]].map((n) => (
               <Link key={n.href} href={n.href} className={`whitespace-nowrap rounded-chip px-2 py-1 text-xs ${active(n) ? "bg-ink text-paper" : "text-muted"}`}>{n.label}</Link>
             ))}
           </nav>
