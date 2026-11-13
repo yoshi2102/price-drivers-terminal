@@ -230,12 +230,13 @@ def load_events() -> pd.DataFrame:
     df = pd.concat(frames, ignore_index=True)
     df["results_date"] = pd.to_datetime(df["results_date"], errors="coerce")
     df = df.dropna(subset=["results_date"])
-    df["date_quality"] = np.where(df["source_tag"].fillna("").str.contains("CALLDATE"), "call_date", "board_date")
+    tag = df["source_tag"].fillna("")
+    df["date_quality"] = np.select([tag.str.contains("CALLDATE"), tag.str.contains("PRESDATE")], ["call_date", "presentation_date"], "board_date")
     # Shree Cement holds its call 4-6 days after results: a call date would put
     # the reaction window after the reaction, so those rows are excluded.
     df = df[~((df.ticker == "SHREECEM") & (df.date_quality == "call_date"))]
     # Board/results dates beat call dates; among equals keep the first file read.
-    df["_rank"] = (df.date_quality == "call_date").astype(int)
+    df["_rank"] = df.date_quality.map({"board_date": 0, "presentation_date": 1, "call_date": 2})
     df = df.sort_values(["ticker", "period", "_rank"], kind="stable").drop(columns="_rank")
     return df.drop_duplicates(["ticker", "period"], keep="first")
 
