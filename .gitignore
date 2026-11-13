@@ -9,7 +9,7 @@ __pycache__/
 data/lake/
 data/snapshots/
 .vercel
-# Published snapshot JSON carries Bloomberg-licensed consensus and broker-level
-# estimates. Keep it out of git; the worker writes it and Vercel reads it from
-# storage at build time.
-apps/web/data/
+# apps/web/data (published snapshot) IS committed for the pilot, in a private
+# repo only. It carries Bloomberg consensus and broker-level estimates:
+# internal use, never a public repo. Move it to object storage
+# (PDT_SNAPSHOT_URL) before widening access.

@@ -32,6 +32,8 @@ cd worker && PDT_RAW_DIR=/path/to/pdt-raw python -m pdt.run
 cd apps/web && npm install && npm run dev
 ```
 
+The committed snapshot means the last command alone is enough to browse the app at http://localhost:3000.
+
 The worker takes about 30 seconds and copies the snapshot into `apps/web/data/`. Without `AUTH_SECRET` the app runs open on localhost; with it, every page needs a signed-in user on `AUTH_ALLOWED_DOMAIN`.
 
 `npm run export:static` builds an auth-free static copy in `apps/web/out/` for offline review.
@@ -43,7 +45,7 @@ The worker takes about 30 seconds and copies the snapshot into `apps/web/data/`.
 3. `PDT_SNAPSHOT_URL`: bucket prefix where the worker uploads `PUBLISHED` and `<id>/`. `prebuild` pulls the published snapshot, so a failed worker run never reaches the site. Rollback is a pointer change plus Vercel instant rollback.
 4. Turn on Deployment Protection for previews.
 
-Snapshot JSON is kept out of git on purpose. It carries Bloomberg consensus and broker-level estimates, which the PRD restricts to internal display.
+The pilot snapshot (`apps/web/data/`) is committed so the app runs straight after cloning. It carries Bloomberg consensus and broker-level estimates, which the PRD restricts to internal display: keep this repo private, and move the snapshot to object storage before widening access.
 
 ## What the pilot data says (prices to 12 Nov 2026)
 
