@@ -45,7 +45,7 @@ The worker takes about 30 seconds and copies the snapshot into `apps/web/data/`.
 
 Snapshot JSON is kept out of git on purpose. It carries Bloomberg consensus and broker-level estimates, which the PRD restricts to internal display.
 
-## What the pilot data says (snapshot 20261113T053935Z, prices to 12 Nov 2026)
+## What the pilot data says (prices to 12 Nov 2026)
 
 - **No driver passes all six gates.** Fifteen candidates were tested on 312 stock-quarters. The best, EBITDA margin change, has p = 0.031 and q = 0.47 after Benjamini-Hochberg. Every driver is shown, labelled unvalidated or unstable.
 - **Stock-specific news explains 60% of daily variance** in cement over three years. Market explains 19%, style 14% and sector 8%. The tested KPI set explains little of the rest.
