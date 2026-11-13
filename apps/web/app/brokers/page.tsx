@@ -26,15 +26,21 @@ export default function Brokers() {
     const m = v.reduce((a, c) => a + c, 0) / v.length; const sd = Math.sqrt(v.reduce((a, c) => a + (c - m) ** 2, 0) / Math.max(v.length - 1, 1));
     return { fy, n: v.length, lo: Math.min(...v), hi: Math.max(...v), cv: sd / m };
   });
-  const brokersSorted = Array.from(new Set(paths.map((p) => p.broker)));
+  const lg: Record<string, any> = Object.fromEntries((t.league || []).map((l: any) => [l.broker, l]));
   return (
     <>
       <PageHead kicker="Phase 2" title="Broker scorecard" meta={<><Badge kind="pilot" text="UltraTech first" /><span>{t.n_notes} notes · {t.n_brokers} brokers · {fmtDate(t.date_range[0])} to {fmtDate(t.date_range[1])}</span></>}>
         Who forecasts cement earnings well, and what a consensus weighted by that record says against the plain Bloomberg mean.
       </PageHead>
-      <Note tone="warn">
-        Accuracy cannot be scored yet. {t.n_notes - 1} of the {t.n_notes} extracted notes date from April 2026 or later and forecast FY27 to FY29, which have no reported actuals; only {t.n_scorable} estimates are scorable. The Airavat store holds no UltraTech broker notes before April 2026 apart from one 2023 initiation. Until older notes are extracted from the report library and Research Mailbox, the weighted consensus below uses equal weights with stale notes halved, and it is <b>not promoted</b>: the Diebold-Mariano test needs scored history.
-      </Note>
+      {t.scored ? (
+        <Note tone={t.dm?.promoted ? "muted" : "warn"}>
+          {t.n_scorable} estimates for FY24–FY26 are scored against reported EPS. On {t.dm?.n ?? 0} walk-forward month-ends the Buoyant-weighted consensus was closer than the plain average {Math.round((t.dm?.weighted_better_share ?? 0) * 100)}% of the time, but the Diebold-Mariano test gives p = {isNum(t.dm?.p) ? t.dm.p.toFixed(2) : "—"}, so the weighted consensus is <b>{t.dm?.promoted ? "promoted" : "not promoted"}</b>. Shrunk scores sit near zero because the gap between brokers is smaller than the noise in each broker&apos;s record: with this much history no broker is reliably better than average.
+        </Note>
+      ) : (
+        <Note tone="warn">
+          Accuracy cannot be scored yet: only {t.n_scorable} estimates have reported actuals. The weighted consensus uses equal weights with stale notes halved and is <b>not promoted</b>.
+        </Note>
+      )}
 
       <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <Card title="Weighted against plain consensus, EPS" sub="Plain mean of extracted notes (≤180 days), Buoyant weighting, and the Bloomberg mean. Weights cap at 25% per broker.">
@@ -73,10 +79,10 @@ export default function Brokers() {
         </Card>
       </div>
 
-      <Card className="mt-5" title="League table, UltraTech" sub="Latest note per broker. Accuracy, bias, timeliness and call-return columns fill once estimates for reported years are extracted.">
+      <Card className="mt-5" title="League table, UltraTech" sub="Latest note per broker. Error and bias come from its FY24 to FY26 estimates against reported EPS; blank where it had none in the extracted notes.">
         <div className="-mx-4 overflow-x-auto">
           <table className="tbl text-sm">
-            <thead><tr><th>Broker</th><th>Latest note</th><th>Rating</th><th className="r">Target ₹</th>{fys.map((f) => <th key={f} className="r">{f} EPS</th>)}{fys.slice(0, 2).map((f) => <th key={f} className="r">{f} vs BBG</th>)}<th className="r">Notes</th><th className="r">FY1 error</th><th className="r">Bias</th><th className="r">Shrunk score</th><th className="r">Weight</th><th className="r">Extraction conf.</th></tr></thead>
+            <thead><tr><th>Broker</th><th>Latest note</th><th>Rating</th><th className="r">Target ₹</th>{fys.map((f) => <th key={f} className="r">{f} EPS</th>)}{fys.slice(0, 2).map((f) => <th key={f} className="r">{f} vs BBG</th>)}<th className="r">Notes</th><th className="r">Avg error, scored years</th><th className="r">Bias (+ = too high)</th><th className="r">Shrunk score</th><th className="r">Weight</th><th className="r">Extraction conf.</th></tr></thead>
             <tbody>{views.map((v) => (
               <tr key={v.broker}>
                 <td className="whitespace-nowrap font-medium">{PRETTY(v.broker)}</td>
@@ -86,7 +92,9 @@ export default function Brokers() {
                 {fys.map((f) => <td key={f} className="r num">{isNum(v.eps[f]) ? num(v.eps[f], 1) : "—"}</td>)}
                 {fys.slice(0, 2).map((f) => <td key={f} className={`r num ${(v.vs_bbg[f] ?? 0) >= 0 ? "text-pos" : "text-neg"}`}>{isNum(v.vs_bbg[f]) ? pct(v.vs_bbg[f], 1) : "—"}</td>)}
                 <td className="r num">{v.n_notes}</td>
-                <td className="r text-muted">—</td><td className="r text-muted">—</td><td className="r text-muted">—</td>
+                <td className="r num">{lg[v.broker] ? pct(lg[v.broker].mape, 1, false) : "—"}</td>
+                <td className={`r num ${(lg[v.broker]?.bias ?? 0) > 0 ? "text-warn" : ""}`}>{lg[v.broker] ? pct(lg[v.broker].bias, 1) : "—"}</td>
+                <td className="r num">{lg[v.broker] ? lg[v.broker].score.toFixed(3) : "—"}</td>
                 <td className="r num">{isNum(cur.FY28?.weights?.[v.broker]) ? `${(cur.FY28.weights[v.broker] * 100).toFixed(1)}%` : "—"}</td>
                 <td className={`r num ${v.confidence < 0.8 ? "text-warn" : ""}`}>{isNum(v.confidence) ? v.confidence.toFixed(2) : "—"}</td>
               </tr>))}
