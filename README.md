@@ -47,28 +47,24 @@ The worker takes about 30 seconds and copies the snapshot into `apps/web/data/`.
 
 The pilot snapshot (`apps/web/data/`) is committed so the app runs straight after cloning. It carries Bloomberg consensus and broker-level estimates, which the PRD restricts to internal display: keep this repo private, and move the snapshot to object storage before widening access.
 
-## What the pilot data says (prices to 12 Nov 2026)
+## What the pilot data says (prices to 12 Nov 2026, extended data)
 
-- **No driver passes all six gates.** Fifteen candidates were tested on 312 stock-quarters. The best, EBITDA margin change, has p = 0.031 and q = 0.47 after Benjamini-Hochberg. Every driver is shown, labelled unvalidated or unstable.
-- **Stock-specific news explains 60% of daily variance** in cement over three years. Market explains 19%, style 14% and sector 8%. The tested KPI set explains little of the rest.
-- **Discovery models fail out of sample.** Elastic net shrinks every coefficient to zero (OOS R² −0.6%). LightGBM fits in-sample, scores −11% out of sample, and is rejected.
-- **Event studies (79 events with announced dates):** no reliable drift after day +3 for any surprise metric. The EBITDA-surprise top-minus-bottom drift is −3.5%, with a 90% interval of −7.4% to +0.3%.
-- **Forward paths:** 12-month 80% bands held only 68% of outcomes in the walk-forward PIT test, so 12-month bands are widened ×1.28. 3-month bands held 79% and are left as they are.
-- **Backtest:** rank IC is +0.009 (fp-1.0) and −0.008 (control) over 43 months. Both are well short of the PRD target of 0.05.
+The data was extended from Airavat: results dates for 11 of 12 stocks (241 dated quarters), quarterly history back to FY16 for UltraTech, ACC, Ambuja, Star and JK Lakshmi, street expectations from broker previews for FY25Q3 and FY26Q2–FY27Q2, and 66 older UltraTech broker notes. The panel grew from 312 to 382 stock-quarters.
 
-These are honest pilot numbers, not a failed build. The engine, gates and screens work. What limits the answers is data depth, listed below.
+- **EBITDA margin change passes five of six gates.** Effect +4.1% per 1 SD on the post-results window, BH q = 0.046, same sign in 3 of 4 regimes, beats 97% of placebos, 12 stocks. It fails out of sample: it beats the baseline in 46% of walk-forward quarters, against 70% required. Labelled unvalidated.
+- **Revenue against street expectations shows post-results drift.** Top minus bottom quintile +6.2% over days +4 to +60, 90% interval +1.4% to +10.7%, but on only 44 events.
+- **Broker accuracy is now scored for UltraTech** (90 estimates). The weighted consensus beat the plain average in 9 of 11 months, but the Diebold-Mariano test gives p = 0.84, so it is not promoted.
+- **Discovery models still fail out of sample** and the backtest rank IC stays near zero (0.003), well short of 0.05.
 
-## Data gaps that limit the pilot (in priority order)
+## Remaining data gaps (not in Airavat)
 
-| Gap | Effect | Fix |
-| --- | --- | --- |
-| Quarterly financials start FY21 (ACE) and FY23 (UltraTech, Financials API) | No pre-COVID regime; about 20 quarters per stock | Labs: deeper quarterly history |
-| Results dates exist for 6 of 12 stocks (96 quarters); Shree's are call dates 4–6 days late and are excluded | Event studies run on half the sector | Labs: results timestamps per company and quarter |
-| Sales volumes for 7 stocks, mostly from Motilal Oswal tables | Tonne-based KPIs run on 92 obs; JK Lakshmi, Birla, Heidelberg, Star and Nuvoco are missing | Deck KPI extraction for the remaining five |
-| Consensus history is 12 months, so there is no day-before consensus by quarter | Surprise is measured against each stock's own trend (SUE), not the street | Labs: full revision history with FY labels |
-| 49 of 50 UltraTech broker notes are from April 2026 or later and forecast FY27–29 | Broker accuracy cannot be scored; the weighted consensus is not promoted | Extract 2023–25 notes from the report library and Research Mailbox |
-| No index series in Airavat | Market factor is an equal-weighted basket of 16 large caps | NSE index files |
-| Tijori not connected | No flows or macro on Home | Tijori service credentials |
+| Gap | Owner |
+| --- | --- |
+| Board-meeting dates for Shree, and exact dates where only call dates exist | Labs: exchange announcement feed |
+| Bloomberg quarterly consensus before 2025 | Labs |
+| FY16–FY20 quarterly results for Shree, Dalmia, JK Cement, Ramco, Birla, Heidelberg | Labs or ACE history |
+| Broker notes for the other 11 stocks | Extraction job with 200-note audit |
+| NSE index files | IT |
 
 ## Design
 

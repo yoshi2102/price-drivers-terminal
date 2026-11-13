@@ -198,8 +198,10 @@ def load_history() -> pd.DataFrame:
     h = h[h.period.astype(str).str.match(r"^FY\d{2}Q[1-4]$")]
     for c in ["revenue_cr", "ebitda_cr", "pat_cr", "eps"]:
         h[c] = pd.to_numeric(h.get(c), errors="coerce")
-    h = h.dropna(subset=["revenue_cr"]).drop_duplicates(["ticker", "period"], keep="first")
     h["basis"] = h.get("basis", "consolidated").fillna("consolidated")
+    # Consolidated wins where a quarter has both bases.
+    h["_b"] = (~h["basis"].str.lower().str.startswith("consol")).astype(int)
+    h = h.dropna(subset=["revenue_cr"]).sort_values(["ticker", "period", "_b"], kind="stable").drop_duplicates(["ticker", "period"], keep="first")
     h["power_fuel_cr"], h["freight_cr"] = np.nan, np.nan
     return h[["ticker", "basis", "period", "revenue_cr", "ebitda_cr", "pat_cr", "eps", "power_fuel_cr", "freight_cr", "source_tag"]]
 

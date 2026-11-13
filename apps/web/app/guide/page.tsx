@@ -116,11 +116,11 @@ export default function Guide() {
                 <thead><tr><th>Dataset</th><th>Source</th><th>Coverage now</th></tr></thead>
                 <tbody>
                   <tr><td>Daily prices</td><td>Airavat get_price_history</td><td>12 cement stocks from Apr 2015 (later for listings after that); 16 large caps for the market factor</td></tr>
-                  <tr><td>Quarterly financials</td><td>Airavat get_financials (ACE Equity fallback for 11 stocks)</td><td>FY21 onward; UltraTech FY23 onward</td></tr>
+                  <tr><td>Quarterly financials</td><td>Airavat get_financials (ACE Equity fallback for 11 stocks); before FY21, company decks, broker notes and call remarks</td><td>FY21 onward for all; back to FY16–FY18 for UltraTech, ACC, Ambuja, Star and JK Lakshmi; thin before FY21 for the rest</td></tr>
                   <tr><td>Sales volumes</td><td>Company decks, Motilal Oswal results tables</td><td>{withVol} of 12 stocks</td></tr>
-                  <tr><td>Results dates</td><td>Board-meeting letters, earnings-call transcripts</td><td>{withDates} of 12 stocks</td></tr>
-                  <tr><td>Consensus</td><td>Bloomberg via Airavat get_consensus_estimates</td><td>Current snapshot plus 12 months of revision dates</td></tr>
-                  <tr><td>Broker estimates</td><td>Extracted from notes in the report library</td><td>UltraTech, 50 notes, 25 brokers</td></tr>
+                  <tr><td>Results dates</td><td>Board-meeting letters, results presentations, earnings-call transcripts (call dates usually fall on results day or the next)</td><td>{withDates} of 12 stocks; Shree has none usable</td></tr>
+                  <tr><td>Consensus</td><td>Bloomberg via Airavat get_consensus_estimates</td><td>Current snapshot plus 12 months of revision dates; pre-results street expectations (Centrum, Axis, Kotak previews) for FY25Q3 and FY26Q2–FY27Q2</td></tr>
+                  <tr><td>Broker estimates</td><td>Extracted from notes in the report library</td><td>UltraTech, 116 notes from Jan 2024; 90 estimates scored against reported EPS</td></tr>
                   <tr><td>Commodities</td><td>Kotak series via Airavat</td><td>Pet coke, Indonesian and Richards Bay coal, Brent, INR/USD, daily</td></tr>
                 </tbody>
               </table>
@@ -175,7 +175,7 @@ Macro drivers drop the quarter effect, which would absorb them.`}</F>
                  ÷ standard deviation of past surprises
 Reaction       = days −1 to +3
 Drift          = days +4 to +60   (does the move continue after the news is out?)`}</F>
-            <p>Surprise is measured against each stock&apos;s own trend, not against the street, because consensus for each past quarter as of the day before results is not stored yet. Significance uses Patell and BMP tests, and confidence bands come from a bootstrap that resamples whole results weeks, because cement companies report in the same few weeks and their returns move together. {e.n_real_dates} stock-quarters currently have a usable date.</p>
+            <p>Two kinds of surprise are tested. The own-trend surprise (SUE) covers every quarter. The street surprise compares the result with broker previews and Bloomberg consensus published before results, but exists only for about six recent quarters. Significance uses Patell and BMP tests, and confidence bands come from a bootstrap that resamples whole results weeks, because cement companies report in the same few weeks and their returns move together. {e.n_real_dates} stock-quarters currently have a usable date.</p>
           </S>
 
           <S id="brokers" title="Broker scorecard">
@@ -257,22 +257,22 @@ Drift          = days +4 to +60   (does the move continue after the news is out?
               <li>No surprise metric shows reliable drift after day +3.</li>
               <li>Backtest rank IC: {b.versions["fp-1.0"].ic_mean.toFixed(3)} for fp-1.0 and {b.versions["fp-0.9"].ic_mean.toFixed(3)} for the control, against a target of 0.05.</li>
             </ul>
-            <p>The limit is history, not method. About 20 quarters per stock, results dates for half the sector, and no street surprise by quarter leave little statistical power. The next section is about fixing that.</p>
+            <p>Extending the data (results dates for 11 stocks, history back to FY16, street expectations, older broker notes) moved EBITDA margin change from nowhere to five of six gates. It fails only the out-of-sample gate: it beats the baseline in 46% of walk-forward quarters against the 70% required. Revenue against street expectations shows post-results drift whose interval excludes zero, but on just 44 events.</p>
           </S>
 
           <S id="next" title="Next steps">
             <p>In order. The first block decides whether the pilot can pass at all; the rest builds on a pass.</p>
-            <h3 className="text-[16px] font-semibold">1. Close the data gaps (weeks 1–4)</h3>
+            <h3 className="text-[16px] font-semibold">1. Close what Airavat could not supply</h3>
+            <p>Results dates, volumes, history back to FY16, street previews and older UltraTech broker notes have now been extracted from Airavat. What remains is not in the library:</p>
             <div className="overflow-x-auto">
               <table className="tbl text-sm">
                 <thead><tr><th>Gap</th><th>Owner</th><th>What it changes</th></tr></thead>
                 <tbody>
-                  <tr><td>Results dates for the 6 stocks without them (Shree board dates, Nuvoco, JK Lakshmi, Birla, Heidelberg, Star)</td><td>Labs</td><td>Event studies cover all 12 stocks; roughly 100 more dated events</td></tr>
-                  <tr><td>Day-before consensus for each past quarter (revision history with FY labels)</td><td>Labs</td><td>Surprise measured against the street instead of each stock&apos;s own trend</td></tr>
-                  <tr><td>Quarterly financials FY15–FY20</td><td>Labs</td><td>Adds the pre-COVID regime and about doubles the panel to roughly 600 stock-quarters</td></tr>
-                  <tr><td>Sales volumes for JK Lakshmi, Birla, Heidelberg, Star, Nuvoco, plus gaps</td><td>Analysts, deck extraction</td><td>Tonne-based KPIs (the pre-registered priors) tested on 12 stocks instead of 7</td></tr>
-                  <tr><td>UltraTech broker notes from 2023–25, then the other 11 stocks</td><td>Extraction job, 200-note audit</td><td>Broker accuracy becomes scorable; the weighted consensus can be tested</td></tr>
-                  <tr><td>NSE index files (Nifty 500, Nifty Cement or a sector index)</td><td>IT</td><td>A real market factor instead of the 16-stock basket</td></tr>
+                  <tr><td>Board-meeting dates for Shree Cement (only call dates, 4–6 days late, are in the library) and exact dates where only call dates exist</td><td>Labs (BSE/NSE announcement feed)</td><td>Shree enters the event studies; reaction windows tighten for 7 stocks</td></tr>
+                  <tr><td>Bloomberg quarterly consensus history before 2025 (previews start Jan 2025)</td><td>Labs</td><td>Street surprise on 300+ stock-quarters instead of about 55</td></tr>
+                  <tr><td>Quarterly results FY16–FY20 for Shree, Dalmia, JK Cement, Ramco, Birla, Heidelberg (no filings or notes in the library)</td><td>Labs (results filings) or ACE history</td><td>Pre-COVID regime for the whole sector, not just four stocks</td></tr>
+                  <tr><td>Broker notes for the other 11 stocks</td><td>Extraction job, 200-note audit</td><td>Broker scorecard beyond UltraTech</td></tr>
+                  <tr><td>NSE index files</td><td>IT</td><td>A real market factor instead of the 16-stock basket</td></tr>
                 </tbody>
               </table>
             </div>

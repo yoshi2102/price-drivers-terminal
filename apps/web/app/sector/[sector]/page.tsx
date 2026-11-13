@@ -32,7 +32,7 @@ export default async function Sector({ params }: { params: Promise<{ sector: str
       <PageHead kicker="Sector" title="Cement"
         meta={<><Badge kind="pilot" text="Pilot" /><span className="num">{s.panel_n} stock-quarters · {s.panel_periods[0]}–{s.panel_periods[1]}</span></>}>
         {nVal === 0
-          ? <>No driver passes all six acceptance gates yet. The strongest candidate, <b className="text-ink">{top[0]?.label.toLowerCase()}</b>, has p = {top[0]?.p?.toFixed(3)} before correction and q = {top[0]?.q?.toFixed(2)} after it. Stock-specific news explains {pct(s.share_explained.specific, 0, false)} of daily variance, so most of what moves these stocks is not in the KPI set tested so far.</>
+          ? <>No driver passes all six acceptance gates yet. The strongest candidate, <b className="text-ink">{top[0]?.label.toLowerCase()}</b>, has p = {top[0]?.p?.toFixed(3)} before correction and q = {top[0]?.q?.toFixed(2)} after it, and passes {top[0] ? Object.values(top[0].gates).filter((g: any) => g.pass).length : 0} of 6 gates{top[0] && !top[0].gates.oos.pass ? `; it fails out of sample (beats the baseline in ${Math.round((top[0].oos_fold_share ?? 0) * 100)}% of walk-forward quarters, 70% needed)` : ""}. Stock-specific news explains {pct(s.share_explained.specific, 0, false)} of daily variance, so most of what moves these stocks is not in the KPI set tested so far.</>
           : <>{nVal} of {tested.length} tested drivers pass every acceptance gate.</>}
       </PageHead>
 
@@ -118,7 +118,7 @@ export default async function Sector({ params }: { params: Promise<{ sector: str
               </tbody>
             </table>
           </div>
-          <p className="mt-2 text-2xs text-muted">EPS as reported (ACE Equity, consolidated where filed); one-off gains inflate some years. UltraTech quarterly history starts FY23 in the Financials API, so its 5-year split is blank.</p>
+          <p className="mt-2 text-2xs text-muted">EPS as reported (ACE Equity, consolidated where filed); one-off gains inflate some years. Pre-FY21 quarters come from company decks, broker notes and call remarks; where EPS was not stated, the split is blank.</p>
         </Card>
       </div>
 
@@ -141,7 +141,7 @@ export default async function Sector({ params }: { params: Promise<{ sector: str
           </div>
         </Card>
 
-        <Card title="Regime view" sub="Within-stock slope per regime for the four lowest-p drivers. Pre-COVID is empty: quarterly financials start FY21.">
+        <Card title="Regime view" sub="Within-stock slope per regime for the four lowest-p drivers. Pre-COVID rests on the thinner FY16–FY20 history (mainly UltraTech, ACC, Ambuja, Star).">
           <div className="mt-8">
             <Chart title="Driver coefficients by regime" height={280} source="panel attr-1.0"
               option={{
