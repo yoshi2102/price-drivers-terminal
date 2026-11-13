@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Chart from "@/components/Chart";
 
-const LABEL: Record<string, string> = { ebitda_sue: "EBITDA surprise", revenue_sue: "Revenue surprise", pat_sue: "PAT surprise", volume_surprise: "Volume growth surprise", ebitda_margin_chg: "EBITDA margin change" };
+const LABEL: Record<string, string> = { street_ebitda_surprise: "EBITDA vs street", street_revenue_surprise: "Revenue vs street", street_pat_surprise: "PAT vs street", ebitda_sue: "EBITDA surprise (own trend)", revenue_sue: "Revenue surprise", pat_sue: "PAT surprise", volume_surprise: "Volume growth surprise", ebitda_margin_chg: "EBITDA margin change" };
 const COL = ["token:neg", "token:c-style", "token:c-market", "token:c-sector", "token:accent"];
 const f2 = (v: any, s = 100) => (v == null ? "—" : `${v * s > 0 ? "+" : ""}${(v * s).toFixed(2)}%`);
 

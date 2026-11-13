@@ -97,7 +97,7 @@ def main():
     def events():
         out = {}
         n_real = int((panel.date_source == "results_date").sum())
-        for m in ["ebitda_sue", "revenue_sue", "pat_sue", "volume_surprise", "ebitda_margin_chg"]:
+        for m in ["street_ebitda_surprise", "street_revenue_surprise", "street_pat_surprise", "ebitda_sue", "revenue_sue", "pat_sue", "volume_surprise", "ebitda_margin_chg"]:
             real = A.event_study(panel, fit_out, m, require_dates=True)
             if real.get("status") == "ok":
                 real["date_basis"] = "results_date"

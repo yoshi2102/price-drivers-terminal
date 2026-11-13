@@ -75,7 +75,7 @@ export default function Explorer({ panel, names }: { panel: Panel; names: Record
         </fieldset>
         <fieldset className="rounded-card border border-line bg-surface p-4">
           <legend className="px-1 text-sm font-semibold">Candidate drivers</legend>
-          {["KPI", "Surprise", "Macro", "Price"].map((g) => (
+          {["KPI", "Surprise", "Street", "Macro", "Price"].map((g) => (
             <div key={g} className="mb-2">
               <div className="text-2xs text-muted">{g}</div>
               {drivers.filter((d) => panel.groups[d] === g).map((d) => (

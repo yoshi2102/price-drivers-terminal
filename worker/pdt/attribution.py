@@ -32,11 +32,17 @@ DRIVERS = {
     "brent_chg": ("Brent crude, quarter change", "1%", -1, "Macro"),
     "inr_chg": ("INR per USD, quarter change", "1%", -1, "Macro"),
     "prior_specific_3m": ("Prior 3-month stock-specific return", "1%", 0, "Price"),
+    # Street surprises: actual against expectations published before results.
+    "street_revenue_surprise": ("Revenue vs street expectation", "1 pp", +1, "Street"),
+    "street_ebitda_surprise": ("EBITDA vs street expectation", "1 pp", +1, "Street"),
+    "street_pat_surprise": ("PAT vs street expectation", "1 pp", +1, "Street"),
+    "street_volume_surprise": ("Volume vs street expectation", "1 pp", +1, "Street"),
 }
 RAW_SCALE = {"volume_growth": 100, "volume_surprise": 100, "realisation_yoy": 100, "cost_per_t_yoy": 100,
              "ebitda_per_t_yoy": 0.01, "ebitda_margin_chg": 1, "power_fuel_per_t_yoy": 100,
              "petcoke_chg": 100, "coal_chg": 100, "brent_chg": 100, "inr_chg": 100, "prior_specific_3m": 100,
-             "revenue_sue": 1, "ebitda_sue": 1, "pat_sue": 1}
+             "revenue_sue": 1, "ebitda_sue": 1, "pat_sue": 1,
+             "street_revenue_surprise": 100, "street_ebitda_surprise": 100, "street_pat_surprise": 100, "street_volume_surprise": 100}
 
 
 def regime_of(d: pd.Timestamp) -> str:
@@ -125,8 +131,41 @@ def build_panel(wh, fit_out: dict) -> pd.DataFrame:
         d["rev_cr"], d["ebitda_cr"], d["pat_cr"], d["volume_mt"], d["eps"] = rev, ebitda, pat, vol, sub["eps"]
         rows.append(d.reset_index())
     panel = pd.concat(rows, ignore_index=True).replace([np.inf, -np.inf], np.nan)
+    panel = add_street_surprises(panel, getattr(wh, "expectations", pd.DataFrame()))
     panel["regime"] = panel["event_date"].map(regime_of)
     panel["tidx"] = panel["period"].map(lambda p: int(p[2:4]) * 4 + int(p[-1]))
+    return panel
+
+
+PRIORITY = {"bloomberg_consensus": 0, "consensus_in_review": 1, "broker_preview": 2}
+
+
+def add_street_surprises(panel: pd.DataFrame, exp: pd.DataFrame) -> pd.DataFrame:
+    """Actual result against the best expectation published before the results date.
+    Bloomberg consensus beats consensus quoted in reviews, which beats broker previews;
+    several sources of the chosen type are averaged."""
+    cols = {"street_revenue_surprise": ("rev_cr", "revenue_cr"), "street_ebitda_surprise": ("ebitda_cr", "ebitda_cr"),
+            "street_pat_surprise": ("pat_cr", "pat_cr"), "street_volume_surprise": ("volume_mt", "volume_mt")}
+    for c in cols:
+        panel[c] = np.nan
+    panel["street_source"] = None
+    if exp is None or exp.empty:
+        return panel
+    exp = exp.copy()
+    exp["prio"] = exp["expectation_type"].map(PRIORITY).fillna(3)
+    for i, r in panel.iterrows():
+        e = exp[(exp.ticker == r.ticker) & (exp.period == r.period)]
+        if pd.notna(r.event_date):
+            e = e[e.source_date.isna() | (e.source_date < r.event_date)]
+        if e.empty:
+            continue
+        e = e[e.prio == e.prio.min()]
+        panel.at[i, "street_source"] = e.expectation_type.iloc[0]
+        for c, (a, x) in cols.items():
+            ev = e[x].dropna().mean() if x in e else np.nan
+            av = r[a]
+            if pd.notna(ev) and pd.notna(av) and abs(ev) > 1e-9:
+                panel.at[i, c] = (av - ev) / abs(ev)
     return panel
 
 

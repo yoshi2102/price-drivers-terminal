@@ -162,6 +162,12 @@ def load_fundamentals(events: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame,
         rows += _api_rows(t, d) if "status" in d else _ace_rows(t, d)
         annual[t] = _annual_eps(t, d)
     q = pd.DataFrame(rows)
+    q["origin"] = "financials_api"
+    hist = load_history()
+    if len(hist):
+        have = set(zip(q.ticker, q.period))
+        hist = hist[[(t, p) not in have for t, p in zip(hist.ticker, hist.period)]]
+        q = pd.concat([q, hist.assign(origin="broker_or_filing_history")], ignore_index=True)
     q["quarter_end"] = pd.to_datetime(q["period"].map(quarter_end))
     ev = events.set_index(["ticker", "period"])["results_date"] if len(events) else pd.Series(dtype="datetime64[ns]")
 
@@ -183,33 +189,75 @@ def load_fundamentals(events: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame,
     return long, q, annual
 
 
+def load_history() -> pd.DataFrame:
+    """Pre-FY21 quarters extracted from broker results tables and filings (Rs crore)."""
+    frames = [pd.read_csv(f) for f in sorted((C.RAW_DIR / "financials_hist").glob("*.csv"))]
+    if not frames:
+        return pd.DataFrame()
+    h = pd.concat(frames, ignore_index=True)
+    h = h[h.period.astype(str).str.match(r"^FY\d{2}Q[1-4]$")]
+    for c in ["revenue_cr", "ebitda_cr", "pat_cr", "eps"]:
+        h[c] = pd.to_numeric(h.get(c), errors="coerce")
+    h = h.dropna(subset=["revenue_cr"]).drop_duplicates(["ticker", "period"], keep="first")
+    h["basis"] = h.get("basis", "consolidated").fillna("consolidated")
+    h["power_fuel_cr"], h["freight_cr"] = np.nan, np.nan
+    return h[["ticker", "basis", "period", "revenue_cr", "ebitda_cr", "pat_cr", "eps", "power_fuel_cr", "freight_cr", "source_tag"]]
+
+
+def load_expectations() -> pd.DataFrame:
+    """Pre-results street expectations per company-quarter (previews, consensus)."""
+    f = C.RAW_DIR / "consensus_hist" / "quarter_expectations.csv"
+    if not f.exists():
+        return pd.DataFrame()
+    e = pd.read_csv(f)
+    e["source_date"] = pd.to_datetime(e["source_date"], errors="coerce")
+    for c in ["revenue_cr", "ebitda_cr", "pat_cr", "volume_mt", "ebitda_per_t"]:
+        e[c] = pd.to_numeric(e.get(c), errors="coerce")
+    return e
+
+
 # ---------------------------------------------------------------- kpi / events
 
 def load_events() -> pd.DataFrame:
-    f = C.RAW_DIR / "events" / "results_dates.csv"
-    if not f.exists():
+    frames = [pd.read_csv(f) for f in sorted((C.RAW_DIR / "events").glob("results_dates*.csv"))]
+    for f in sorted((C.RAW_DIR / "financials_hist").glob("*.csv")):
+        h = pd.read_csv(f)
+        if "results_date" in h:
+            h = h.dropna(subset=["results_date"])[["ticker", "period", "results_date", "source_tag"]]
+            frames.append(h)
+    if not frames:
         return pd.DataFrame(columns=["ticker", "period", "results_date", "source_tag"])
-    df = pd.read_csv(f)
+    df = pd.concat(frames, ignore_index=True)
     df["results_date"] = pd.to_datetime(df["results_date"], errors="coerce")
     df = df.dropna(subset=["results_date"])
     df["date_quality"] = np.where(df["source_tag"].fillna("").str.contains("CALLDATE"), "call_date", "board_date")
     # Shree Cement holds its call 4-6 days after results: a call date would put
     # the reaction window after the reaction, so those rows are excluded.
     df = df[~((df.ticker == "SHREECEM") & (df.date_quality == "call_date"))]
-    return df.drop_duplicates(["ticker", "period"], keep="last")
+    # Board/results dates beat call dates; among equals keep the first file read.
+    df["_rank"] = (df.date_quality == "call_date").astype(int)
+    df = df.sort_values(["ticker", "period", "_rank"], kind="stable").drop(columns="_rank")
+    return df.drop_duplicates(["ticker", "period"], keep="first")
 
 
 def load_kpi() -> pd.DataFrame:
-    f = C.RAW_DIR / "kpi" / "cement_volumes.csv"
-    if not f.exists():
+    files = sorted((C.RAW_DIR / "kpi").glob("cement_volumes*.csv"), key=lambda f: (f.name != "cement_volumes.csv", f.name))
+    frames = [pd.read_csv(f) for f in files]
+    for f in sorted((C.RAW_DIR / "financials_hist").glob("*.csv")):
+        h = pd.read_csv(f)
+        if "volume_mt" in h:
+            h = h.dropna(subset=["volume_mt"]).rename(columns={"volume_mt": "sales_volume_mt"})
+            h["known_at"] = h.get("results_date")
+            frames.append(h[["ticker", "period", "sales_volume_mt", "source_tag", "known_at"]])
+    if not frames:
         return pd.DataFrame(columns=["ticker", "period", "kpi_code", "value", "unit", "known_at", "source_tag"])
-    df = pd.read_csv(f)
+    df = pd.concat(frames, ignore_index=True)
     df = df.rename(columns={"sales_volume_mt": "value"})
     df["value"] = pd.to_numeric(df["value"], errors="coerce")
     df = df.dropna(subset=["value"])
     df["kpi_code"], df["unit"] = "sales_volume", "mt"
     df["known_at"] = pd.to_datetime(df.get("known_at"), errors="coerce")
-    return df.drop_duplicates(["ticker", "period"], keep="last")
+    return df.drop_duplicates(["ticker", "period"], keep="first")
 
 
 def load_consensus() -> tuple[dict, pd.DataFrame]:
@@ -239,12 +287,13 @@ def load_commodities() -> dict:
 
 def load_brokers() -> pd.DataFrame:
     frames = []
-    for f in sorted((C.RAW_DIR / "brokers").glob("*_broker_estimates.csv")):
+    for f in sorted((C.RAW_DIR / "brokers").glob("*_broker_estimates*.csv")):
         frames.append(pd.read_csv(f))
     if not frames:
         return pd.DataFrame()
     df = pd.concat(frames, ignore_index=True)
     df["note_date"] = pd.to_datetime(df["note_date"], errors="coerce")
+    df = df.drop_duplicates(["note_id", "fy"], keep="first")
     for c in ["target_price", "cmp_stated", "eps", "ebitda_cr", "revenue_cr", "extraction_confidence"]:
         if c in df:
             df[c] = pd.to_numeric(df[c], errors="coerce")
@@ -275,4 +324,5 @@ def build() -> Warehouse:
                    consensus=cons, consensus_hist=cons_hist, commodities=load_commodities(),
                    events=events, brokers=load_brokers())
     wh.annual = annual  # type: ignore[attr-defined]
+    wh.expectations = load_expectations()  # type: ignore[attr-defined]
     return wh
