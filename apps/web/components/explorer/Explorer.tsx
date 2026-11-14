@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import Chart from "@/components/Chart";
 import { fit, walkForward, pNorm, Obs } from "@/lib/ols";
 
@@ -22,7 +22,9 @@ export default function Explorer({ panel, names, sector }: { panel: Panel; names
     if (q.get("d")) setSel(q.get("d")!.split(",").filter((d) => drivers.includes(d)));
     if (q.get("dated") === "1") setOnlyDated(true);
   }, []); // eslint-disable-line
+  const firstWrite = useRef(true);
   useEffect(() => {
+    if (firstWrite.current) { firstWrite.current = false; return; } // let the parent read ?s= first
     const q = new URLSearchParams({ s: sector, u: universe.length === tickers.length ? "" : universe.join(","), y: dep, d: sel.join(","), dated: onlyDated ? "1" : "" });
     [...q.keys()].forEach((k) => !q.get(k) && q.delete(k));
     history.replaceState(null, "", `${location.pathname}?${q}`);

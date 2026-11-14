@@ -47,14 +47,22 @@ The worker takes about 30 seconds and copies the snapshot into `apps/web/data/`.
 
 The pilot snapshot (`apps/web/data/`) is committed so the app runs straight after cloning. It carries Bloomberg consensus and broker-level estimates, which the PRD restricts to internal display: keep this repo private, and move the snapshot to object storage before widening access.
 
-## What the pilot data says (prices to 12 Nov 2026, extended data)
+## What the data says (prices to 13 Nov 2026)
 
-The data was extended from Airavat: results dates for 11 of 12 stocks (241 dated quarters), quarterly history back to FY16 for UltraTech, ACC, Ambuja, Star and JK Lakshmi, street expectations from broker previews for FY25Q3 and FY26Q2–FY27Q2, and 66 older UltraTech broker notes. The panel grew from 312 to 382 stock-quarters.
+Two sectors are live: cement (pilot, 12 stocks) and IT services (12 stocks; LTIMindtree and Coforge left out because their Airavat price history is incomplete).
 
-- **EBITDA margin change passes five of six gates.** Effect +4.1% per 1 SD on the post-results window, BH q = 0.046, same sign in 3 of 4 regimes, beats 97% of placebos, 12 stocks. It fails out of sample: it beats the baseline in 46% of walk-forward quarters, against 70% required. Labelled unvalidated.
-- **Revenue against street expectations shows post-results drift.** Top minus bottom quintile +6.2% over days +4 to +60, 90% interval +1.4% to +10.7%, but on only 44 events.
-- **Broker accuracy is now scored for UltraTech** (90 estimates). The weighted consensus beat the plain average in 9 of 11 months, but the Diebold-Mariano test gives p = 0.84, so it is not promoted.
-- **Discovery models still fail out of sample** and the backtest rank IC stays near zero (0.003), well short of 0.05.
+**Cement** (382 stock-quarters, FY16–FY27; results dates for 11 stocks)
+- EBITDA margin change is the strongest driver: +4.0% per 1 SD on the post-results window, BH q = 0.02, same sign in 3 of 4 regimes. It passes 4 of 6 gates, failing out of sample (50% of walk-forward folds, 70% needed) and narrowly the placebo test (93rd percentile of 1,000 shuffles, 95th needed).
+- No reliable post-results drift. Backtest rank IC 0.03.
+
+**IT services** (340 stock-quarters; results dates for all 12; IT KPIs mostly FY21 onward; street previews from FY24Q3)
+- EBITDA margin change passes 5 of 6 gates (q = 0.05, 3 of 3 regimes, 99th percentile placebo) and fails only out of sample (64%).
+- Revenue against broker previews: +5.4% per 1 SD, q < 0.001, but only ten quarters of history, so it cannot pass the regime or out-of-sample gates yet.
+- Post-results drift exists: biggest EBITDA and PAT beats outperform the biggest misses by 4.8% and 5.8% over days +4 to +60 (intervals exclude zero).
+- The P/E-reversion signal is significantly wrong-signed for IT (rank IC −0.16, t −2.8; −0.19 with drivers added). Logged, not acted on.
+- Sector moves explain 27% of daily variance in IT against 14% in cement.
+
+**Broker scorecards** (UltraTech, Infosys): track-record weighting beat the plain average in 9 of 11 months for both, but neither passes the Diebold-Mariano test (p = 0.84 and 0.36), so neither is promoted.
 
 ## Remaining data gaps (not in Airavat)
 

@@ -14,7 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ sector: s
   const { sector } = await params; return { title: sectors().find((s) => s.code === sector)?.name || sector };
 }
 
-const GATE_LABEL: Record<string, string> = { sign: "Sign matches prior", bh: "BH q < 0.10", oos: "OOS R² > 0 in 70% of folds", regime: "Same sign in 3 of 4 regimes", placebo: "Beats 95% of placebos", sample: "8+ stocks, 60+ obs" };
+const GATE_SHORT: Record<string, string> = { sign: "the sign check", bh: "multiple-testing correction", oos: "out of sample", regime: "regime stability", placebo: "the placebo test", sample: "sample size" };
+const GATE_LABEL: Record<string, string> = { sign: "Sign matches prior", bh: "BH q < 0.10", oos: "OOS R² > 0 in 70% of 6+ folds", regime: "Same sign in 3 of 4 regimes", placebo: "Beats 95% of placebos", sample: "8+ stocks, 60+ obs" };
 
 export default async function Sector({ params }: { params: Promise<{ sector: string }> }) {
   const { sector } = await params;
@@ -35,7 +36,7 @@ export default async function Sector({ params }: { params: Promise<{ sector: str
       <PageHead kicker="Sector" title={s.sector}
         meta={<><SectorTabs items={sectors()} active={sector} hrefFor={(c) => `/sector/${c}`} /><Badge kind="pilot" text={sector === "cement" ? "Pilot" : "Second sector"} /><span className="num">{s.panel_n} stock-quarters · {s.panel_periods[0]}–{s.panel_periods[1]}</span></>}>
         {nVal === 0
-          ? <>No driver passes all six acceptance gates yet. The strongest candidate, <b className="text-ink">{top[0]?.label.toLowerCase()}</b>, has p = {top[0]?.p?.toFixed(3)} before correction and q = {top[0]?.q?.toFixed(2)} after it, and passes {top[0] ? Object.values(top[0].gates).filter((g: any) => g.pass).length : 0} of 6 gates{top[0] && !top[0].gates.oos.pass ? `; it fails out of sample (beats the baseline in ${Math.round((top[0].oos_fold_share ?? 0) * 100)}% of walk-forward quarters, 70% needed)` : ""}. Stock-specific news explains {pct(s.share_explained.specific, 0, false)} of daily variance, so most of what moves these stocks is not in the KPI set tested so far.</>
+          ? <>No driver passes all six acceptance gates yet. The strongest candidate, <b className="text-ink">{top[0]?.label.toLowerCase()}</b>, has p = {top[0]?.p?.toFixed(3)} before correction and q = {top[0]?.q?.toFixed(2)} after it, and passes {top[0] ? Object.values(top[0].gates).filter((g: any) => g.pass).length : 0} of 6 gates{top[0] ? `; it fails ${Object.entries(top[0].gates).filter(([, g]: any) => !g.pass).map(([k]) => GATE_SHORT[k]).join(", ")}` : ""}. Stock-specific news explains {pct(s.share_explained.specific, 0, false)} of daily variance, so most of what moves these stocks is not in the KPI set tested so far.</>
           : <>{nVal} of {tested.length} tested drivers pass every acceptance gate.</>}
       </PageHead>
 

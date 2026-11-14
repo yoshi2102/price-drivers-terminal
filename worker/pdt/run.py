@@ -106,6 +106,15 @@ def run_sector(code, wh, fit_out, fac, rets, fails, bro, mk_px, out, asof):
     fwd, scen = stage(f"{C.SECTOR}: forward paths (Monte Carlo)")(forward.run)(wh, fit_out, fac, rets, panel)
     registry = build_registry(dres, disc, C.SECTOR)
     bt = stage(f"{C.SECTOR}: backtest lab")(backtest.run)(wh, fit_out, panel, dres, len(registry))
+    v = (bt.get("versions") or {}).get("fp-0.9") or {}
+    if v.get("ic_t") is not None and v["ic_t"] < -2:
+        # A significantly wrong-signed signal is recorded as a new hypothesis to test on
+        # future data, not adopted: flipping it after seeing the result would be data mining.
+        registry.append({"exp_id": f"{'EXP' if C.SECTOR == 'cement' else 'IT'}-H{len(registry)+1:02d}",
+                         "hypothesis": f"Reversed P/E reversion ranks {C.SECTOR_NAME} stocks (expensive keeps outperforming); observed IC {v['ic_mean']:.2f}, t {v['ic_t']:.1f}",
+                         "analyst": "Backtest lab observation", "created_at": datetime.now(timezone.utc).date().isoformat(),
+                         "n_tests": 1, "raw_p": None, "adjusted_p": None, "method": "Pre-registered; test on data after this snapshot only",
+                         "verdict": "proposed"})
 
     sector_px = np.exp(rets[[t for t in C.UNIVERSE if t in rets]].mean(axis=1).fillna(0).cumsum())
 

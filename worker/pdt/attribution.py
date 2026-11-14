@@ -328,8 +328,10 @@ def test_driver(panel: pd.DataFrame, code: str) -> dict | None:
     real = abs(_fast_beta(df["y_window"], df["z"], df["ticker"]))
     plac = []
     zs = df[["ticker", "z"]].copy()
-    for _ in range(300):
-        sh = zs.groupby("ticker")["z"].transform(lambda s: rng.permutation(s.values))
+    # Own seed per driver, so a driver's placebo result does not depend on run order.
+    prng = np.random.default_rng(C.SEED + sum(ord(ch) for ch in code))
+    for _ in range(1000):
+        sh = zs.groupby("ticker")["z"].transform(lambda s: prng.permutation(s.values))
         plac.append(abs(_fast_beta(df["y_window"], sh, df["ticker"])))
     placebo_pct = float(stats.percentileofscore(plac, real))
 
@@ -384,7 +386,8 @@ def apply_gates(results: list[dict]) -> list[dict]:
                      "value": "matches prior" if sign_ok and r["expected_sign"] != 0 else
                      ("no written prior" if r["expected_sign"] == 0 else "opposite to prior")},
             "bh": {"pass": bool(q < A["bh_q"]), "value": round(q, 3)},
-            "oos": {"pass": bool(np.isfinite(r["oos_fold_share"]) and r["oos_fold_share"] >= A["oos_fold_share"]),
+            # needs at least 6 walk-forward folds: one lucky quarter is not out-of-sample evidence
+            "oos": {"pass": bool(np.isfinite(r["oos_fold_share"]) and r["n_folds"] >= 6 and r["oos_fold_share"] >= A["oos_fold_share"]),
                     "value": round(r["oos_fold_share"], 2) if np.isfinite(r["oos_fold_share"]) else None},
             "regime": {"pass": bool(r["regime_n"] >= 3 and r["regime_same_sign"] >= min(3, r["regime_n"])),
                        "value": f"{r['regime_same_sign']}/{r['regime_n']}"},

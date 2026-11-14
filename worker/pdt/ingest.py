@@ -18,6 +18,18 @@ import pandas as pd
 from . import config as C
 
 
+def read_csv_tolerant(path) -> pd.DataFrame:
+    """Hand-extracted CSVs sometimes carry unquoted commas in the last (note) column:
+    fold any extra fields back into that column instead of failing the run."""
+    with open(path, newline="") as fh:
+        rows = list(csv.reader(fh))
+    if not rows:
+        return pd.DataFrame()
+    head, n = rows[0], len(rows[0])
+    fixed = [r[:n - 1] + [",".join(r[n - 1:])] if len(r) > n else r + [""] * (n - len(r)) for r in rows[1:] if r]
+    return pd.DataFrame(fixed, columns=head).replace("", np.nan)
+
+
 def quarter_end(period: str) -> date:
     """FY27Q2 -> 2026-09-30 (Indian fiscal year)."""
     fy = 2000 + int(period[2:4])
@@ -193,7 +205,7 @@ def load_fundamentals(events: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame,
 
 def load_history() -> pd.DataFrame:
     """Pre-FY21 quarters extracted from broker results tables and filings (Rs crore)."""
-    frames = [pd.read_csv(f) for f in sorted((C.RAW_DIR / "financials_hist").glob("*.csv"))]
+    frames = [read_csv_tolerant(f) for f in sorted((C.RAW_DIR / "financials_hist").glob("*.csv"))]
     if not frames:
         return pd.DataFrame()
     h = pd.concat(frames, ignore_index=True)
@@ -210,7 +222,7 @@ def load_history() -> pd.DataFrame:
 
 def load_it_kpis() -> pd.DataFrame:
     """IT services KPIs in long form: ticker, period, kpi_code, value (first published value kept)."""
-    frames = [pd.read_csv(f) for f in sorted((C.RAW_DIR / "kpi").glob("it_kpis*.csv"))]
+    frames = [read_csv_tolerant(f) for f in sorted((C.RAW_DIR / "kpi").glob("it_kpis*.csv"))]
     if not frames:
         return pd.DataFrame(columns=["ticker", "period", "kpi_code", "value", "source_tag"])
     k = pd.concat(frames, ignore_index=True)
@@ -225,7 +237,7 @@ def load_expectations() -> pd.DataFrame:
     files = sorted((C.RAW_DIR / "consensus_hist").glob("quarter_expectations*.csv"))
     if not files:
         return pd.DataFrame()
-    e = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
+    e = pd.concat([read_csv_tolerant(f) for f in files], ignore_index=True)
     e["source_date"] = pd.to_datetime(e["source_date"], errors="coerce")
     for c in ["revenue_cr", "ebitda_cr", "pat_cr", "volume_mt", "ebitda_per_t", "usd_revenue_mn", "cc_growth_qoq_pct"]:
         e[c] = pd.to_numeric(e.get(c), errors="coerce")
@@ -235,9 +247,9 @@ def load_expectations() -> pd.DataFrame:
 # ---------------------------------------------------------------- kpi / events
 
 def load_events() -> pd.DataFrame:
-    frames = [pd.read_csv(f) for f in sorted((C.RAW_DIR / "events").glob("results_dates*.csv"))]
+    frames = [read_csv_tolerant(f) for f in sorted((C.RAW_DIR / "events").glob("results_dates*.csv"))]
     for f in sorted((C.RAW_DIR / "financials_hist").glob("*.csv")):
-        h = pd.read_csv(f)
+        h = read_csv_tolerant(f)
         if "results_date" in h:
             h = h.dropna(subset=["results_date"])[["ticker", "period", "results_date", "source_tag"]]
             frames.append(h)
@@ -247,7 +259,9 @@ def load_events() -> pd.DataFrame:
     df["results_date"] = pd.to_datetime(df["results_date"], errors="coerce")
     df = df.dropna(subset=["results_date"])
     tag = df["source_tag"].fillna("")
-    df["date_quality"] = np.select([tag.str.contains("CALLDATE"), tag.str.contains("PRESDATE")], ["call_date", "presentation_date"], "board_date")
+    # BOARD / PRESSREL / STATED / untagged = results day; presentation filings are near it; call dates can lag.
+    df["date_quality"] = np.select([tag.str.contains("CALLDATE"), tag.str.contains("PRESDATE|INVUPDATE|IVPDATE")],
+                                   ["call_date", "presentation_date"], "board_date")
     # Shree Cement holds its call 4-6 days after results: a call date would put
     # the reaction window after the reaction, so those rows are excluded.
     df = df[~((df.ticker == "SHREECEM") & (df.date_quality == "call_date"))]
@@ -259,9 +273,9 @@ def load_events() -> pd.DataFrame:
 
 def load_kpi() -> pd.DataFrame:
     files = sorted((C.RAW_DIR / "kpi").glob("cement_volumes*.csv"), key=lambda f: (f.name != "cement_volumes.csv", f.name))
-    frames = [pd.read_csv(f) for f in files]
+    frames = [read_csv_tolerant(f) for f in files]
     for f in sorted((C.RAW_DIR / "financials_hist").glob("*.csv")):
-        h = pd.read_csv(f)
+        h = read_csv_tolerant(f)
         if "volume_mt" in h:
             h = h.dropna(subset=["volume_mt"]).rename(columns={"volume_mt": "sales_volume_mt"})
             h["known_at"] = h.get("results_date")
@@ -305,7 +319,7 @@ def load_commodities() -> dict:
 def load_brokers() -> pd.DataFrame:
     frames = []
     for f in sorted((C.RAW_DIR / "brokers").glob("*_broker_estimates*.csv")):
-        frames.append(pd.read_csv(f))
+        frames.append(read_csv_tolerant(f))
     if not frames:
         return pd.DataFrame()
     df = pd.concat(frames, ignore_index=True)

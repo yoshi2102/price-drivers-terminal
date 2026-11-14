@@ -15,7 +15,7 @@ export default function AttrSwitch({ items }: { items: S[] }) {
     <div className="space-y-5">
       <div className="inline-flex rounded-card border border-line bg-surface p-0.5" role="tablist" aria-label="Sector">
         {items.map((s) => (
-          <button key={s.code} role="tab" aria-selected={s.code === code} onClick={() => setCode(s.code)}
+          <button key={s.code} role="tab" aria-selected={s.code === code} onClick={() => { setCode(s.code); history.replaceState(null, "", `${location.pathname}?s=${s.code}`); }}
             className={`rounded-[4px] px-2.5 py-1 text-xs ${s.code === code ? "bg-ink text-paper" : "text-muted hover:text-ink"}`}>{s.name}</button>
         ))}
       </div>

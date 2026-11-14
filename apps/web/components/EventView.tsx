@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Chart from "@/components/Chart";
 
 const LABEL: Record<string, string> = { cc_growth_surprise: "CC growth vs own trend", guidance_mid_chg: "Guidance midpoint change", street_ebitda_surprise: "EBITDA vs street", street_revenue_surprise: "Revenue vs street", street_pat_surprise: "PAT vs street", ebitda_sue: "EBITDA surprise (own trend)", revenue_sue: "Revenue surprise", pat_sue: "PAT surprise", volume_surprise: "Volume growth surprise", ebitda_margin_chg: "EBITDA margin change" };
@@ -10,7 +10,9 @@ export default function EventView({ studies, names, sector }: { studies: Record<
   const keys = Object.keys(studies);
   const [m, setM] = useState(keys[0]);
   useEffect(() => { const q = new URLSearchParams(location.search).get("m"); if (q && studies[q]) setM(q); }, []); // eslint-disable-line
-  useEffect(() => { history.replaceState(null, "", `${location.pathname}?s=${sector}&m=${m}`); }, [m, sector]);
+  // Skip the first run: the parent reads ?s= after this effect, so writing now would overwrite it.
+  const firstWrite = useRef(true);
+  useEffect(() => { if (firstWrite.current) { firstWrite.current = false; return; } history.replaceState(null, "", `${location.pathname}?s=${sector}&m=${m}`); }, [m, sector]);
   const s = studies[m];
   if (!s || s.status !== "ok") return <p className="text-sm text-muted">Not enough events for {LABEL[m]} ({s?.n ?? 0}).</p>;
   const days = s.days as number[];
