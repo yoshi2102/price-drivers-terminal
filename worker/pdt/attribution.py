@@ -46,13 +46,14 @@ DRIVERS = {
     "attrition_chg": ("Attrition change YoY", "1 pp", -1, "KPI"),
     "ebit_margin_chg": ("EBIT margin change YoY", "100 bp", +1, "KPI"),
     "guidance_mid_chg": ("Revenue guidance midpoint change", "1 pp", +1, "KPI"),
+    "street_cc_surprise": ("CC growth vs street expectation", "1 pp", +1, "Street"),
 }
 COMMON = ["revenue_sue", "ebitda_sue", "pat_sue", "ebitda_margin_chg", "prior_specific_3m",
           "street_revenue_surprise", "street_ebitda_surprise", "street_pat_surprise", "inr_chg"]
 DRIVER_SETS = {
     "cement": COMMON + ["volume_growth", "volume_surprise", "realisation_yoy", "cost_per_t_yoy", "ebitda_per_t_yoy",
                         "power_fuel_per_t_yoy", "petcoke_chg", "coal_chg", "brent_chg", "street_volume_surprise"],
-    "it-services": COMMON + ["cc_growth_qoq", "cc_growth_surprise", "usd_rev_growth_yoy", "tcv_growth_yoy",
+    "it-services": COMMON + ["street_cc_surprise", "cc_growth_qoq", "cc_growth_surprise", "usd_rev_growth_yoy", "tcv_growth_yoy",
                              "headcount_growth_qoq", "attrition_chg", "ebit_margin_chg", "guidance_mid_chg"],
 }
 # A weaker rupee raises cement's imported fuel costs but lifts IT exporters' rupee revenue.
@@ -71,7 +72,7 @@ RAW_SCALE = {"volume_growth": 100, "volume_surprise": 100, "realisation_yoy": 10
              "revenue_sue": 1, "ebitda_sue": 1, "pat_sue": 1,
              "street_revenue_surprise": 100, "street_ebitda_surprise": 100, "street_pat_surprise": 100, "street_volume_surprise": 100,
              "cc_growth_qoq": 100, "cc_growth_surprise": 100, "usd_rev_growth_yoy": 100, "tcv_growth_yoy": 100,
-             "headcount_growth_qoq": 100, "attrition_chg": 1, "ebit_margin_chg": 1, "guidance_mid_chg": 1}
+             "headcount_growth_qoq": 100, "attrition_chg": 1, "ebit_margin_chg": 1, "guidance_mid_chg": 1, "street_cc_surprise": 100}
 
 
 def regime_of(d: pd.Timestamp) -> str:
@@ -212,7 +213,7 @@ def add_street_surprises(panel: pd.DataFrame, exp: pd.DataFrame) -> pd.DataFrame
     several sources of the chosen type are averaged."""
     cols = {"street_revenue_surprise": ("rev_cr", "revenue_cr"), "street_ebitda_surprise": ("ebitda_cr", "ebitda_cr"),
             "street_pat_surprise": ("pat_cr", "pat_cr"), "street_volume_surprise": ("volume_mt", "volume_mt")}
-    for c in cols:
+    for c in list(cols) + ["street_cc_surprise"]:
         panel[c] = np.nan
     panel["street_source"] = None
     if exp is None or exp.empty:
@@ -232,6 +233,10 @@ def add_street_surprises(panel: pd.DataFrame, exp: pd.DataFrame) -> pd.DataFrame
             av = r[a]
             if pd.notna(ev) and pd.notna(av) and abs(ev) > 1e-9:
                 panel.at[i, c] = (av - ev) / abs(ev)
+        if "cc_growth_qoq_pct" in e and "cc_growth_qoq" in panel and pd.notna(r.get("cc_growth_qoq")):
+            ecc = e["cc_growth_qoq_pct"].dropna().mean()
+            if pd.notna(ecc):
+                panel.at[i, "street_cc_surprise"] = r["cc_growth_qoq"] - ecc / 100
     return panel
 
 

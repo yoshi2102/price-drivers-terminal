@@ -222,12 +222,12 @@ def load_it_kpis() -> pd.DataFrame:
 
 def load_expectations() -> pd.DataFrame:
     """Pre-results street expectations per company-quarter (previews, consensus)."""
-    f = C.RAW_DIR / "consensus_hist" / "quarter_expectations.csv"
-    if not f.exists():
+    files = sorted((C.RAW_DIR / "consensus_hist").glob("quarter_expectations*.csv"))
+    if not files:
         return pd.DataFrame()
-    e = pd.read_csv(f)
+    e = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
     e["source_date"] = pd.to_datetime(e["source_date"], errors="coerce")
-    for c in ["revenue_cr", "ebitda_cr", "pat_cr", "volume_mt", "ebitda_per_t"]:
+    for c in ["revenue_cr", "ebitda_cr", "pat_cr", "volume_mt", "ebitda_per_t", "usd_revenue_mn", "cc_growth_qoq_pct"]:
         e[c] = pd.to_numeric(e.get(c), errors="coerce")
     return e
 
