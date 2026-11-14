@@ -37,12 +37,41 @@ DRIVERS = {
     "street_ebitda_surprise": ("EBITDA vs street expectation", "1 pp", +1, "Street"),
     "street_pat_surprise": ("PAT vs street expectation", "1 pp", +1, "Street"),
     "street_volume_surprise": ("Volume vs street expectation", "1 pp", +1, "Street"),
+    # IT services KPIs (priors from the Buoyant IT services sector skill: growth, deals, margin, guidance).
+    "cc_growth_qoq": ("Constant-currency growth QoQ", "1 pp", +1, "KPI"),
+    "cc_growth_surprise": ("CC growth vs own trend", "1 pp", +1, "Surprise"),
+    "usd_rev_growth_yoy": ("USD revenue growth YoY", "1 pp", +1, "KPI"),
+    "tcv_growth_yoy": ("Deal TCV growth YoY (trailing 4Q)", "1%", +1, "KPI"),
+    "headcount_growth_qoq": ("Headcount growth QoQ", "1%", +1, "KPI"),
+    "attrition_chg": ("Attrition change YoY", "1 pp", -1, "KPI"),
+    "ebit_margin_chg": ("EBIT margin change YoY", "100 bp", +1, "KPI"),
+    "guidance_mid_chg": ("Revenue guidance midpoint change", "1 pp", +1, "KPI"),
 }
+COMMON = ["revenue_sue", "ebitda_sue", "pat_sue", "ebitda_margin_chg", "prior_specific_3m",
+          "street_revenue_surprise", "street_ebitda_surprise", "street_pat_surprise", "inr_chg"]
+DRIVER_SETS = {
+    "cement": COMMON + ["volume_growth", "volume_surprise", "realisation_yoy", "cost_per_t_yoy", "ebitda_per_t_yoy",
+                        "power_fuel_per_t_yoy", "petcoke_chg", "coal_chg", "brent_chg", "street_volume_surprise"],
+    "it-services": COMMON + ["cc_growth_qoq", "cc_growth_surprise", "usd_rev_growth_yoy", "tcv_growth_yoy",
+                             "headcount_growth_qoq", "attrition_chg", "ebit_margin_chg", "guidance_mid_chg"],
+}
+# A weaker rupee raises cement's imported fuel costs but lifts IT exporters' rupee revenue.
+SIGN_OVERRIDE = {("it-services", "inr_chg"): +1}
+
+
+def active_drivers() -> list[str]:
+    return DRIVER_SETS[C.SECTOR]
+
+
+def sign_for(code: str) -> int:
+    return SIGN_OVERRIDE.get((C.SECTOR, code), DRIVERS[code][2])
 RAW_SCALE = {"volume_growth": 100, "volume_surprise": 100, "realisation_yoy": 100, "cost_per_t_yoy": 100,
              "ebitda_per_t_yoy": 0.01, "ebitda_margin_chg": 1, "power_fuel_per_t_yoy": 100,
              "petcoke_chg": 100, "coal_chg": 100, "brent_chg": 100, "inr_chg": 100, "prior_specific_3m": 100,
              "revenue_sue": 1, "ebitda_sue": 1, "pat_sue": 1,
-             "street_revenue_surprise": 100, "street_ebitda_surprise": 100, "street_pat_surprise": 100, "street_volume_surprise": 100}
+             "street_revenue_surprise": 100, "street_ebitda_surprise": 100, "street_pat_surprise": 100, "street_volume_surprise": 100,
+             "cc_growth_qoq": 100, "cc_growth_surprise": 100, "usd_rev_growth_yoy": 100, "tcv_growth_yoy": 100,
+             "headcount_growth_qoq": 100, "attrition_chg": 1, "ebit_margin_chg": 1, "guidance_mid_chg": 1}
 
 
 def regime_of(d: pd.Timestamp) -> str:
@@ -66,8 +95,38 @@ def _quarter_avg(s: pd.Series) -> pd.Series:
     return q
 
 
+def _it_kpis(wh, t: str, periods) -> pd.DataFrame:
+    """IT KPI features for one stock, aligned to its fiscal quarters."""
+    k = getattr(wh, "kpi_long", pd.DataFrame())
+    k = k[(k.ticker == t)] if len(k) else k
+    w = k.pivot_table(index="period", columns="kpi_code", values="value", aggfunc="first") if len(k) else pd.DataFrame()
+    allp = sorted(set(periods) | set(w.index), key=lambda p: (int(p[2:4]), int(p[-1])))
+    w = w.reindex(allp)
+    g = lambda c: w[c] if c in w else pd.Series(np.nan, index=w.index)
+    lagn = lambda s, n: s.reindex([prev_period(p, n) for p in s.index]).set_axis(s.index)
+    out = pd.DataFrame(index=w.index)
+    with np.errstate(all="ignore"):
+        cc = g("cc_growth_qoq_pct") / 100
+        out["cc_growth_qoq"] = cc
+        out["cc_growth_surprise"] = cc - cc.shift(1).rolling(4, min_periods=3).mean()
+        usd = g("usd_revenue_mn")
+        out["usd_rev_growth_yoy"] = np.log(usd / lagn(usd, 4))
+        tcv = g("tcv_usd_mn")
+        t4 = tcv.rolling(4, min_periods=4).sum()
+        out["tcv_growth_yoy"] = np.log(t4 / lagn(t4, 4))
+        hc = g("headcount")
+        out["headcount_growth_qoq"] = np.log(hc / lagn(hc, 1))
+        at = g("attrition_ltm_pct")
+        out["attrition_chg"] = at - lagn(at, 4)
+        em = g("ebit_margin_pct")
+        out["ebit_margin_chg"] = em - lagn(em, 4)
+        mid = (g("guidance_low_pct") + g("guidance_high_pct")) / 2
+        out["guidance_mid_chg"] = mid - mid.shift(1)
+    return out.replace([np.inf, -np.inf], np.nan).reindex(periods)
+
+
 def build_panel(wh, fit_out: dict) -> pd.DataFrame:
-    q = wh.quarterly.copy()
+    q = wh.quarterly[wh.quarterly.ticker.isin(list(C.UNIVERSE))].copy()
     rows = []
     trading = wh.prices.index
     comm = {k: _quarter_avg(v) for k, v in wh.commodities.items()}
@@ -129,8 +188,15 @@ def build_panel(wh, fit_out: dict) -> pd.DataFrame:
         for k, v in ys.items():
             d[k] = v
         d["rev_cr"], d["ebitda_cr"], d["pat_cr"], d["volume_mt"], d["eps"] = rev, ebitda, pat, vol, sub["eps"]
+        if C.SECTOR == "it-services":
+            it = _it_kpis(wh, t, list(d.index))
+            for c in it.columns:
+                d[c] = it[c].values
         rows.append(d.reset_index())
     panel = pd.concat(rows, ignore_index=True).replace([np.inf, -np.inf], np.nan)
+    for c in DRIVERS:
+        if c not in panel and not c.startswith("street_"):
+            panel[c] = np.nan
     panel = add_street_surprises(panel, getattr(wh, "expectations", pd.DataFrame()))
     panel["regime"] = panel["event_date"].map(regime_of)
     panel["tidx"] = panel["period"].map(lambda p: int(p[2:4]) * 4 + int(p[-1]))
@@ -276,7 +342,8 @@ def test_driver(panel: pd.DataFrame, code: str) -> dict | None:
             r = _ols_fe(dd, ["z"], y=yv, time_fe=tfe)
             split[yv] = {"beta": float(r.params["z"]), "p": float(r.pvalues["z"])}
 
-    label, unit, prior_sign, group = DRIVERS[code]
+    label, unit, _, group = DRIVERS[code]
+    prior_sign = sign_for(code)
     return {
         "code": code, "label": label, "group": group, "unit": unit,
         "prior": code in C.PRIOR_DRIVERS, "expected_sign": prior_sign,
@@ -523,7 +590,7 @@ def ltm_eps_daily(wh, t: str) -> pd.Series:
 
 def earnings_vs_rerating(wh) -> dict:
     out = {}
-    for t in C.CEMENT:
+    for t in C.UNIVERSE:
         if t not in wh.prices:
             continue
         px = wh.prices[t].dropna()

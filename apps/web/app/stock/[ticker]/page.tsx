@@ -23,6 +23,7 @@ export default async function Stock({ params }: { params: Promise<{ ticker: stri
   const fys = Object.keys(cons.annual || {}).sort();
   const recs = h.recs || {};
   const tl = (s.timeline as any[]).slice().reverse();
+  const isCement = (s.sector_code || "cement") === "cement";
   const ser = s.series as any[];
   const bbgTag = `[BBG consensus ${h.consensus_asof}]`;
   const hist = cons.history || {};
@@ -72,14 +73,15 @@ export default async function Stock({ params }: { params: Promise<{ ticker: stri
         </Card>
       </div>
 
-      <Card className="mt-5" title="Driver panel" sub="This stock's sensitivities, shrunk toward the cement panel estimate. Latest value against the average of the previous four quarters (KPI consensus is not in the feed yet).">
+      <Card className="mt-5" title="Driver panel" sub={`This stock's sensitivities, shrunk toward the ${s.sector} panel estimate. Latest value against the average of the previous four quarters (KPI consensus is not in the feed yet).`}>
         {s.drivers.length === 0 ? <Empty title="Too few quarters">This stock has fewer than six quarters with both drivers and a post-results window.</Empty> : (
           <div className="-mx-4 overflow-x-auto">
             <table className="tbl text-sm">
               <thead><tr><th>Driver</th><th className="r">Effect per 1 SD</th><th className="r">90% interval</th><th className="r">Sector effect</th><th className="r">Own-data weight</th><th className="r">Latest</th><th className="r">Prev. 4Q avg</th><th>Leads?</th><th>Status</th></tr></thead>
               <tbody>{(s.drivers as any[]).slice(0, 8).map((d) => {
-                const sc = ["volume_growth", "realisation_yoy", "cost_per_t_yoy", "revenue_yoy", "petcoke_chg", "coal_chg", "brent_chg", "inr_chg", "volume_surprise", "power_fuel_per_t_yoy", "prior_specific_3m"].includes(d.code) ? 100 : 1;
-                const unit = sc === 100 ? "%" : d.code === "ebitda_per_t_yoy" ? " ₹/t" : d.code === "ebitda_margin_chg" ? " pp" : "";
+                const sc = ["volume_growth", "realisation_yoy", "cost_per_t_yoy", "revenue_yoy", "petcoke_chg", "coal_chg", "brent_chg", "inr_chg", "volume_surprise", "power_fuel_per_t_yoy", "prior_specific_3m",
+                  "cc_growth_qoq", "cc_growth_surprise", "usd_rev_growth_yoy", "tcv_growth_yoy", "headcount_growth_qoq", "street_revenue_surprise", "street_ebitda_surprise", "street_pat_surprise"].includes(d.code) ? 100 : 1;
+                const unit = sc === 100 ? "%" : d.code === "ebitda_per_t_yoy" ? " ₹/t" : ["ebitda_margin_chg", "ebit_margin_chg", "attrition_chg", "guidance_mid_chg"].includes(d.code) ? " pp" : "";
                 return (
                   <tr key={d.code}>
                     <td><div className="text-ink">{d.label}</div>{d.departs && <span className="text-2xs text-neg">Departs from sector sign</span>}</td>
@@ -140,7 +142,7 @@ export default async function Stock({ params }: { params: Promise<{ ticker: stri
       <Card className="mt-5" title="Results timeline" sub="Surprise = growth against the stock's own trailing trend (SUE), because day-before Bloomberg consensus by quarter is not stored yet. Returns are stock-specific (factor residual).">
         <div className="-mx-4 max-h-[460px] overflow-auto">
           <table className="tbl text-sm">
-            <thead><tr><th>Quarter</th><th>Results date</th><th className="r">Revenue ₹ cr</th><th className="r">EBITDA ₹ cr</th><th className="r">PAT ₹ cr</th><th className="r">Volume Mt</th><th className="r">Rev. SUE</th><th className="r">EBITDA SUE</th><th className="r">PAT SUE</th><th className="r">Day −1..+3</th><th className="r">+4..+60</th></tr></thead>
+            <thead><tr><th>Quarter</th><th>Results date</th><th className="r">Revenue ₹ cr</th><th className="r">EBITDA ₹ cr</th><th className="r">PAT ₹ cr</th><th className="r">{isCement ? "Volume Mt" : "CC growth QoQ"}</th><th className="r">Rev. SUE</th><th className="r">EBITDA SUE</th><th className="r">PAT SUE</th><th className="r">Day −1..+3</th><th className="r">+4..+60</th></tr></thead>
             <tbody>{tl.map((r) => (
               <tr key={r.period}>
                 <td className="font-mono text-xs">{r.period}</td>
@@ -148,7 +150,7 @@ export default async function Stock({ params }: { params: Promise<{ ticker: stri
                 <td className="r num"><Src tag={`[AIRAVAT:get_financials ${r.period}]`}>{num(r.rev_cr)}</Src></td>
                 <td className="r num">{num(r.ebitda_cr)}</td>
                 <td className="r num">{num(r.pat_cr)}</td>
-                <td className="r num">{isNum(r.volume_mt) ? num(r.volume_mt, 1) : "—"}</td>
+                <td className="r num">{isCement ? (isNum(r.volume_mt) ? num(r.volume_mt, 1) : "—") : (isNum(r.cc_growth_qoq) ? `${(r.cc_growth_qoq * 100).toFixed(1)}%` : "—")}</td>
                 {["revenue_sue", "ebitda_sue", "pat_sue"].map((k) => <td key={k} className={`r num ${r[k] > 0 ? "text-pos" : r[k] < 0 ? "text-neg" : "text-muted"}`}>{isNum(r[k]) ? r[k].toFixed(1) : "—"}</td>)}
                 <td className="r"><Delta v={r.y_react} /></td>
                 <td className="r"><Delta v={r.y_drift} /></td>

@@ -18,7 +18,7 @@ from .attribution import ltm_eps_daily, regime_of
 def _signals(wh, fit_out, panel, validated: list[str], coefs: dict) -> tuple[pd.DataFrame, pd.DataFrame]:
     ends = wh.prices.resample("ME").last().index
     rer, comp = {}, {}
-    for t in C.CEMENT:
+    for t in C.UNIVERSE:
         if t not in wh.prices:
             continue
         px = wh.prices[t].dropna()
@@ -73,7 +73,7 @@ def run(wh, fit_out, panel, driver_results, n_trials: int) -> dict:
     used = validated or [r["code"] for r in tested[:3]]
     coefs = {r["code"]: np.sign(r["effect_sd"]) for r in driver_results if r.get("code") in used}
     R, D = _signals(wh, fit_out, panel, used, coefs)
-    px_m = wh.prices[[t for t in C.CEMENT if t in wh.prices]].resample("ME").last()
+    px_m = wh.prices[[t for t in C.UNIVERSE if t in wh.prices]].resample("ME").last()
     fwd3 = np.log(px_m.shift(-3) / px_m)
     fwd1 = np.log(px_m.shift(-1) / px_m)
     ex3 = fwd3.sub(fwd3.mean(axis=1), axis=0)

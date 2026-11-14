@@ -5,13 +5,13 @@ import { fit, walkForward, pNorm, Obs } from "@/lib/ols";
 
 type Panel = { columns: string[]; labels: Record<string, string>; groups: Record<string, string>; rows: any[][] };
 
-export default function Explorer({ panel, names }: { panel: Panel; names: Record<string, string> }) {
+export default function Explorer({ panel, names, sector }: { panel: Panel; names: Record<string, string>; sector: string }) {
   const col = (c: string) => panel.columns.indexOf(c);
   const drivers = Object.keys(panel.labels);
   const tickers = Object.keys(names);
   const [universe, setUniverse] = useState<string[]>(tickers);
   const [dep, setDep] = useState("y_window");
-  const [sel, setSel] = useState<string[]>(["ebitda_margin_chg", "revenue_sue"]);
+  const [sel, setSel] = useState<string[]>(["ebitda_margin_chg", "revenue_sue"].filter((d) => d in panel.labels));
   const [onlyDated, setOnlyDated] = useState(false);
   const [queued, setQueued] = useState<string | null>(null);
 
@@ -23,7 +23,7 @@ export default function Explorer({ panel, names }: { panel: Panel; names: Record
     if (q.get("dated") === "1") setOnlyDated(true);
   }, []); // eslint-disable-line
   useEffect(() => {
-    const q = new URLSearchParams({ u: universe.length === tickers.length ? "" : universe.join(","), y: dep, d: sel.join(","), dated: onlyDated ? "1" : "" });
+    const q = new URLSearchParams({ s: sector, u: universe.length === tickers.length ? "" : universe.join(","), y: dep, d: sel.join(","), dated: onlyDated ? "1" : "" });
     [...q.keys()].forEach((k) => !q.get(k) && q.delete(k));
     history.replaceState(null, "", `${location.pathname}?${q}`);
   }, [universe, dep, sel, onlyDated, tickers.length]);
@@ -52,7 +52,7 @@ export default function Explorer({ panel, names }: { panel: Panel; names: Record
         <fieldset className="rounded-card border border-line bg-surface p-4">
           <legend className="px-1 text-sm font-semibold">Universe</legend>
           <div className="mb-2 flex gap-2 text-xs">
-            <button className="text-accent hover:underline" onClick={() => setUniverse(tickers)}>All cement</button>
+            <button className="text-accent hover:underline" onClick={() => setUniverse(tickers)}>Select all</button>
             <button className="text-accent hover:underline" onClick={() => setUniverse([])}>Clear</button>
           </div>
           <div className="grid grid-cols-2 gap-1">
@@ -101,7 +101,7 @@ export default function Explorer({ panel, names }: { panel: Panel; names: Record
           </div>
           {queued && <p className="mt-2 text-xs text-pos">Queued {queued}. The worker picks it up on the next run and logs it in the experiment registry, so the multiple-testing count includes it.</p>}
           {!result?.f ? (
-            <p className="mt-4 text-sm text-muted">Not enough complete observations ({result?.obs.length ?? 0}). Add stocks or drop a driver with sparse data (tonne-based KPIs need volumes, which cover 7 stocks).</p>
+            <p className="mt-4 text-sm text-muted">Not enough complete observations ({result?.obs.length ?? 0}). Add stocks or drop a driver with sparse data (KPI drivers such as tonnes or deal TCV cover fewer stocks and quarters).</p>
           ) : (
             <>
               <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">

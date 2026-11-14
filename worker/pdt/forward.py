@@ -40,7 +40,7 @@ def _fy_blend(cons: dict) -> tuple[float | None, float | None, dict]:
 def elasticity_and_reversion(wh) -> dict:
     """Pooled price-to-EPS elasticity (quarterly) and monthly P/E mean-reversion speed, with bootstrap draws."""
     dP, dE, devs = [], [], []
-    for t in C.CEMENT:
+    for t in C.UNIVERSE:
         if t not in wh.prices:
             continue
         px = wh.prices[t].dropna()
@@ -101,7 +101,7 @@ def run(wh, fit_out: dict, fac: pd.DataFrame, rets: pd.DataFrame, panel: pd.Data
     out, scen = {}, {}
     mkt = fac["market"].dropna()
     mkt_mu = float(mkt.mean() * 252)
-    for t in C.CEMENT:
+    for t in C.UNIVERSE:
         if t not in fit_out or t not in wh.consensus:
             continue
         cons = wh.consensus[t]
@@ -218,7 +218,7 @@ def calibration(wh, fit_out: dict) -> dict:
     for hk, m in [("3m", 3), ("12m", 12)]:
         days = m * 21
         pits = []
-        for t in C.CEMENT:
+        for t in C.UNIVERSE:
             if t not in wh.prices:
                 continue
             px = np.log(wh.prices[t].dropna())

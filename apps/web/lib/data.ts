@@ -20,3 +20,10 @@ export const manifest = () => load("manifest.json");
 export const stock = (t: string) => load(`stocks/${t}.json`);
 export const tickers = (): string[] =>
   readdirSync(path.join(DIR, "stocks")).filter((f) => f.endsWith(".json")).map((f) => f.replace(".json", ""));
+export type SectorRef = { code: string; name: string };
+export const sectors = (): SectorRef[] =>
+  Object.entries((manifest().sectors || { cement: "Cement" }) as Record<string, string>).map(([code, name]) => ({ code, name }));
+export const sectorOf = (t: string): string => {
+  const row = (load("index.json").stocks as any[]).find((s) => s.ticker === t);
+  return row?.sector || "cement";
+};

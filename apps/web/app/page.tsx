@@ -9,7 +9,8 @@ export default function Home() {
   const h = load("home.json");
   const idx = load("index.json").stocks as any[];
   const names = Object.fromEntries(idx.map((s) => [s.ticker, s.name]));
-  const pilot = h.sectors[0];
+  const live = (h.sectors as any[]).filter((x) => x.status !== "queued");
+  const queued = (h.sectors as any[]).filter((x) => x.status === "queued");
   const breadth = h.breadth.stocks.filter((s: any) => isNum(s.rev1m));
   const up1 = breadth.filter((s: any) => s.rev1m > 0).length, dn1 = breadth.filter((s: any) => s.rev1m < 0).length;
   const up3 = breadth.filter((s: any) => s.rev3m > 0).length, dn3 = breadth.filter((s: any) => s.rev3m < 0).length;
@@ -19,8 +20,8 @@ export default function Home() {
   return (
     <>
       <PageHead kicker={`Prices to ${fmtDate(h.as_of)}`} title="Pulse"
-        meta={<><Badge kind="pilot" text="Pilot sector: cement" /><span>Market factor: {h.market_proxy.constituents.length} large caps, equal weight</span></>}>
-        Which sectors and holdings have drivers turning, and where the street and the price disagree. One sector is live; the rest open after the pilot gate.
+        meta={<><Badge kind="pilot" text={`Live: ${live.map((x) => x.sector).join(", ")}`} /><span>Market factor: {h.market_proxy.constituents.length} large caps, equal weight</span></>}>
+        Which sectors and holdings have drivers turning, and where the street and the price disagree. {live.length} sectors are live; the rest open after the pilot gate.
       </PageHead>
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
@@ -29,16 +30,17 @@ export default function Home() {
             <table className="tbl text-sm">
               <thead><tr><th>Sector</th><th className="r">1M</th><th className="r">3M</th><th className="r">12M</th><th className="r">vs market 12M</th><th>Variance explained</th><th>Drivers turning</th></tr></thead>
               <tbody>
-                <tr>
-                  <td><Link className="font-medium text-accent hover:underline" href="/sector/cement">Cement</Link> <span className="text-2xs text-muted">{pilot.n} stocks</span></td>
+                {live.map((pilot: any) => (
+                <tr key={pilot.code}>
+                  <td><Link className="font-medium text-accent hover:underline" href={`/sector/${pilot.code}`}>{pilot.sector}</Link> <span className="text-2xs text-muted">{pilot.n} stocks</span></td>
                   <td className="r"><Delta v={pilot.r1m} /></td><td className="r"><Delta v={pilot.r3m} /></td><td className="r"><Delta v={pilot.r12m} /></td>
                   <td className="r"><Delta v={pilot.r12m - pilot.m12m} /></td>
                   <td className="w-[180px]"><ShareBar share={pilot.share} /><span className="num mt-1 block text-2xs text-muted">specific {pct(pilot.share.specific, 0, false)}</span></td>
-                  <td>{pilot.turning.length ? <Badge kind="unstable" text={`${pilot.turning.length} turning`} /> : <span className="text-xs text-muted">None this quarter</span>}</td>
-                </tr>
+                  <td>{pilot.turning.length ? <span title={(pilot.turning_labels || []).join(", ")}><Badge kind="unstable" text={`${pilot.turning.length} turning`} /></span> : <span className="text-xs text-muted">None this quarter</span>}</td>
+                </tr>))}
                 <tr className="text-muted">
                   <td colSpan={7} className="text-xs">
-                    <Badge kind="queued" text="Queued" /> <span className="ml-1">Open after the pilot go/no-go: {h.sectors.slice(1).map((x: any) => x.sector).join(", ")}.</span>
+                    <Badge kind="queued" text="Queued" /> <span className="ml-1">Open after the pilot go/no-go: {queued.map((x: any) => x.sector).join(", ")}.</span>
                   </td>
                 </tr>
               </tbody>
@@ -65,9 +67,9 @@ export default function Home() {
       </div>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-2">
-        <Card title="Revision breadth, cement" sub={`FY1 EPS consensus. 1 month: ${up1} up, ${dn1} down. 3 months: ${up3} up, ${dn3} down.`}>
+        <Card title="Revision breadth" sub={`FY1 EPS consensus, ${breadth.length} stocks in ${live.length} sectors. 1 month: ${up1} up, ${dn1} down. 3 months: ${up3} up, ${dn3} down.`}>
           <div className="mt-8">
-            <Chart title="FY1 EPS revisions" height={300} asOf={h.as_of} n={`${breadth.length} stocks`} source="[BBG consensus via AIRAVAT:get_consensus_estimates]"
+            <Chart title="FY1 EPS revisions" height={Math.max(300, sorted.length * 20)} asOf={h.as_of} n={`${breadth.length} stocks`} source="[BBG consensus via AIRAVAT:get_consensus_estimates]"
               option={{
                 grid: { left: 92, right: 20, top: 26, bottom: 24 },
                 legend: { top: 0, right: 0, itemWidth: 10, itemHeight: 10, textStyle: { color: "token:muted" } },

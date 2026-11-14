@@ -9,7 +9,7 @@ import {
 
 export const NAV = [
   { href: "/", label: "Home", icon: LayoutDashboard },
-  { href: "/sector/cement", label: "Sector", icon: Layers },
+  { href: "/sector/cement", label: "Sectors", icon: Layers, match: "/sector" },
   { href: "/stock/ULTRACEMCO", label: "Stock", icon: CandlestickChart, match: "/stock" },
   { href: "/attribution", label: "Attribution explorer", icon: Sigma },
   { href: "/events", label: "Event studies", icon: CalendarClock },
@@ -98,6 +98,8 @@ export default function Shell({ children, stocks, snapshot }: { children: ReactN
     ...stocks.map((s) => ({ label: s.name, hint: s.ticker, href: `/stock/${s.ticker}` })),
     ...stocks.map((s) => ({ label: `${s.name}: forward paths`, hint: "Forward", href: `/forward?t=${s.ticker}` })),
     ...NAV.map((n) => ({ label: n.label, hint: "Screen", href: n.href })),
+    { label: "IT services sector", hint: "Sector", href: "/sector/it-services" },
+    { label: "Cement sector", hint: "Sector", href: "/sector/cement" },
   ], [stocks]);
   useEffect(() => {
     const k = (e: KeyboardEvent) => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setOpen((o) => !o); } };
@@ -146,7 +148,7 @@ export default function Shell({ children, stocks, snapshot }: { children: ReactN
               <kbd className="ml-auto hidden items-center gap-0.5 rounded-chip border border-line px-1 font-mono text-2xs sm:inline-flex"><Command size={10} />K</kbd>
             </button>
             <span className="ml-auto hidden items-center gap-1.5 rounded-chip border border-line px-2 py-1 text-2xs text-muted md:inline-flex">
-              <span className="h-1.5 w-1.5 rounded-full bg-pos" aria-hidden /> Pilot: cement · data to {snapshot.asOf}
+              <span className="h-1.5 w-1.5 rounded-full bg-pos" aria-hidden /> Cement + IT services · data to {snapshot.asOf}
             </span>
             <ThemeToggle />
           </div>

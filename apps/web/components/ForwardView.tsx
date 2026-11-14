@@ -5,7 +5,7 @@ import Chart from "@/components/Chart";
 const pc = (v: number | null | undefined, dp = 0) => (v == null || !Number.isFinite(v) ? "—" : `${v > 0 ? "+" : v < 0 ? "−" : ""}${Math.abs(v * 100).toFixed(dp)}%`);
 const q = (a: number[], p: number) => { const s = [...a].sort((x, y) => x - y); const i = (s.length - 1) * p; const l = Math.floor(i); return s[l] + (s[Math.min(l + 1, s.length - 1)] - s[l]) * (i - l); };
 
-export default function ForwardView({ data, names, calib, engine }: { data: Record<string, any>; names: Record<string, string>; calib: any; engine: any }) {
+export default function ForwardView({ data, names, calibs, engines, sectorOf, sectorNames }: { data: Record<string, any>; names: Record<string, string>; calibs: Record<string, any>; engines: Record<string, any>; sectorOf: Record<string, string>; sectorNames: Record<string, string> }) {
   const tickers = Object.keys(data);
   const [t, setT] = useState(tickers[0]);
   const [h, setH] = useState("12m");
@@ -19,6 +19,8 @@ export default function ForwardView({ data, names, calib, engine }: { data: Reco
     fetch(`${location.pathname.replace(/forward\/?$/, "")}data/scenarios/${t}.json`).then((r) => (r.ok ? r.json() : null)).then(setScen).catch(() => setScen(null));
   }, [t]);
   const f = data[t];
+  const calib = calibs[sectorOf[t]];
+  const engine = engines[sectorOf[t]];
   const H = f.horizons[h];
   const months: Record<string, number> = { "3m": 3, "6m": 6, "12m": 12 };
 
@@ -43,7 +45,10 @@ export default function ForwardView({ data, names, calib, engine }: { data: Reco
       <div className="flex flex-wrap items-center gap-3">
         <label htmlFor="tk" className="text-sm text-muted">Stock</label>
         <select id="tk" value={t} onChange={(e) => { setT(e.target.value); setEps(0); }} className="h-9 rounded-card border border-line bg-surface px-2 text-sm">
-          {tickers.map((k) => <option key={k} value={k}>{names[k]}</option>)}
+          {Object.keys(sectorNames).map((sc) => (
+            <optgroup key={sc} label={sectorNames[sc]}>
+              {tickers.filter((k) => sectorOf[k] === sc).map((k) => <option key={k} value={k}>{names[k]}</option>)}
+            </optgroup>))}
         </select>
         <div className="inline-flex rounded-card border border-line bg-surface p-0.5" role="tablist" aria-label="Horizon">
           {hs.map((k) => <button key={k} role="tab" aria-selected={h === k} onClick={() => setH(k)} className={`rounded-[4px] px-2.5 py-1 text-xs ${h === k ? "bg-ink text-paper" : "text-muted hover:text-ink"}`}>{k.toUpperCase()}</button>)}
@@ -178,7 +183,7 @@ export default function ForwardView({ data, names, calib, engine }: { data: Reco
             <li>Market, sector and style returns drawn in 21-day blocks from history, so crash months appear in the tails.</li>
             <li>Expected return = market beta × the market factor&apos;s historical return; the rest is noise.</li>
           </ol>
-          <p className="mt-3 text-xs text-muted">Model history (past forecasts against outcomes) starts accruing with this snapshot. The Backtest Lab shows the P/E-reversion signal has not ranked cement stocks well out of sample, so treat the median shift from re-rating with caution.</p>
+          <p className="mt-3 text-xs text-muted">Model history (past forecasts against outcomes) starts accruing with this snapshot. The Backtest Lab shows the P/E-reversion signal has not ranked {sectorNames[sectorOf[t]]} stocks well out of sample, so treat the median shift from re-rating with caution. Calibration and elasticity are estimated per sector.</p>
         </section>
       </div>
     </div>

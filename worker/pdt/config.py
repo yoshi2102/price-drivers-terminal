@@ -32,6 +32,44 @@ CEMENT = {
     "STARCEMENT": "Star Cement",
 }
 
+IT_SERVICES = {
+    "TCS": "Tata Consultancy Services",
+    "INFY": "Infosys",
+    "HCLTECH": "HCLTech",
+    "WIPRO": "Wipro",
+    "TECHM": "Tech Mahindra",
+    "PERSISTENT": "Persistent Systems",
+    "MPHASIS": "Mphasis",
+    "LTTS": "L&T Technology Services",
+    "TATAELXSI": "Tata Elxsi",
+    "CYIENT": "Cyient",
+    "ZENSARTECH": "Zensar Technologies",
+    "BSOFT": "Birlasoft",
+}
+# LTIMindtree (LTM) and Coforge are left out: Airavat's price history for them
+# is incomplete (LTM stops Feb 2026 with a merger jump; COFORGE starts Sep 2025).
+
+SECTORS = {
+    "cement": {"name": "Cement", "tickers": CEMENT,
+               "priors": {"volume_growth", "realisation_yoy", "cost_per_t_yoy", "ebitda_per_t_yoy"}},
+    "it-services": {"name": "IT services", "tickers": IT_SERVICES,
+                    "priors": {"cc_growth_qoq", "tcv_growth_yoy", "ebit_margin_chg", "guidance_mid_chg"}},
+}
+ALL = {t: n for s in SECTORS.values() for t, n in s["tickers"].items()}
+SECTOR_OF = {t: code for code, s in SECTORS.items() for t in s["tickers"]}
+
+# Active sector for the per-sector engines (set by run.py).
+SECTOR = "cement"
+UNIVERSE = CEMENT
+SECTOR_NAME = "Cement"
+
+
+def set_sector(code: str) -> None:
+    global SECTOR, UNIVERSE, SECTOR_NAME, PRIOR_DRIVERS
+    SECTOR, UNIVERSE = code, SECTORS[code]["tickers"]
+    SECTOR_NAME, PRIOR_DRIVERS = SECTORS[code]["name"], SECTORS[code]["priors"]
+
+
 # Market proxy. Airavat holds no index series (checked: NIFTY 50 and
 # NIFTYBEES both return "company not found"), so the market factor is an
 # equal-weighted basket of 15 large caps across sectors until NSE index
@@ -44,7 +82,7 @@ MARKET_PROXY = [
 
 # Sectors queued for rollout after the pilot gate (shown on Home, no numbers).
 ROLLOUT_SECTORS = [
-    "Private banks", "IT services", "Asset managers", "Paints",
+    "Private banks", "Asset managers", "Paints",
     "Two-wheelers", "Electrical equipment", "Capital goods", "FMCG",
 ]
 

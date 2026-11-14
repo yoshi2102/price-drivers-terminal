@@ -109,7 +109,8 @@ def _ace_rows(t: str, d: dict) -> list[dict]:
 
 def _api_rows(t: str, d: dict) -> list[dict]:
     rows = []
-    c = d["data"]["consolidated"]["by_data_class"]["QPNL"]
+    basis = "consolidated" if "consolidated" in d["data"] else "standalone"
+    c = d["data"][basis]["by_data_class"]["QPNL"]
     for period in c.get("periods", []):
         r = c[period]
         rev = r.get("pnl:revenue")
@@ -118,21 +119,22 @@ def _api_rows(t: str, d: dict) -> list[dict]:
         dep = r.get("pnl:depreciation_amortisation") or 0
         ebitda = (rev - (tot - fin - dep)) if (rev is not None and tot is not None) else None
         pat = r.get("pnl:profit_attributable_to_owners") or r.get("pnl:profit_after_tax")
-        rows.append({"ticker": t, "basis": "consolidated", "period": period,
+        rows.append({"ticker": t, "basis": basis, "period": period,
                      "revenue_cr": rev / 1e7 if rev is not None else np.nan,
                      "ebitda_cr": ebitda / 1e7 if ebitda is not None else np.nan,
                      "pat_cr": pat / 1e7 if pat is not None else np.nan,
                      "eps": r.get("pnl:eps_basic", np.nan),
                      "power_fuel_cr": (r.get("pnl:power_and_fuel") or np.nan) / 1e7,
                      "freight_cr": (r.get("pnl:freight_forwarding_expense") or np.nan) / 1e7,
-                     "source_tag": f"[AIRAVAT:get_financials consolidated QPNL {period}]"})
+                     "source_tag": f"[AIRAVAT:get_financials {basis} QPNL {period}]"})
     return rows
 
 
 def _annual_eps(t: str, d: dict) -> dict:
     out = {}
     if "status" in d:  # Financials API
-        c = d["data"]["consolidated"]["by_data_class"].get("PNL", {})
+        b = "consolidated" if "consolidated" in d["data"] else "standalone"
+        c = d["data"][b]["by_data_class"].get("PNL", {})
         for p in c.get("periods", []):
             out[p] = {"eps": c[p].get("pnl:eps_basic"),
                       "revenue_cr": (c[p].get("pnl:revenue") or np.nan) / 1e7,
@@ -154,7 +156,7 @@ def _annual_eps(t: str, d: dict) -> dict:
 
 def load_fundamentals(events: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     rows, annual = [], {}
-    for t in C.CEMENT:
+    for t in C.ALL:
         f = C.RAW_DIR / "financials" / f"{t}.json"
         if not f.exists():
             continue
@@ -204,6 +206,18 @@ def load_history() -> pd.DataFrame:
     h = h.dropna(subset=["revenue_cr"]).sort_values(["ticker", "period", "_b"], kind="stable").drop_duplicates(["ticker", "period"], keep="first")
     h["power_fuel_cr"], h["freight_cr"] = np.nan, np.nan
     return h[["ticker", "basis", "period", "revenue_cr", "ebitda_cr", "pat_cr", "eps", "power_fuel_cr", "freight_cr", "source_tag"]]
+
+
+def load_it_kpis() -> pd.DataFrame:
+    """IT services KPIs in long form: ticker, period, kpi_code, value (first published value kept)."""
+    frames = [pd.read_csv(f) for f in sorted((C.RAW_DIR / "kpi").glob("it_kpis*.csv"))]
+    if not frames:
+        return pd.DataFrame(columns=["ticker", "period", "kpi_code", "value", "source_tag"])
+    k = pd.concat(frames, ignore_index=True)
+    k["value"] = pd.to_numeric(k["value"], errors="coerce")
+    k = k.dropna(subset=["value"])
+    k = k[k.period.astype(str).str.match(r"^FY\d{2}Q[1-4]$")]
+    return k.drop_duplicates(["ticker", "period", "kpi_code"], keep="first")
 
 
 def load_expectations() -> pd.DataFrame:
@@ -265,7 +279,7 @@ def load_kpi() -> pd.DataFrame:
 
 def load_consensus() -> tuple[dict, pd.DataFrame]:
     raw, hist = {}, []
-    for t in C.CEMENT:
+    for t in C.ALL:
         f = C.RAW_DIR / "consensus" / f"{t}.json"
         if not f.exists():
             continue
@@ -320,12 +334,13 @@ def build() -> Warehouse:
         quarterly["kpi_known_at"] = quarterly["known_at"]
         quarterly["kpi_source"] = None
     cons, cons_hist = load_consensus()
-    sec = pd.DataFrame([{"security_id": t, "nse_code": t, "name": n, "sector": "Cement",
-                         "sub_sector": "Cement", "listing_date": px[t].first_valid_index().date().isoformat()
-                         if t in px else None} for t, n in C.CEMENT.items()])
+    sec = pd.DataFrame([{"security_id": t, "nse_code": t, "name": n, "sector": C.SECTORS[C.SECTOR_OF[t]]["name"],
+                         "sub_sector": C.SECTORS[C.SECTOR_OF[t]]["name"], "listing_date": px[t].first_valid_index().date().isoformat()
+                         if t in px else None} for t, n in C.ALL.items()])
     wh = Warehouse(security=sec, prices=px, fundamentals=fund_long, quarterly=quarterly, kpi=kpi,
                    consensus=cons, consensus_hist=cons_hist, commodities=load_commodities(),
                    events=events, brokers=load_brokers())
     wh.annual = annual  # type: ignore[attr-defined]
     wh.expectations = load_expectations()  # type: ignore[attr-defined]
+    wh.kpi_long = load_it_kpis()  # type: ignore[attr-defined]
     return wh

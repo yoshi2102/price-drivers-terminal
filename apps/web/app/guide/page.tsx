@@ -79,8 +79,9 @@ export default function Guide() {
   const m = manifest();
   const s = load("sector_cement.json");
   const h = load("health.json");
-  const e = load("events.json");
-  const b = load("backtest.json");
+  const e = load("events_cement.json");
+  const it = load("sector_it-services.json");
+  const b = load("backtest_cement.json");
   const fw = load("forward.json");
   const A = m.params.acceptance;
   const tested = (s.leaderboard as any[]).filter((r) => r.status !== "insufficient");
@@ -92,7 +93,7 @@ export default function Guide() {
     <>
       <PageHead kicker="Help" title="How the terminal works"
         meta={<span className="font-mono">snapshot {m.snapshot_id} · prices to {m.as_of}</span>}>
-        Every figure, test and screen, explained from the raw data up. Numbers on this page are read from the current snapshot, so they stay in step with the rest of the app.
+        Every figure, test and screen, explained from the raw data up. Two sectors are live: cement (the pilot) and IT services. Worked numbers below are cement&apos;s unless marked. Numbers on this page are read from the current snapshot, so they stay in step with the rest of the app.
       </PageHead>
       <div className="grid gap-10 xl:grid-cols-[220px_minmax(0,1fr)]">
         <nav aria-label="Guide contents" className="hidden xl:block">
@@ -186,16 +187,16 @@ Drift          = days +4 to +60   (does the move continue after the news is out?
           <S id="forward" title="Forward paths">
             <p>For each stock the engine simulates 10,000 paths for 3, 6 and 12 months. The price already reflects consensus, so consensus growth sets the centre of the earnings path but does not by itself move the price. Only a surprise against it does.</p>
             <F>{`log return = market beta × market expected return          (required return)
-           + EPS surprise × price elasticity                (elasticity ${fw.engine.elasticity.toFixed(3)}, bootstrapped)
-           + (1 − e^(−κ·months)) × ln(fair P/E ÷ current P/E) (reversion, κ from φ = ${fw.engine.phi.toFixed(3)} a month)
+           + EPS surprise × price elasticity                (elasticity ${fw.engine.cement.elasticity.toFixed(3)}, bootstrapped)
+           + (1 − e^(−κ·months)) × ln(fair P/E ÷ current P/E) (reversion, κ from φ = ${fw.engine.cement.phi.toFixed(3)} a month)
            + market, sector and style moves in 21-day blocks of history
            + stock-specific noise`}</F>
             <p>Current P/E uses 12-month-forward Bloomberg EPS. Fair P/E is the five-year median of price over the EPS reported 12 months later, which strips one-off gains from the comparison. Block bootstrapping keeps crash months intact, so the tails include real drawdowns.</p>
-            <p><b>Calibration.</b> At every past quarter end, a band was built from data known then and checked against what happened. A good 80% band holds about 80% of outcomes. Three-month bands held {pct(fw.calibration["3m"].coverage_80, 0, false)}; twelve-month bands held {pct(fw.calibration["12m"].coverage_80, 0, false)}, so twelve-month spreads are widened ×{fw.calibration.widen["12m"].toFixed(2)}. The tornado shows how far the median moves when one input goes to its 10th or 90th percentile. The scenario editor shifts the earnings path and redraws from 1,000 cached paths in your browser.</p>
+            <p><b>Calibration.</b> At every past quarter end, a band was built from data known then and checked against what happened. A good 80% band holds about 80% of outcomes. Three-month bands held {pct(fw.calibration.cement["3m"].coverage_80, 0, false)}; twelve-month bands held {pct(fw.calibration.cement["12m"].coverage_80, 0, false)}, so twelve-month spreads are widened ×{fw.calibration.cement.widen["12m"].toFixed(2)}. The tornado shows how far the median moves when one input goes to its 10th or 90th percentile. The scenario editor shifts the earnings path and redraws from 1,000 cached paths in your browser.</p>
           </S>
 
           <S id="backtest" title="Backtest lab">
-            <p>At each month end, each model version ranks the cement stocks using only data known then. Rank IC is the correlation between that ranking and the next three months&apos; return relative to the cement average. A useful signal has IC above 0.05, steadily. Newey-West t-stats allow for overlapping three-month windows; the deflated Sharpe adjusts the long-short result for the {(load("registry.json") as any[]).length} hypotheses tried. fp-1.0 uses P/E reversion plus the strongest drivers; fp-0.9 is P/E reversion alone, as a control. Both are scored on the same {b.versions["fp-1.0"].n_months} months.</p>
+            <p>At each month end, each model version ranks the cement stocks using only data known then. Rank IC is the correlation between that ranking and the next three months&apos; return relative to the cement average. A useful signal has IC above 0.05, steadily. Newey-West t-stats allow for overlapping three-month windows; the deflated Sharpe adjusts the long-short result for the {(load("registry_cement.json") as any[]).length} hypotheses tried. fp-1.0 uses P/E reversion plus the strongest drivers; fp-0.9 is P/E reversion alone, as a control. Both are scored on the same {b.versions["fp-1.0"].n_months} months.</p>
           </S>
 
           <S id="screens" title="Screen by screen">
@@ -256,6 +257,12 @@ Drift          = days +4 to +60   (does the move continue after the news is out?
               <li>Elastic net shrinks every coefficient to zero; LightGBM fails out of sample and is not used.</li>
               <li>No surprise metric shows reliable drift after day +3.</li>
               <li>Backtest rank IC: {b.versions["fp-1.0"].ic_mean.toFixed(3)} for fp-1.0 and {b.versions["fp-0.9"].ic_mean.toFixed(3)} for the control, against a target of 0.05.</li>
+            </ul>
+            <h3 className="text-[16px] font-semibold">IT services</h3>
+            <ul className="list-disc space-y-1.5 pl-5">
+              <li>{(it.leaderboard as any[]).filter((r) => r.validated).length} of {(it.leaderboard as any[]).filter((r) => r.status !== "insufficient").length} testable drivers validated across {it.panel_n} stock-quarters ({it.panel_periods[0]}–{it.panel_periods[1]}).</li>
+              <li>Stock-specific moves are {pct(it.share_explained.specific, 0, false)} of daily variance and the sector factor {pct(it.share_explained.sector, 0, false)}, far more sector-driven than cement ({pct(s.share_explained.sector, 0, false)}).</li>
+              <li>IT KPI drivers (constant-currency growth, deal TCV, headcount, attrition, guidance) mostly cover FY25 onward, so many sit below the sample gate. Airavat&apos;s investor-deck API was unreachable during extraction; a backfill from older broker notes is the next step.</li>
             </ul>
             <p>Extending the data (results dates for 11 stocks, history back to FY16, street expectations, older broker notes) moved EBITDA margin change from nowhere to five of six gates. It fails only the out-of-sample gate: it beats the baseline in 46% of walk-forward quarters against the 70% required. Revenue against street expectations shows post-results drift whose interval excludes zero, but on just 44 events.</p>
           </S>

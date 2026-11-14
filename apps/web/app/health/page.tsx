@@ -25,13 +25,15 @@ export default function Health() {
       <Card title="Coverage matrix" sub="Stock × dataset. Green: complete for the period; amber: partial; grey: none.">
         <div className="-mx-4 overflow-x-auto">
           <table className="tbl text-sm">
-            <thead><tr><th>Stock</th><th>Prices</th><th>Quarterly financials</th><th>Sales volume (KPI)</th><th>Results dates</th><th>Consensus</th><th>Broker notes</th></tr></thead>
+            <thead><tr><th>Stock</th><th>Prices</th><th>Quarterly financials</th><th>Sector KPIs</th><th>Results dates</th><th>Consensus</th><th>Broker notes</th></tr></thead>
             <tbody>{(h.coverage as any[]).map((c) => { const d = c.datasets; return (
               <tr key={c.ticker}>
-                <td className="whitespace-nowrap"><Link href={`/stock/${c.ticker}`} className="hover:text-accent">{c.name}</Link></td>
+                <td className="whitespace-nowrap"><Link href={`/stock/${c.ticker}`} className="hover:text-accent">{c.name}</Link> <span className="text-2xs text-muted">{c.sector === "it-services" ? "IT" : "Cement"}</span></td>
                 <Cell ok={d.prices.n > 1000 ? "good" : "part"} title={`${d.prices.from} to ${d.prices.last}`}>{d.prices.from?.slice(0, 4)}–{d.prices.last}</Cell>
                 <Cell ok={d.financials.n >= 26 ? "good" : "part"}>{d.financials.from}–{d.financials.last} ({d.financials.n}q)</Cell>
-                <Cell ok={d.kpi_volume.n >= d.kpi_volume.of * 0.9 ? "good" : d.kpi_volume.n ? "part" : "none"}>{d.kpi_volume.n}/{d.kpi_volume.of}</Cell>
+                {c.sector === "it-services"
+                  ? <Cell ok={(d.kpi_it?.n ?? 0) >= (d.kpi_it?.of ?? 1) * 0.9 ? "good" : d.kpi_it?.n ? "part" : "none"} title="Quarters with at least one IT KPI (CC growth, USD revenue, TCV, headcount, attrition, EBIT margin, guidance)">{d.kpi_it?.n ?? 0}/{d.kpi_it?.of ?? 0} IT KPIs</Cell>
+                  : <Cell ok={d.kpi_volume.n >= d.kpi_volume.of * 0.9 ? "good" : d.kpi_volume.n ? "part" : "none"} title="Quarters with sales volume">{d.kpi_volume.n}/{d.kpi_volume.of} volume</Cell>}
                 <Cell ok={d.results_dates.n >= d.results_dates.of * 0.9 ? "good" : d.results_dates.n ? "part" : "none"}>{d.results_dates.n}/{d.results_dates.of}</Cell>
                 <Cell ok={d.consensus.last ? "part" : "none"} title="Snapshot plus revision history; 12 months only">{d.consensus.last ? `${fmtDate(d.consensus.last)} · ${d.consensus.n} revs` : "—"}</Cell>
                 <Cell ok={d.broker_notes.n ? "part" : "none"}>{d.broker_notes.n || "—"}</Cell>
@@ -39,7 +41,7 @@ export default function Health() {
             </tbody>
           </table>
         </div>
-        <p className="mt-2 text-2xs text-muted">Volumes for 7 stocks come mostly from Motilal Oswal results tables (broker-compiled, first-published value kept); UltraTech and Dalmia partly from company decks. Financials are ACE Equity except UltraTech (Financials API, from FY23). Consensus history is limited to 12 months by the Airavat feed.</p>
+        <p className="mt-2 text-2xs text-muted">IT KPIs come from broker results notes and transcripts (Airavat&apos;s investor-deck API was unreachable during extraction), mostly FY25 onward. LTIMindtree and Coforge are left out: their Airavat price history is incomplete. Cement volumes come mostly from Motilal Oswal results tables (broker-compiled, first-published value kept); UltraTech and Dalmia partly from company decks. Financials are ACE Equity except UltraTech (Financials API, from FY23). Consensus history is limited to 12 months by the Airavat feed.</p>
       </Card>
       <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         <Card title="Validation failures" sub={Object.entries(byRule).map(([k, v]) => `${k}: ${v}`).join(" · ")}>

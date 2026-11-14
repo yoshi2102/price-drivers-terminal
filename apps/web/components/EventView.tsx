@@ -2,15 +2,15 @@
 import { useEffect, useState } from "react";
 import Chart from "@/components/Chart";
 
-const LABEL: Record<string, string> = { street_ebitda_surprise: "EBITDA vs street", street_revenue_surprise: "Revenue vs street", street_pat_surprise: "PAT vs street", ebitda_sue: "EBITDA surprise (own trend)", revenue_sue: "Revenue surprise", pat_sue: "PAT surprise", volume_surprise: "Volume growth surprise", ebitda_margin_chg: "EBITDA margin change" };
+const LABEL: Record<string, string> = { cc_growth_surprise: "CC growth vs own trend", guidance_mid_chg: "Guidance midpoint change", street_ebitda_surprise: "EBITDA vs street", street_revenue_surprise: "Revenue vs street", street_pat_surprise: "PAT vs street", ebitda_sue: "EBITDA surprise (own trend)", revenue_sue: "Revenue surprise", pat_sue: "PAT surprise", volume_surprise: "Volume growth surprise", ebitda_margin_chg: "EBITDA margin change" };
 const COL = ["token:neg", "token:c-style", "token:c-market", "token:c-sector", "token:accent"];
 const f2 = (v: any, s = 100) => (v == null ? "—" : `${v * s > 0 ? "+" : ""}${(v * s).toFixed(2)}%`);
 
-export default function EventView({ studies, names }: { studies: Record<string, any>; names: Record<string, string> }) {
+export default function EventView({ studies, names, sector }: { studies: Record<string, any>; names: Record<string, string>; sector: string }) {
   const keys = Object.keys(studies);
   const [m, setM] = useState(keys[0]);
   useEffect(() => { const q = new URLSearchParams(location.search).get("m"); if (q && studies[q]) setM(q); }, []); // eslint-disable-line
-  useEffect(() => { history.replaceState(null, "", `${location.pathname}?m=${m}`); }, [m]);
+  useEffect(() => { history.replaceState(null, "", `${location.pathname}?s=${sector}&m=${m}`); }, [m, sector]);
   const s = studies[m];
   if (!s || s.status !== "ok") return <p className="text-sm text-muted">Not enough events for {LABEL[m]} ({s?.n ?? 0}).</p>;
   const days = s.days as number[];
@@ -75,7 +75,7 @@ export default function EventView({ studies, names }: { studies: Record<string, 
               <tr key={k}><td>{k === "since_2023" ? "Since Jan 2023" : "Before 2023"}</td><td className="r num">{v.n}</td><td className="r num">{f2(v.react_spread)}</td><td className="r num">{f2(v.drift_spread)}</td><td className="r num">{f2(v.slope_react)}</td></tr>))}
             </tbody>
           </table>
-          <p className="mt-3 text-xs text-muted">Results dates on file cluster after 2023 (most come from transcripts in the library), so the pre-2023 sample is too small to compare. Quintile spreads need at least two events per quintile in a period.</p>
+          <p className="mt-3 text-xs text-muted">Quintile spreads need at least two events per quintile in a period; a dash means the period is too thin to compare.</p>
         </section>
       </div>
       <section className="rounded-card border border-line bg-surface p-4">

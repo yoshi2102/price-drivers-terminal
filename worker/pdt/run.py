@@ -77,27 +77,21 @@ def ret(px: pd.Series, days: int) -> float | None:
     return float(px.iloc[-1] / px.iloc[-1 - days] - 1)
 
 
-def main():
-    t_start = time.time()
-    wh = stage("ingest")(ingest.build)()
-    fails, known_src = stage("validate")(quality.run)(wh)
-    rets = factors.daily_returns(wh.prices)
-    fac = stage("factor model")(factors.build_factors)(rets)
-    fit_out = stage("factor betas (rolling, refit 21d)")(factors.fit)(rets, fac)
-    panel = stage("driver panel")(A.build_panel)(wh, fit_out)
+def run_sector(code, wh, fit_out, fac, rets, fails, bro, mk_px, out, asof):
+    panel = stage(f"{C.SECTOR}: driver panel")(A.build_panel)(wh, fit_out)
 
     def drivers():
-        res = [A.test_driver(panel, c) for c in A.DRIVERS]
+        res = [A.test_driver(panel, c) for c in A.active_drivers()]
         return A.apply_gates(res)
-    dres = stage("panel regressions + gates")(drivers)()
-    disc = stage("elastic net + LightGBM/SHAP")(A.discovery)(panel, [c for c in A.DRIVERS if c != "prior_specific_3m"])
+    dres = stage(f"{C.SECTOR}: panel regressions + gates")(drivers)()
+    disc = stage(f"{C.SECTOR}: elastic net + LightGBM/SHAP")(A.discovery)(panel, [c for c in A.active_drivers() if c != "prior_specific_3m"])
     seff = A.stock_effects(panel, dres)
-    evr = stage("earnings vs re-rating")(A.earnings_vs_rerating)(wh)
+    evr = stage(f"{C.SECTOR}: earnings vs re-rating")(A.earnings_vs_rerating)(wh)
 
     def events():
         out = {}
         n_real = int((panel.date_source == "results_date").sum())
-        for m in ["street_ebitda_surprise", "street_revenue_surprise", "street_pat_surprise", "ebitda_sue", "revenue_sue", "pat_sue", "volume_surprise", "ebitda_margin_chg"]:
+        for m in [x for x in ["street_ebitda_surprise", "street_revenue_surprise", "street_pat_surprise", "ebitda_sue", "revenue_sue", "pat_sue", "volume_surprise", "cc_growth_surprise", "ebitda_margin_chg", "guidance_mid_chg"] if x in A.active_drivers()]:
             real = A.event_study(panel, fit_out, m, require_dates=True)
             if real.get("status") == "ok":
                 real["date_basis"] = "results_date"
@@ -108,21 +102,12 @@ def main():
                 fb["n_real_dates"] = int(real.get("n", 0))
                 out[m] = fb
         return out, n_real
-    ev, n_real = stage("event studies")(events)()
-    bro = stage("broker accuracy")(brokers.run)(wh, fac)
-    fwd, scen = stage("forward paths (Monte Carlo)")(forward.run)(wh, fit_out, fac, rets, panel)
-    registry = build_registry(dres, disc)
-    bt = stage("backtest lab")(backtest.run)(wh, fit_out, panel, dres, len(registry))
+    ev, n_real = stage(f"{C.SECTOR}: event studies")(events)()
+    fwd, scen = stage(f"{C.SECTOR}: forward paths (Monte Carlo)")(forward.run)(wh, fit_out, fac, rets, panel)
+    registry = build_registry(dres, disc, C.SECTOR)
+    bt = stage(f"{C.SECTOR}: backtest lab")(backtest.run)(wh, fit_out, panel, dres, len(registry))
 
-    snap_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    out = C.SNAPSHOT_DIR / snap_id
-    (out / "stocks").mkdir(parents=True, exist_ok=True)
-    (out / "scenarios").mkdir(exist_ok=True)
-
-    asof = wh.prices.index.max().date().isoformat()
-    mk = fac["market"].dropna()
-    mk_px = np.exp(mk.cumsum())
-    cement_px = np.exp(rets[[t for t in C.CEMENT if t in rets]].mean(axis=1).fillna(0).cumsum())
+    sector_px = np.exp(rets[[t for t in C.UNIVERSE if t in rets]].mean(axis=1).fillna(0).cumsum())
 
     # ---------------- sector page
     turning = []
@@ -135,7 +120,8 @@ def main():
             turning.append(code)
     share = {}
     for t, v in fit_out.items():
-        share[t] = factors.share_explained(v["components"])
+        if t in C.UNIVERSE:
+            share[t] = factors.share_explained(v["components"])
     sec_share = {k: float(np.mean([s.get(k, 0) for s in share.values()])) for k in ["market", "sector", "style", "specific"]}
 
     leaderboard = []
@@ -152,7 +138,7 @@ def main():
     leaderboard.sort(key=lambda r: (r.get("status") == "insufficient", -abs(r.get("t") or 0)))
 
     peer = []
-    for t, name in C.CEMENT.items():
+    for t, name in C.UNIVERSE.items():
         eff = seff.get(t, {})
         tops = sorted(eff.items(), key=lambda kv: -abs(kv[1]["shrunk"] / max(kv[1]["se"], 1e-6) if kv[1]["se"] else 0))[:3]
         peer.append({"ticker": t, "name": name,
@@ -171,7 +157,7 @@ def main():
                         "10y": {"mean": float(b10.median()), "sd": float(b10.std()), "n_months": int(len(b10))}}
 
     sector = {
-        "sector": "Cement", "as_of": asof, "n_stocks": len(C.CEMENT), "share_explained": sec_share,
+        "sector": C.SECTOR_NAME, "code": C.SECTOR, "as_of": asof, "n_stocks": len(C.UNIVERSE), "share_explained": sec_share,
         "leaderboard": leaderboard, "decomposition": factors.quarterly_decomposition(fit_out),
         "earnings_vs_rerating": {t: e["windows"] for t, e in evr.items()}, "peer_table": peer,
         "regimes": [{"code": c, "label": l, "from": a, "to": b} for c, l, a, b in C.REGIMES],
@@ -179,12 +165,13 @@ def main():
         "panel_n": int(len(panel)), "panel_periods": [panel.period.min(), panel.period.max()],
         "date_basis": {"results_date": int((panel.date_source == "results_date").sum()),
                        "fallback_lag": int((panel.date_source == "fallback_lag").sum())},
-        "factor_cov": factors.factor_cov(fac.assign(sector=rets[[t for t in C.CEMENT if t in rets]].mean(axis=1) - fac["market"])),
+        "factor_cov": factors.factor_cov(fac.assign(sector=rets[[t for t in C.UNIVERSE if t in rets]].mean(axis=1) - fac["market"])),
+        "drivers": {c: {"label": A.DRIVERS[c][0], "group": A.DRIVERS[c][3]} for c in A.active_drivers()},
     }
 
     # ---------------- stocks
     index_rows = []
-    for t, name in C.CEMENT.items():
+    for t, name in C.UNIVERSE.items():
         if t not in wh.prices:
             continue
         px = wh.prices[t].dropna()
@@ -202,7 +189,7 @@ def main():
             e0, e1 = eps_d.iloc[-days - 1], eps_d.iloc[-1]
             E = float(np.log(e1 / e0)) if e0 and e1 and e0 > 0 and e1 > 0 else np.nan
             peerE = []
-            for p in C.CEMENT:
+            for p in C.UNIVERSE:
                 if p == t or p not in wh.prices:
                     continue
                 ed = A.ltm_eps_daily(wh, p)
@@ -236,14 +223,15 @@ def main():
         kcols = ["period", "event_date", "date_source", "revenue_yoy", "ebitda_yoy", "volume_growth", "realisation_yoy",
                  "cost_per_t_yoy", "ebitda_per_t", "ebitda_margin_chg", "revenue_sue", "ebitda_sue", "pat_sue",
                  "volume_surprise", "y_react", "y_drift", "y_window", "rev_cr", "ebitda_cr", "pat_cr", "volume_mt", "eps",
-                 "realisation"]
-        timeline = q[kcols].to_dict(orient="records")
+                 "realisation", "cc_growth_qoq", "usd_rev_growth_yoy", "tcv_growth_yoy", "headcount_growth_qoq",
+                 "attrition_chg", "ebit_margin_chg", "guidance_mid_chg", "cc_growth_surprise"]
+        timeline = q[[c for c in kcols if c in q]].to_dict(orient="records")
         wk = px.resample("W-FRI").last().dropna()
         spec_cum = comps["specific"].cumsum().resample("W-FRI").last()
         mk_rel = (np.log(px) - np.log(mk_px.reindex(px.index).ffill())).resample("W-FRI").last()
         ann = cons.get("annual") or {}
         stock = {
-            "ticker": t, "name": name, "sector": "Cement", "as_of": px.index[-1].date().isoformat(),
+            "ticker": t, "name": name, "sector": C.SECTOR_NAME, "sector_code": C.SECTOR, "as_of": px.index[-1].date().isoformat(),
             "header": {"price": float(px.iloc[-1]), "r1d": ret(px, 1), "r1m": ret(px, 21), "r12m": ret(px, 252),
                        "mcap_cr": mcap, "bbg_dcf_price": (cons.get("bloomberg_dcf_price") or {}).get("price"),
                        "bbg_dcf_asof": (cons.get("bloomberg_dcf_price") or {}).get("as_of"),
@@ -271,7 +259,7 @@ def main():
         f12 = (fwd["stocks"].get(t) or {}).get("horizons", {}).get("12m", {})
         rv = ((cons.get("consensus_revisions") or {}).get("annual") or {})
         fy1 = sorted(rv)[0] if rv else None
-        index_rows.append({"ticker": t, "name": name, "price": float(px.iloc[-1]), "r1m": ret(px, 21), "r3m": ret(px, 63),
+        index_rows.append({"ticker": t, "name": name, "sector": C.SECTOR, "price": float(px.iloc[-1]), "r1m": ret(px, 21), "r3m": ret(px, 63),
                            "r12m": ret(px, 252), "mcap_cr": mcap, "pe": evr_t.get("pe_now"),
                            "fy1": fy1, "rev1m": ((rv.get(fy1) or {}).get("change_pct") or {}).get("1m", {}).get("EPS") if fy1 else None,
                            "rev3m": ((rv.get(fy1) or {}).get("change_pct") or {}).get("3m", {}).get("EPS") if fy1 else None,
@@ -279,6 +267,52 @@ def main():
                            "fwd_p90": (f12.get("pct") or {}).get("p90"), "p_beat": f12.get("p_beat_market"),
                            "spec_20d": float(comps["specific"].iloc[-20:].sum()),
                            "spec_sd_20d": float(comps["specific"].iloc[-272:-20].std() * np.sqrt(20))})
+
+
+    turning_names = [A.DRIVERS[c][0] for c in turning]
+    home_row = {"sector": C.SECTOR_NAME, "code": C.SECTOR, "status": "pilot" if C.SECTOR == "cement" else "live", "n": len(C.UNIVERSE),
+                "r1m": ret(sector_px, 21), "r3m": ret(sector_px, 63), "r12m": ret(sector_px, 252),
+                "m1m": ret(mk_px, 21), "m3m": ret(mk_px, 63), "m12m": ret(mk_px, 252),
+                "share": sec_share, "turning": turning, "turning_labels": turning_names}
+    cols = ["ticker", "period", "tidx", "event_date", "date_source", "regime", "y_react", "y_drift", "y_window"] + A.active_drivers()
+    files = {f"sector_{C.SECTOR}.json": sector,
+             f"events_{C.SECTOR}.json": {"as_of": asof, "studies": ev, "n_real_dates": n_real},
+             f"backtest_{C.SECTOR}.json": bt, f"registry_{C.SECTOR}.json": registry,
+             f"panel_{C.SECTOR}.json": {"columns": cols, "labels": {k: A.DRIVERS[k][0] for k in A.active_drivers()},
+                                    "groups": {k: A.DRIVERS[k][3] for k in A.active_drivers()},
+                                    "names": dict(C.UNIVERSE),
+                                    "rows": panel[cols].assign(event_date=lambda d: d.event_date.dt.date.astype(str)).round(5).values.tolist()}}
+    return {"index_rows": index_rows, "home_row": home_row, "fwd": fwd, "files": files}
+
+
+def main():
+    t_start = time.time()
+    wh = stage("ingest")(ingest.build)()
+    fails, known_src = stage("validate")(quality.run)(wh)
+    rets = factors.daily_returns(wh.prices)
+    fac = stage("factor model")(factors.build_factors)(rets)
+    fit_out = stage("factor betas (rolling, refit 21d)")(factors.fit)(rets, fac)
+    bro = stage("broker accuracy")(brokers.run)(wh, fac)
+    snap_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    out = C.SNAPSHOT_DIR / snap_id
+    (out / "stocks").mkdir(parents=True, exist_ok=True)
+    (out / "scenarios").mkdir(exist_ok=True)
+    asof = wh.prices.index.max().date().isoformat()
+    mk = fac["market"].dropna()
+    mk_px = np.exp(mk.cumsum())
+    index_rows, home_rows, fwd_all, files = [], [], {"stocks": {}, "calibration": {}, "engine": {}}, {}
+    for code in C.SECTORS:
+        C.set_sector(code)
+        r = run_sector(code, wh, fit_out, fac, rets, fails, bro, mk_px, out, asof)
+        index_rows += r["index_rows"]
+        home_rows.append(r["home_row"])
+        fwd_all["stocks"].update(r["fwd"]["stocks"])
+        fwd_all["calibration"][code] = r["fwd"]["calibration"]
+        fwd_all["engine"][code] = r["fwd"]["engine"]
+        fwd_all["market_mu"] = r["fwd"]["market_mu"]
+        files.update(r["files"])
+    fwd = fwd_all
+    C.set_sector("cement")
 
     # ---------------- home
     alerts = []
@@ -290,7 +324,7 @@ def main():
         if r["rev1m"] is not None and abs(r["rev1m"]) >= 5:
             alerts.append({"ticker": r["ticker"], "kind": "Consensus revision",
                            "detail": f"{r['fy1']} EPS consensus {r['rev1m']:+.1f}% in 1 month", "z": r["rev1m"] / 5})
-    gap = [{"ticker": r["ticker"], "rev3m": r["rev3m"], "r3m": r["r3m"],
+    gap = [{"ticker": r["ticker"], "sector": r["sector"], "rev3m": r["rev3m"], "r3m": r["r3m"],
             "gap": (r["r3m"] * 100 - r["rev3m"]) if r["rev3m"] is not None and r["r3m"] is not None else None} for r in index_rows]
     comm_strip = []
     for k, s in wh.commodities.items():
@@ -299,12 +333,9 @@ def main():
                            "spark": [round(float(x), 2) for x in s.resample("W").last().dropna().iloc[-52:]]})
     home = {
         "as_of": asof,
-        "sectors": [{"sector": "Cement", "status": "pilot", "n": len(C.CEMENT),
-                     "r1m": ret(cement_px, 21), "r3m": ret(cement_px, 63), "r12m": ret(cement_px, 252),
-                     "m1m": ret(mk_px, 21), "m3m": ret(mk_px, 63), "m12m": ret(mk_px, 252),
-                     "share": sec_share, "turning": turning}] +
+        "sectors": home_rows +
                    [{"sector": s, "status": "queued"} for s in C.ROLLOUT_SECTORS],
-        "breadth": {"stocks": [{k: r[k] for k in ["ticker", "fy1", "rev1m", "rev3m"]} for r in index_rows]},
+        "breadth": {"stocks": [{k: r[k] for k in ["ticker", "sector", "fy1", "rev1m", "rev3m"]} for r in index_rows]},
         "commodities": comm_strip, "alerts": sorted(alerts, key=lambda a: -abs(a["z"])), "revision_price_gap": gap,
         "market_proxy": {"constituents": C.MARKET_PROXY, "note": "Equal-weighted 16 large caps; Airavat has no index series."},
     }
@@ -319,17 +350,12 @@ def main():
                                                                                       "forward": "fp-1.0"},
                 "params": {"factor_window": factors.WIN, "refit_days": factors.REFIT, "mc_paths": C.MC_PATHS, "seed": C.SEED,
                            "acceptance": C.ACCEPTANCE, "fallback_lag_days": C.FALLBACK_LAG_DAYS},
-                "universe": C.CEMENT, "pilot_sector": "Cement", "runtime_seconds": round(time.time() - t_start, 1)}
-    files = {"manifest.json": manifest, "home.json": home, "sector_cement.json": sector,
-             "events.json": {"as_of": asof, "studies": ev, "n_real_dates": n_real},
-             "brokers.json": bro, "forward.json": {k: v for k, v in fwd.items() if k != "stocks"} | {
-                 "summary": {t: {"h": {hk: {"pct": h["pct"], "p_beat_market": h["p_beat_market"]} for hk, h in v["horizons"].items()},
-                                 "price": v["price"]} for t, v in fwd["stocks"].items()}},
-             "backtest.json": bt,
-             "panel.json": {"columns": ["ticker", "period", "tidx", "event_date", "date_source", "regime", "y_react", "y_drift", "y_window"] + list(A.DRIVERS),
-                            "labels": {k: v[0] for k, v in A.DRIVERS.items()}, "groups": {k: v[3] for k, v in A.DRIVERS.items()},
-                            "rows": panel[["ticker", "period", "tidx", "event_date", "date_source", "regime", "y_react", "y_drift", "y_window"] + list(A.DRIVERS)]
-                            .assign(event_date=lambda d: d.event_date.dt.date.astype(str)).round(5).values.tolist()}, "registry.json": registry, "health.json": health, "index.json": {"stocks": index_rows}}
+                "universe": C.ALL, "sectors": {c: v["name"] for c, v in C.SECTORS.items()}, "pilot_sector": "Cement", "runtime_seconds": round(time.time() - t_start, 1)}
+    files.update({"manifest.json": manifest, "home.json": home, "brokers.json": bro,
+                  "forward.json": {k: v for k, v in fwd.items() if k != "stocks"} | {
+                      "summary": {t: {"h": {hk: {"pct": h["pct"], "p_beat_market": h["p_beat_market"]} for hk, h in v["horizons"].items()},
+                                      "price": v["price"]} for t, v in fwd["stocks"].items()}},
+                  "health.json": health, "index.json": {"stocks": index_rows}})
     for name, obj in files.items():
         (out / name).write_text(json.dumps(clean(obj)))
     LOG.append({"stage": "publish", "status": "ok", "seconds": 0})
@@ -345,18 +371,19 @@ def main():
     print(json.dumps({"snapshot": snap_id, "seconds": round(time.time() - t_start, 1), "log": LOG}, indent=1))
 
 
-def build_registry(dres, disc) -> list[dict]:
+def build_registry(dres, disc, code="cement") -> list[dict]:
+    pre = "EXP" if code == "cement" else "IT"
     rows = []
     created = datetime.now(timezone.utc).date().isoformat()
     for i, r in enumerate(dres):
         if r.get("status") != "tested":
             continue
-        rows.append({"exp_id": f"EXP-{i+1:03d}", "hypothesis": f"{r['label']} explains post-results stock-specific return (cement)",
+        rows.append({"exp_id": f"{pre}-{i+1:03d}", "hypothesis": f"{r['label']} explains post-results stock-specific return ({C.SECTOR_NAME.lower()})",
                      "analyst": "Sector skill prior (pre-registered)" if r["prior"] else "Discovery set",
                      "created_at": created, "n_tests": len([x for x in dres if x.get("status") == "tested"]),
                      "raw_p": r["p"], "adjusted_p": r["q"], "method": "Benjamini-Hochberg, FDR 10%",
                      "verdict": r["label_status"]})
-    rows.append({"exp_id": f"EXP-{len(dres)+1:03d}", "hypothesis": "LightGBM beats elastic net out of sample by > 0.02 R²",
+    rows.append({"exp_id": f"{pre}-{len(dres)+1:03d}", "hypothesis": "LightGBM beats elastic net out of sample by > 0.02 R²",
                  "analyst": "Discovery set", "created_at": created, "n_tests": 1, "raw_p": None, "adjusted_p": None,
                  "method": "Walk-forward purged folds", "verdict": "kept" if disc["gbm"]["kept"] else "rejected"})
     return rows

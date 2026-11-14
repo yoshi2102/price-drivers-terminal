@@ -6,6 +6,9 @@ const OPTS: [string, string, number][] = [
   ["volume_growth", "Volume growth YoY (%)", 100], ["realisation_yoy", "Realisation/t YoY (%)", 100], ["cost_per_t_yoy", "Cost/t YoY (%)", 100],
 ["ebitda_margin_chg", "EBITDA margin change YoY (pp)", 1], ["revenue_yoy", "Revenue growth YoY (%)", 100],
   ["ebitda_sue", "EBITDA surprise (SUE)", 1],
+  ["cc_growth_qoq", "Constant-currency growth QoQ (%)", 100], ["usd_rev_growth_yoy", "USD revenue growth YoY (%)", 100],
+  ["tcv_growth_yoy", "Deal TCV growth YoY, trailing 4Q (%)", 100], ["headcount_growth_qoq", "Headcount growth QoQ (%)", 100],
+  ["attrition_chg", "Attrition change YoY (pp)", 1], ["ebit_margin_chg", "EBIT margin change YoY (pp)", 1],
 ];
 
 export default function KpiHistory({ rows, asOf }: { rows: any[]; asOf: string }) {

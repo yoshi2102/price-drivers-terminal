@@ -43,19 +43,23 @@ def build_factors(rets: pd.DataFrame) -> pd.DataFrame:
 
 
 def sector_loo(rets: pd.DataFrame, t: str) -> pd.Series:
-    peers = [c for c in C.CEMENT if c in rets and c != t]
+    peers = [c for c in C.SECTORS[C.SECTOR_OF[t]]["tickers"] if c in rets and c != t]
     return rets[peers].mean(axis=1, skipna=True)
 
 
 def fit(rets: pd.DataFrame, fac: pd.DataFrame) -> dict:
     rf = np.log(1 + C.RISK_FREE_ANNUAL) / 252
     out = {}
-    for t in C.CEMENT:
+    for t in C.ALL:
         if t not in rets:
             continue
         y = rets[t] - rf
-        X = pd.DataFrame({"market": fac["market"] - rf,
-                          "sector": sector_loo(rets, t) - fac["market"],
+        mkt = fac["market"]
+        if t in C.MARKET_PROXY:  # leave the stock out of its own market factor
+            others = [m for m in C.MARKET_PROXY if m != t and m in rets]
+            mkt = rets[others].mean(axis=1, skipna=True)
+        X = pd.DataFrame({"market": mkt - rf,
+                          "sector": sector_loo(rets, t) - mkt,
                           "momentum": fac["momentum"], "low_vol": fac["low_vol"]})
         df = pd.concat([y.rename("y"), X], axis=1)
         comps = pd.DataFrame(np.nan, index=df.index, columns=["market", "sector", "style", "specific", "total"])
@@ -100,9 +104,9 @@ def window_sum(comps: pd.DataFrame, start, end) -> dict | None:
 
 
 def quarterly_decomposition(fit_out: dict) -> list[dict]:
-    """Equal-weighted cement basket per calendar quarter, in log-return points."""
+    """Equal-weighted basket of the active sector per calendar quarter, in log-return points."""
     rows = []
-    allc = pd.concat({t: v["components"] for t, v in fit_out.items()}, axis=1)
+    allc = pd.concat({t: v["components"] for t, v in fit_out.items() if t in C.UNIVERSE}, axis=1)
     qs = allc.index.to_period("Q").unique()
     for q in qs:
         seg = allc[allc.index.to_period("Q") == q]

@@ -5,18 +5,21 @@ import Chart from "@/components/Chart";
 import Forest from "@/components/Forest";
 import { ShareBar, Legend4 } from "@/components/Spark";
 import { Card, PageHead, Badge, Note, Src, Delta } from "@/components/ui";
-import { load } from "@/lib/data";
+import { load, sectors } from "@/lib/data";
+import SectorTabs from "@/components/SectorTabs";
 import { pct, num, isNum } from "@/lib/format";
 
-export function generateStaticParams() { return [{ sector: "cement" }]; }
-export const metadata = { title: "Cement" };
+export function generateStaticParams() { return sectors().map((s) => ({ sector: s.code })); }
+export async function generateMetadata({ params }: { params: Promise<{ sector: string }> }) {
+  const { sector } = await params; return { title: sectors().find((s) => s.code === sector)?.name || sector };
+}
 
 const GATE_LABEL: Record<string, string> = { sign: "Sign matches prior", bh: "BH q < 0.10", oos: "OOS R² > 0 in 70% of folds", regime: "Same sign in 3 of 4 regimes", placebo: "Beats 95% of placebos", sample: "8+ stocks, 60+ obs" };
 
 export default async function Sector({ params }: { params: Promise<{ sector: string }> }) {
   const { sector } = await params;
-  if (sector !== "cement") notFound();
-  const s = load("sector_cement.json");
+  if (!sectors().some((x) => x.code === sector)) notFound();
+  const s = load(`sector_${sector}.json`);
   const idx = load("index.json").stocks as any[];
   const names = Object.fromEntries(idx.map((x) => [x.ticker, x.name]));
   const lb = s.leaderboard as any[];
@@ -29,8 +32,8 @@ export default async function Sector({ params }: { params: Promise<{ sector: str
   const en = s.discovery.elastic_net, gbm = s.discovery.gbm;
   return (
     <>
-      <PageHead kicker="Sector" title="Cement"
-        meta={<><Badge kind="pilot" text="Pilot" /><span className="num">{s.panel_n} stock-quarters · {s.panel_periods[0]}–{s.panel_periods[1]}</span></>}>
+      <PageHead kicker="Sector" title={s.sector}
+        meta={<><SectorTabs items={sectors()} active={sector} hrefFor={(c) => `/sector/${c}`} /><Badge kind="pilot" text={sector === "cement" ? "Pilot" : "Second sector"} /><span className="num">{s.panel_n} stock-quarters · {s.panel_periods[0]}–{s.panel_periods[1]}</span></>}>
         {nVal === 0
           ? <>No driver passes all six acceptance gates yet. The strongest candidate, <b className="text-ink">{top[0]?.label.toLowerCase()}</b>, has p = {top[0]?.p?.toFixed(3)} before correction and q = {top[0]?.q?.toFixed(2)} after it, and passes {top[0] ? Object.values(top[0].gates).filter((g: any) => g.pass).length : 0} of 6 gates{top[0] && !top[0].gates.oos.pass ? `; it fails out of sample (beats the baseline in ${Math.round((top[0].oos_fold_share ?? 0) * 100)}% of walk-forward quarters, 70% needed)` : ""}. Stock-specific news explains {pct(s.share_explained.specific, 0, false)} of daily variance, so most of what moves these stocks is not in the KPI set tested so far.</>
           : <>{nVal} of {tested.length} tested drivers pass every acceptance gate.</>}
@@ -79,9 +82,9 @@ export default async function Sector({ params }: { params: Promise<{ sector: str
       </Card>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-2">
-        <Card title="Return decomposition by quarter" sub="Equal-weighted cement basket, log-return points. Rolling betas, re-fit every 21 days on the prior 2 years.">
+        <Card title="Return decomposition by quarter" sub={`Equal-weighted ${s.sector} basket, log-return points. Rolling betas, re-fit every 21 days on the prior 2 years.`}>
           <div className="mt-8">
-            <Chart title="Cement return decomposition" height={300} n={`${dec.length} quarters`} source="[AIRAVAT:get_price_history] factor model attr-1.0"
+            <Chart title={`${s.sector} return decomposition`} height={300} n={`${dec.length} quarters`} source="[AIRAVAT:get_price_history] factor model attr-1.0"
               option={{
                 grid: { left: 44, right: 12, top: 30, bottom: 40 },
                 legend: { top: 0, left: 0, itemWidth: 10, itemHeight: 10, textStyle: { color: "token:muted" } },
@@ -118,7 +121,7 @@ export default async function Sector({ params }: { params: Promise<{ sector: str
               </tbody>
             </table>
           </div>
-          <p className="mt-2 text-2xs text-muted">EPS as reported (ACE Equity, consolidated where filed); one-off gains inflate some years. Pre-FY21 quarters come from company decks, broker notes and call remarks; where EPS was not stated, the split is blank.</p>
+          <p className="mt-2 text-2xs text-muted">EPS as reported (Financials API or ACE Equity, consolidated where filed); one-off gains inflate some years. Pre-FY21 quarters come from company decks, broker notes and call remarks; where EPS was not stated, the split is blank.</p>
         </Card>
       </div>
 
@@ -141,7 +144,7 @@ export default async function Sector({ params }: { params: Promise<{ sector: str
           </div>
         </Card>
 
-        <Card title="Regime view" sub="Within-stock slope per regime for the four lowest-p drivers. Pre-COVID rests on the thinner FY16–FY20 history (mainly UltraTech, ACC, Ambuja, Star).">
+        <Card title="Regime view" sub="Within-stock slope per regime for the four lowest-p drivers. Pre-COVID rests on the thinner FY16–FY20 quarterly history.">
           <div className="mt-8">
             <Chart title="Driver coefficients by regime" height={280} source="panel attr-1.0"
               option={{

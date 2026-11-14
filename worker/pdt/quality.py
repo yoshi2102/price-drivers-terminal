@@ -76,7 +76,7 @@ def run(wh) -> tuple[list[dict], pd.DataFrame]:
 def coverage(wh) -> list[dict]:
     rows = []
     q, px = wh.quarterly, wh.prices
-    for t, name in C.CEMENT.items():
+    for t, name in C.ALL.items():
         sub = q[q.ticker == t]
         s = px[t].dropna() if t in px else pd.Series(dtype=float)
         cons = wh.consensus.get(t, {})
@@ -87,13 +87,14 @@ def coverage(wh) -> list[dict]:
         gaps = []
         periods = sorted(sub.period, key=lambda p: (p[:4], p[-1]))
         rows.append({
-            "ticker": t, "name": name,
+            "ticker": t, "name": name, "sector": C.SECTOR_OF[t],
             "datasets": {
                 "prices": {"last": s.index.max().date().isoformat() if len(s) else None,
                            "from": s.index.min().date().isoformat() if len(s) else None, "n": int(len(s))},
                 "financials": {"last": periods[-1] if periods else None, "from": periods[0] if periods else None,
                                "n": int(len(sub))},
                 "kpi_volume": {"n": int(vol), "of": int(exp_q)},
+                "kpi_it": {"n": int(wh.kpi_long[wh.kpi_long.ticker == t].period.nunique()) if len(getattr(wh, "kpi_long", [])) else 0, "of": int(exp_q)},
                 "results_dates": {"n": int(ev), "of": int(exp_q)},
                 "consensus": {"last": (cons.get("bloomberg_updated") or {}).get("annual"),
                               "n": int(len(wh.consensus_hist[wh.consensus_hist.ticker == t])) if len(wh.consensus_hist) else 0},
