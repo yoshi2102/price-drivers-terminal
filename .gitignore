@@ -13,3 +13,4 @@ data/snapshots/
 # repo only. It carries Bloomberg consensus and broker-level estimates:
 # internal use, never a public repo. Move it to object storage
 # (PDT_SNAPSHOT_URL) before widening access.
+apps/web/content/
