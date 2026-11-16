@@ -1,0 +1,204 @@
+{
+  "code": "travel-leisure",
+  "name": "Travel and Leisure",
+  "group": "Services",
+  "subsectors": [
+    "Hotels (INDHOTEL, CHALET, LEMONTREE)",
+    "Airlines (INDIGO)",
+    "Amusement parks (WONDERLA, IMAGICAA)",
+    "Online travel (TBOTEK, IXIGO, YATRA)"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [39, 9],
+    "headline": "Mixed 2QFY27 performance; growth outlook remains constructive (page heading confirmed as 'TRAVEL & LEISURE'; the section covers online travel only, there is no separate Hotels, Aviation or amusement park section in the compendium)",
+    "read": "The Travel & Leisure page covers TBO Tek, Ixigo and Yatra: aggregate revenue grew 16.4% YoY (41.8% in 1QFY27), EBITDA 60.2%, EBITDA margin 12.4% and PAT 25.0%. TBO Tek's organic revenue grew 14% on 22% GTV growth with EBITDA margin 16.7% (above estimates); Ixigo revenue grew 13% on 22% GTV growth (hotel GTV ~26x YoY) with EBITDA margin 5.6%, below estimates; Yatra revenue was INR2,136m and EBITDA INR108m, below estimates. Hotels, airlines and parks appear only through the Nifty results table (page 9): IndiGo sales INR234b (+26% YoY, in line), EBITDA INR22b (+156% YoY, 16% below estimates) and a PAT loss of INR21b; Indian Hotels is on MOFSL's top-ideas list. Guidance: TBO expects improving agent productivity, a favourable Hotels and Ancillary mix and Classic Vacations synergies; Ixigo is scaling Hotels and Buses with near-term margin pressure; Yatra expects a stronger 2HFY27 on MICE, corporate travel and efficiencies. MOFSL keeps BUY on TBO Tek, Neutral on Ixigo and downgrades Yatra to Neutral.",
+    "surprises": ["TBOTEK"],
+    "misses": ["YATRA", "IXIGO", "INDIGO"]
+  },
+  "buoyant_skill": "anthropic-skills:hotels-analysis; anthropic-skills:airline-analysis; anthropic-skills:amusement-parks-analysis",
+  "unit_economics": "Hotels: room revenue = keys x days x occupancy x ARR (RevPAR = occupancy x ARR) with 55-60% fixed cost, so ARR growth flows near 100% to EBITDA. Airlines: operating spread = PRASK - cost per ASK (fuel, ownership, airport, staff). Parks: revenue = footfall x (ticket price + non-ticket spend) on a mostly fixed cost base. Online travel: revenue = GTV x take rate.",
+  "price_drivers": [
+    {
+      "driver": "Hotel RevPAR growth (rate over occupancy)",
+      "why": "ARR growth drops through at ~100% to EBITDA and occupancy at ~55-60%; Indian Hotels standalone occupancy of 82% in Q2FY27 means further growth must come from ARR.",
+      "sign": "+"
+    },
+    {
+      "driver": "Airline PRASK versus fuel (ATF) and USD/INR",
+      "why": "IndiGo 2QFY27 EBITDA of INR22b was 16% below estimates and PAT was a INR21b loss; fuel and FX translation on dollar lease liabilities swing quarterly profit more than traffic does.",
+      "sign": "+"
+    },
+    {
+      "driver": "Online travel GTV growth and take rate",
+      "why": "TBO Tek GTV +22% and Ixigo GTV +22% drove 13-14% revenue growth; margin outcomes diverged (TBO 16.7% vs Ixigo 5.6%) on investment in Hotels and AI.",
+      "sign": "+"
+    },
+    {
+      "driver": "Hotel supply additions in key cities and keys pipeline",
+      "why": "Branded pipeline of ~161k rooms against ~9% supply growth caps occupancy and rate in cities where supply lands.",
+      "sign": "-"
+    },
+    {
+      "driver": "Park footfall and weather or event shocks",
+      "why": "Park cost is largely fixed, so a 6% footfall drop moved Wonderla margin from 47.4% to 32.1%; peak-day weather or a health advisory can remove 30-40% of a day's visitors.",
+      "sign": "+"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "hotel_revpar",
+      "name": "Hotel occupancy, ARR and RevPAR (comparable basis)",
+      "priority": "core",
+      "definition": "Occupancy, average room rate and RevPAR on the company's like-for-like hotel set, with growth split into rate and occupancy.",
+      "formula": "RevPAR = occupancy x ARR; room revenue = average keys x days x RevPAR",
+      "unit": "%, Rs per night",
+      "frequency": "quarterly",
+      "why_it_moves_price": "RevPAR growth compounds through 55-60% fixed costs: Indian Hotels standalone RevPAR rose 28% to Rs13,860 in Q2FY27 (partly the BRICS summit), and listed hotels trade at 15-25x FY28E EV/EBITDA on the view that rate growth persists above 4-5% cost inflation.",
+      "history_source": "get_investor_presentation metric filter 'RevPAR', 'ARR' and 'occupancy' for INDHOTEL, CHALET, LEMONTREE and others (decks and transcripts in the library); get_financials for revenue and EBITDA; broker results notes (Jefferies CoStar and HVS monthly city data).",
+      "estimate_source": "No consensus on RevPAR; get_consensus_estimates gives Sales, EBITDA and EPS; broker models in the library and monthly CoStar and HVS industry data via broker notes; management commentary in transcripts.",
+      "traps": "Three industry series (Hotelivate, HVS Anarock, CoStar) are not comparable; company LFL cut-offs move (IHCL); occupancy bases exclude out-of-order rooms (Chalet); one-off event revenue (BRICS) and acquisitions inflate growth.",
+      "examples": ["INDHOTEL", "CHALET", "LEMONTREE", "EIHOTEL", "THELEELA"]
+    },
+    {
+      "code": "airline_prask",
+      "name": "Airline PRASK, yield and load factor",
+      "priority": "core",
+      "definition": "Passenger revenue per available seat km = yield x passenger load factor, with fuel recapture measured as the change in PRASK over the change in fuel per ASK.",
+      "formula": "PRASK = yield x PLF; fuel recapture = delta PRASK / delta fuel per ASK",
+      "unit": "Rs per ASK",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Fares set the spread: IndiGo's 1QFY27 PRASK +~19.5% covered only ~74% of an ~80% rise in fuel per ASK, so weak fare recapture or fare caps (a 5% yield cut is ~10% of EBITDA per Nomura) drive the stock more than traffic.",
+      "history_source": "get_investor_presentation metric filter 'yield', 'PRASK', 'RASK' and 'PLF' for INDIGO (indexed in Airavat); transcripts via get_qa; DGCA monthly traffic and share from broker notes; get_financials for revenue.",
+      "estimate_source": "get_consensus_estimates for INDIGO Sales, EBITDA and EPS; no consensus for PRASK; company PRASK and capacity guidance in transcripts; broker models in the library.",
+      "traps": "Company RASK includes other income and hedge gains; OEM compensation sits in revenue; temporary fare caps; PRASK vs yield definitions differ across brokers.",
+      "examples": ["INDIGO"]
+    },
+    {
+      "code": "park_footfall_arpu",
+      "name": "Park footfall, ATP and non-ticket spend per head",
+      "priority": "core",
+      "definition": "Ticketed park entries, average ticket price (net of GST) and spend on F&B and merchandise per visitor, split between like-for-like parks and new parks.",
+      "formula": "ARPU = park revenue / footfall; ATP = entry-fee revenue / footfall",
+      "unit": "'000 visitors, Rs per visitor",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Footfall drives operating leverage on a fixed cost base; Wonderla FY26 ATP was Rs1,061 and mature-park footfall fell 2-7% in FY26 before recovering 6-11% in Q1FY27, so the market pays for LFL footfall, not new-park announcements.",
+      "history_source": "get_investor_presentation metrics 'footfall', 'ATP' and 'ARPU' for WONDERLA and IMAGICAA (Imagicaa is indexed in the vector DB); transcripts via search_research; get_financials for revenue.",
+      "estimate_source": "get_consensus_estimates for Sales and EBITDA (thin coverage); no consensus on footfall; broker notes in the library (Ambit, ICICI Direct, I-Sec, Monarch); management guidance in transcripts.",
+      "traps": "Footfall definition (complimentary and resort guests); Imagicaa has multiple ARPU definitions and perimeter changes; weather, school calendars and advisories distort quarters.",
+      "examples": ["WONDERLA", "IMAGICAA"]
+    },
+    {
+      "code": "ota_gtv_growth",
+      "name": "Online travel GTV growth and take rate",
+      "priority": "core",
+      "definition": "Gross travel value (bookings) growth by air, hotels, buses and corporate travel, with revenue as a percentage of GTV.",
+      "formula": "take rate = revenue / GTV",
+      "unit": "% YoY, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "GTV growth sets revenue and take rate sets margin: TBO Tek (GTV +22%, 16.7% EBITDA margin) rated BUY while Ixigo (GTV +22%, 5.6% margin) and Yatra (revenue INR2,136m, miss) were rated Neutral, since investors pay for operating leverage not bookings.",
+      "history_source": "get_investor_presentation metrics 'GTV' and 'take rate' for IXIGO (indexed in Airavat) and the TBOTEK and YATRA decks in the library; get_financials for revenue and EBITDA; transcripts via search_research.",
+      "estimate_source": "get_consensus_estimates for Sales, EBITDA and EPS; GTV guidance in transcripts; broker models (MOFSL, Jefferies) in the library.",
+      "traps": "Revenue is net or gross by business model; GTV definitions differ; acquisitions (Classic Vacations); organic vs reported growth.",
+      "examples": ["TBOTEK", "IXIGO", "YATRA"]
+    },
+    {
+      "code": "hotel_pipeline_fees",
+      "name": "Keys pipeline, signings and management fee income",
+      "priority": "secondary",
+      "definition": "Owned, leased and managed keys, signings versus openings, capital-light share of pipeline and management fee income per managed key.",
+      "formula": "fee per managed key = management fee income / average managed keys",
+      "unit": "keys, Rs mn per key",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Fee income carries 65-80% margin and is valued at 35-50x EBITDA, so brand-led names such as INDHOTEL (pipeline >90% capital-light) trade at 25x FY28E against 15-17x for owners.",
+      "history_source": "get_investor_presentation filters 'keys', 'signings' and 'pipeline' for INDHOTEL, LEMONTREE, CHALET; transcripts; get_financials for fee revenue.",
+      "estimate_source": "Management guidance on signings and openings in transcripts; broker models in the library; no consensus.",
+      "traps": "Acquired conversions counted as openings (IHCL's Clarks hotels); signings slip 8-16 quarters to opening; midscale signings earn a fraction of luxury fees per key.",
+      "examples": ["INDHOTEL", "LEMONTREE", "CHALET", "ITCHOTELS", "THELEELA"]
+    },
+    {
+      "code": "airline_cask_ex_fuel",
+      "name": "Core CASK ex-fuel ex-FX and ownership cost",
+      "priority": "secondary",
+      "definition": "Total expenses excluding fuel, FX loss and exceptional items per ASK, with aircraft ownership cost per ASK.",
+      "formula": "(total expenses - fuel - FX loss - exceptionals) / ASK",
+      "unit": "Rs per ASK",
+      "frequency": "quarterly",
+      "why_it_moves_price": "The cost lead over rivals is the moat: IndiGo's FY26 CASK ex-fuel ex-FX rose 3.8% against guidance that was raised twice, and cost guidance drift on crew rules, INR and damp leases feeds straight into estimates.",
+      "history_source": "get_investor_presentation filters 'CASK' and 'ownership cost' for INDIGO; get_financials expense lines; transcripts for guidance.",
+      "estimate_source": "Management CASK guidance in transcripts; broker models in the library; no consensus.",
+      "traps": "Company version subtracts finance income; ownership shifts move maintenance below EBITDAR; brokers use different cost bases.",
+      "examples": ["INDIGO"]
+    },
+    {
+      "code": "airline_fuel_fx",
+      "name": "ATF price, fuel per ASK and USD/INR translation",
+      "priority": "secondary",
+      "definition": "Jet fuel cost per ASK against the ATF index and Singapore jet crack, and the mark-to-market FX loss on dollar lease liabilities.",
+      "formula": "fuel per ASK = fuel cost / ASK; FX MTM = net USD exposure x change in closing rate",
+      "unit": "Rs per ASK, Rs bn",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Fuel is 28-35% of revenue in a normal year and 44% in a shock; IndiGo's FY26 FX loss was Rs89.8bn, mostly non-cash lease translation, so ATF and USD/INR together explain most of the EBITDA miss and the PAT loss in 2Q.",
+      "history_source": "get_commodity_prices for crude, ATF-linked benchmarks and INR:USD; get_financials for fuel and FX lines; get_investor_presentation for fuel per ASK.",
+      "estimate_source": "Forward crude and INR from get_commodity_prices and Kotak assumptions via get_commodity_assumptions; management hedging commentary in transcripts; no consensus on fuel per ASK.",
+      "traps": "Published ATF index differs from effective price paid (international uplift, private suppliers); OMC cap regimes; hedge gains sit in other income.",
+      "examples": ["INDIGO"]
+    },
+    {
+      "code": "park_ebitda_margin",
+      "name": "Park EBITDA margin (ex other income) and new-park maturity",
+      "priority": "secondary",
+      "definition": "EBITDA excluding other income and exceptionals over revenue from operations, with new-park margin by months open.",
+      "formula": "(revenue - operating costs) / revenue, ex other income",
+      "unit": "% of revenue",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Margin swung 47.4% to 32.1% on a 6% footfall fall at Wonderla; management claims new parks reach 40-45% by years 3-4, so cohort evidence (Chennai ~48% in Q1FY27 against Bhubaneswar's missed footfall guides) sets valuation of the pipeline.",
+      "history_source": "get_financials for WONDERLA and IMAGICAA; get_investor_presentation for park EBITDA snippets; transcripts for new-park margin.",
+      "estimate_source": "Management margin commentary in transcripts; broker models; get_consensus_estimates for EBITDA only.",
+      "traps": "Company EBITDA bases flip between including and excluding other income; treasury income is a large share of PBT; one-offs (labour code, deferred tax credits).",
+      "examples": ["WONDERLA", "IMAGICAA"]
+    },
+    {
+      "code": "ota_ebitda_margin",
+      "name": "Online travel EBITDA margin and operating leverage",
+      "priority": "secondary",
+      "definition": "EBITDA over revenue (or over GTV) for online travel platforms, with investment in hotels, buses and AI shown separately.",
+      "formula": "EBITDA / revenue; EBITDA as % of GTV",
+      "unit": "% of revenue",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Margins separate the group: TBO Tek 16.7% (above MOFSL estimates), Ixigo 5.6% (below, on hotel and AI investment) and Yatra EBITDA of INR108m (below); operating leverage guidance (TBO) is rewarded.",
+      "history_source": "get_financials for IXIGO, TBOTEK, YATRA; get_investor_presentation filter 'EBITDA margin'; transcripts for investment plans.",
+      "estimate_source": "get_consensus_estimates for EBITDA and EPS; management margin commentary in transcripts; broker models.",
+      "traps": "Gross vs net revenue recognition; ESOP costs; one-time integration costs after acquisitions.",
+      "examples": ["TBOTEK", "IXIGO", "YATRA"]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "ATF (jet fuel) price, Singapore jet crack and Brent crude",
+      "source": "Airavat get_commodity_prices for crude and ATF-linked series; get_commodity_assumptions for Kotak forward assumptions",
+      "why": "Fuel is the largest airline cost; PRASK recapture lags by about a quarter"
+    },
+    {
+      "series": "USD/INR",
+      "source": "Airavat get_commodity_prices",
+      "why": "FX loss on dollar leases for airlines; foreign-guest revenue for luxury hotels"
+    },
+    {
+      "series": "Domestic and international air passengers (DGCA, MoCA); foreign tourist arrivals",
+      "source": "DGCA monthly files via broker notes in the library",
+      "why": "Demand and fare lead for airlines, OTAs and luxury hotels"
+    },
+    {
+      "series": "Industry RevPAR by city (CoStar, HVS), wedding dates, branded supply and pipeline",
+      "source": "Jefferies, Nomura and Investec sector notes in the library",
+      "why": "Hotel RevPAR true-up and supply risk in the company's cities"
+    },
+    {
+      "series": "Weather and school calendars; state health advisories",
+      "source": "IMD and company transcripts via search_research",
+      "why": "Park footfall in Q1 and Q3 peaks"
+    }
+  ],
+  "valuation_anchor": "Hotels on forward EV/EBITDA on house operating EBITDA with SOTP (fees at a higher multiple, annuity at cap rate); airlines on EV/EBITDAR with lease-inclusive net debt and P/E on core PAT; parks on per-park DCF and EV/EBITDA; online travel on EV/EBITDA and P/E.",
+  "watch_next_quarter": "Per MOFSL, TBO Tek expects sustained operating leverage, Ixigo remains focused on scaling Hotels and Buses (limiting near-term profitability) and Yatra anticipates a stronger 2HFY27 on MICE and corporate travel: watch GTV growth and margins at each, and for hotels, airlines and parks, which MOFSL's compendium does not cover separately, IndiGo's fuel recapture after its 2QFY27 EBITDA miss."
+}

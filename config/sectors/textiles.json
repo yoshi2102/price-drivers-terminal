@@ -1,0 +1,184 @@
+{
+  "code": "textiles",
+  "name": "Textiles",
+  "group": "Consumer",
+  "subsectors": [
+    "Home textiles exporters (WELSPUNLIV, HIMATSEIDE, ICIL)",
+    "Yarn and spinning (VTL)",
+    "Apparel exporters (KPRMILL, ARVIND, PGIL, GOKEX)"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [38],
+    "headline": "Sector outperforms; strong outlook intact (printed as 'TEXTILE')",
+    "read": "Aggregate coverage revenue grew 19.9% YoY, EBITDA 62.7%, EBITDA margin rose to 15.0% (11.0% in 2QFY26) and adjusted PAT grew 103.1%. Spinning (Vardhman Textile) grew 16% on ~98-100% utilisation and yarn realisations up ~21% YoY to INR327/kg, with the yarn-cotton spread widening to ~INR140/kg from INR111/kg on China and Bangladesh demand; the duty-free cotton import window was extended to Dec'26. Apparel (KPR, Arvind, Pearl Global, Gokaldas) posted revenue/EBITDA/PAT growth of 23%/47%/142%, led by Pearl Global (realisations +~20%, volumes +15%); home textiles revenue rose ~23% with margin up ~530bp to ~15% from 9%, Indo Count stood out (core realisations +19%, volumes +11%) and Welspun margin expanded 565bp. Guidance: apparel and home textile managements kept revenue and margin guidance (Welspun and Indo Count at double-digit growth); spinning margins are expected to normalise in 2HFY27 but stay healthy. MOFSL keeps BUY on GEXP, ARVND, PGIL, ICNT and WELSPUNL and Neutral on KPR, VTEX and TRID.",
+    "surprises": ["PGIL", "ICIL", "WELSPUNLIV"],
+    "misses": []
+  },
+  "buoyant_skill": null,
+  "unit_economics": "Spinner: EBITDA = volume x (yarn price/kg - cotton cost/kg - conversion cost/kg), so the yarn-cotton spread is the profit pool. Exporters: revenue = volume x USD realisation x USD/INR, EBITDA = revenue - raw material (cotton, yarn, fabric) - labour, freight and power + export incentives (RoDTEP, RoSCTL).",
+  "price_drivers": [
+    {
+      "driver": "Yarn-cotton spread (spinning)",
+      "why": "Spread widened to ~INR140/kg from INR111/kg in 2QFY27, lifting aggregate EBITDA margin to 15.0%; MOFSL expects it to normalise in 2HFY27, which is the main earnings risk for spinners.",
+      "sign": "+"
+    },
+    {
+      "driver": "Export realisation and volume (US, UK/EU demand)",
+      "why": "Pearl Global realisations rose ~20% with volumes +15% and Indo Count core realisations +19% with volumes +11%; US tariff revisions, the AGOA extension and UK/EU FTAs decide whether order books hold.",
+      "sign": "+"
+    },
+    {
+      "driver": "Cotton price and pass-through",
+      "why": "Cotton costs are being passed through in home textiles; lagging pass-through or a Cotlook A and Shankar-6 spike compresses exporter gross margin first.",
+      "sign": "-"
+    },
+    {
+      "driver": "US tariffs and sourcing diversification",
+      "why": "India's tariff competitiveness and buyer diversification away from China drove home textile revenue +~23% and margin +~530bp in the quarter.",
+      "sign": "+"
+    },
+    {
+      "driver": "Freight, wages and fuel costs",
+      "why": "Management flags freight and fuel as monitorables and apparel wages as headwinds; margins improved only from a low base.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "yarn_cotton_spread",
+      "name": "Yarn-cotton spread (Rs/kg) and realisation",
+      "priority": "core",
+      "definition": "Cotton yarn selling price per kg less raw cotton cost per kg of yarn (cotton price adjusted for waste), tracked against Indian Shankar-6 and Cotlook A.",
+      "formula": "yarn realisation (Rs/kg) - cotton cost (Rs/kg); reported by spinners in decks",
+      "unit": "Rs/kg",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Each Rs10/kg of spread on a 100 million kg spinner is Rs1bn of EBITDA; the widening from INR111/kg to ~INR140/kg and yarn realisation +21% to INR327/kg is why spinning EBITDA surged, and expected normalisation in 2HFY27 sets the earnings peak that the market prices.",
+      "history_source": "get_investor_presentation with metric filter 'spread' or 'yarn realisation' for Vardhman Textile (VTL), Welspun and other spinners if indexed; otherwise list_library_documents for company decks and broker results notes (MOFSL textile thematic, Jun 2026, shown on page 41 of the strategy report); get_commodity_prices for cotton if covered.",
+      "estimate_source": "No consensus for spreads; get_consensus_estimates gives Sales, EBITDA and EPS for covered names only; MOFSL and other broker models in the library; management spread commentary in transcripts.",
+      "traps": "Companies quote yarn and cotton on different weights and quality bases; cotton inventory lags give spot spread vs accounting spread; Cotlook A, Shankar-6 and MCX prices differ; duty-free import windows change landed cost.",
+      "examples": ["VTL", "WELSPUNLIV", "KPRMILL", "TRIDENT"]
+    },
+    {
+      "code": "export_realisation_volume",
+      "name": "Realisation per unit and volume growth by segment",
+      "priority": "core",
+      "definition": "Revenue per kg or per piece and unit volume growth for home textile (bath linen, bedding, flooring), apparel garments and yarn.",
+      "formula": "revenue growth = volume growth x realisation growth; realisation = revenue / units",
+      "unit": "% YoY, Rs or USD per unit",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Separates price from demand: Pearl Global realisations +~20% and volumes +15%, Indo Count core realisations +19% and volumes +11% show durable order flow; realisation-only growth reverses when cotton falls.",
+      "history_source": "get_investor_presentation filters 'realisation' and 'volume' for ICIL, WELSPUNLIV, PGIL, GOKEX and others if indexed; transcripts via search_research; get_financials for revenue, with units from decks.",
+      "estimate_source": "Company revenue guidance in transcripts (home textile and apparel players kept guidance, Indo Count and Welspun at double-digit growth); get_consensus_estimates for Sales and EBITDA; no consensus on volume.",
+      "traps": "Realisation includes currency (USD/INR) and mix (flooring, pillows vs sheets); container delays shift shipments across quarters (Indo Count 1Q shipments fulfilled in 2Q); acquisitions.",
+      "examples": ["ICIL", "WELSPUNLIV", "PGIL", "GOKEX", "HIMATSEIDE"]
+    },
+    {
+      "code": "ebitda_margin",
+      "name": "EBITDA margin",
+      "priority": "core",
+      "definition": "Operating profit before depreciation over revenue from operations, with export incentives separated where disclosed.",
+      "formula": "EBITDA / revenue from operations; ex other income",
+      "unit": "% of revenue",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Aggregate margin rose to 15.0% from 11.0% a year ago and home textile margin by ~530bp; the market capitalises margin sustainability, so the debate is whether spread and tariff gains persist as spreads normalise.",
+      "history_source": "get_financials (revenue, raw material, employee cost, other expenses); get_investor_presentation filter 'EBITDA margin'; MOFSL sector tables for aggregate series.",
+      "estimate_source": "get_consensus_estimates for EBITDA and Sales (derive margin); management margin guidance in transcripts (maintained); broker models in the library.",
+      "traps": "Export incentives (RoDTEP, RoSCTL) sit in other operating income for some; FX gains in other income; inventory gains in spinning when cotton rises; low-base effect from FY26 margins of 10.6-11.0%.",
+      "examples": ["WELSPUNLIV", "ICIL", "KPRMILL", "ARVIND", "VTL"]
+    },
+    {
+      "code": "capacity_utilisation",
+      "name": "Capacity utilisation and capex",
+      "priority": "secondary",
+      "definition": "Utilisation of spindles, looms and stitching capacity and the capex announced for expansion and modernisation.",
+      "formula": "production / installed capacity; capex per unit capacity",
+      "unit": "%, Rs mn",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Spinners ran at ~98-100% utilisation in 2Q, so earnings growth must come from spread or new capacity; capacity additions across spinners and integrated players raise supply risk to spreads.",
+      "history_source": "get_investor_presentation filters 'utilisation' and 'capacity'; MD&A and annual report extracts in the library; transcripts for capex plans.",
+      "estimate_source": "Management capex and expansion guidance in transcripts; broker models; no consensus.",
+      "traps": "Utilisation defined on shifts and product mix; announced capacity vs commissioned; spinners' capex includes modernisation.",
+      "examples": ["VTL", "KPRMILL", "ARVIND", "TRIDENT"]
+    },
+    {
+      "code": "us_tariff_exposure",
+      "name": "US revenue share and tariff status",
+      "priority": "secondary",
+      "definition": "Share of revenue from the US and the tariff rate applied to Indian textile exports versus competing countries.",
+      "formula": "US revenue / total revenue; tariff differential vs Vietnam, Bangladesh, Pakistan, China",
+      "unit": "% of revenue, % tariff",
+      "frequency": "event-driven",
+      "why_it_moves_price": "Home textile exporters earn 50-70% of revenue in the US, so a tariff change moves EBITDA directly; the 2Q margin gain came from India's improved tariff position and sourcing diversification, and any US tariff revision is the largest single stock catalyst.",
+      "history_source": "get_investor_presentation filters 'US' and 'geography'; transcripts via search_research with 'tariff' query; MOFSL Textile thematic (Jun 2026) in the report library.",
+      "estimate_source": "No consensus on tariff scenarios; management commentary in transcripts; broker sector notes in the library.",
+      "traps": "Tariff effective dates vs order shipment dates; customers absorbing part of duties; price negotiations leave realisation unchanged for a quarter.",
+      "examples": ["WELSPUNLIV", "ICIL", "HIMATSEIDE", "PGIL", "GOKEX"]
+    },
+    {
+      "code": "export_incentives",
+      "name": "Export incentives (RoDTEP, RoSCTL, duty drawback)",
+      "priority": "secondary",
+      "definition": "Government export incentive income as a percentage of export revenue.",
+      "formula": "incentive income / export revenue",
+      "unit": "% of exports",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Incentives are 2-5% of export revenue at near-100% margin, so a rate change or scheme lapse can move EBITDA margin by 100-300bp for exporters; the market treats them as policy-dependent.",
+      "history_source": "get_financials other operating income; annual report notes in the library via read_library_document; transcripts for scheme rates.",
+      "estimate_source": "No consensus; broker models and management commentary on scheme continuity; DGFT notifications referenced in notes.",
+      "traps": "Booked in other operating income or net of revenue; catch-up recognition of prior-period claims; rate cut-offs by product category.",
+      "examples": ["WELSPUNLIV", "KPRMILL", "ARVIND", "ICIL", "GOKEX"]
+    },
+    {
+      "code": "fx_realised_rate",
+      "name": "USD/INR realised rate and hedge position",
+      "priority": "secondary",
+      "definition": "Average realised rate on export receipts and the forward cover, with the EBITDA sensitivity per 1% move.",
+      "formula": "reported realised rate; EBITDA sensitivity per 1% INR move",
+      "unit": "INR per USD",
+      "frequency": "quarterly",
+      "why_it_moves_price": "More than 80% of revenue is USD-linked for home textile exporters against INR cost; each 1% INR depreciation adds roughly 40-60bp to EBITDA margin before hedges, so rate moves change EPS estimates.",
+      "history_source": "get_commodity_prices for INR:USD; transcripts for hedge cover; get_financials for FX gains and losses line.",
+      "estimate_source": "Bloomberg and broker INR assumptions via get_commodity_prices; company hedge disclosures in transcripts.",
+      "traps": "FX gains in other income vs revenue; hedge book rates lag spot by 6-12 months; translation vs transaction effects.",
+      "examples": ["WELSPUNLIV", "HIMATSEIDE", "ICIL", "KPRMILL", "PGIL"]
+    },
+    {
+      "code": "inventory_working_capital",
+      "name": "Inventory days and net working capital",
+      "priority": "secondary",
+      "definition": "Cotton, yarn and finished goods inventory days and net working capital as days of sales.",
+      "formula": "average inventory / COGS x 365; NWC days",
+      "unit": "days",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "Cotton bought ahead of price moves gives inventory gains or losses that swing spinner margins by 200-400bp, and rising retailer inventory in the US delays orders; cash flow and net debt drive the multiple for leveraged names.",
+      "history_source": "get_financials balance sheet inventory, receivables and payables; get_investor_presentation filters 'inventory days' and 'net debt'.",
+      "estimate_source": "No consensus; management working-capital and debt guidance in transcripts; broker models in the library.",
+      "traps": "Cotton season inventory build in 3Q; letter-of-credit and export bill discounting treated as payables; inventory valuation method.",
+      "examples": ["VTL", "WELSPUNLIV", "KPRMILL", "ARVIND", "TRIDENT"]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "Cotton prices: Cotlook A (US cents/lb) and Indian Shankar-6 (Rs/candy)",
+      "source": "Airavat get_commodity_prices for cotton if covered; otherwise MOFSL textile notes in the library",
+      "why": "Raw material cost for spinners and exporters; the duty-free import window to Dec'26 caps domestic prices"
+    },
+    {
+      "series": "Cotton yarn price (Rs/kg) and China and Bangladesh demand",
+      "source": "Spinner decks and broker textile notes in the report library",
+      "why": "Yarn realisation was ~INR327/kg (+21% YoY) in 2Q; demand abroad set the spread"
+    },
+    {
+      "series": "US tariff rates on Indian textiles; UK/EU FTAs; AGOA extension",
+      "source": "Broker sector notes and transcripts via search_research",
+      "why": "Demand and pricing power for apparel and home textile exports"
+    },
+    {
+      "series": "US retailer inventory and orders; USD/INR; container freight",
+      "source": "Broker notes; Airavat get_commodity_prices for INR:USD",
+      "why": "Order flow, realisation and freight cost"
+    }
+  ],
+  "valuation_anchor": "EV/EBITDA and P/E on mid-cycle margins against own multi-year band; spinners on EV/EBITDA at normalised spread (not peak spread); exporters on P/E with US tariff scenarios.",
+  "watch_next_quarter": "Per MOFSL, spreads and margins are expected to normalise in 2HFY27 but remain healthy: monitor cotton prices and the duty-free import window ending Dec'26, freight and fuel costs, US and EU demand recovery and tariff changes, and whether home textile and apparel managements hold their revenue and margin guidance."
+}

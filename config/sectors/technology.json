@@ -1,0 +1,198 @@
+{
+  "code": "technology",
+  "name": "Technology",
+  "group": "Tech & Internet",
+  "subsectors": [
+    "IT services large-cap (TCS, INFY, HCLTECH, WIPRO, TECHM)",
+    "IT services mid-tier (LTM, PERSISTENT, COFORGE, MPHASIS, HEXT, ZENSARTECH)",
+    "ER&D services (KPITTECH, LTTS, TATAELXSI, TATATECH, CYIENT)"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [36],
+    "headline": "Strong Tier-2 growth offsets a mixed quarter for larger peers",
+    "read": "IT services median revenue growth was 2.3% QoQ CC in 2QFY27 (vs +1.2/+0.8/+1.6/+1.5% in 1QFY27/4QFY26/3QFY26/2QFY26). Tier-1 grew 1.2% QoQ CC (HCLT 2.3%, TechM 2.4%, Wipro 0.5%, TCS flat) while Tier-2 grew 3.0% (Persistent 7.8%, Zensar 4.1%, Mphasis 3.3%, Cyient 2.6%; Coforge 10.9% incl. 3.8% organic). Tier-1 EBIT margin fell 20bp YoY to 20.2% and Tier-2 stayed flat at 14.6%; TCV was uneven (Infosys +68%, HCLT +27%, TechM +25% YoY vs Wipro -45%, Coforge +102%, Mphasis -12%, KPIT -8%), with shrinking deal sizes raising Tier-1 vs Tier-2 competition. Guidance: Infosys cut FY27 organic guidance a second time to (-0.5%) to 0.5% CC; HCLT raised the low end of revenue growth to 2.5-4.0% and cut IT services guidance to 3-4%; LTM expects FY27 growth close to FY26's 5.3%; Coforge raised EBIT margin guidance to 16% (from 15.5%) with a USD2.4b order book (+45%); Mphasis raised growth to low double digits. No rating changes.",
+    "surprises": ["TECHM", "PERSISTENT", "CYIENT", "LTTS", "ZENSARTECH"],
+    "misses": ["INFY", "HEXT"]
+  },
+  "buoyant_skill": "anthropic-skills:it-services-analysis (Buoyant already runs a live price-driver model for IT services in this app at /sector/it-services); anthropic-skills:erd-services-analysis for ER&D names",
+  "unit_economics": "USD revenue = prior revenue x (1 + constant-currency growth) x cross-currency effect; EBIT = revenue - employee cost (headcount x cost per head, set by wage hike, utilisation and pyramid) - subcontracting - other costs - D&A; INR EBIT also moves with USD/INR (1% rupee depreciation adds ~20-30bp for IT services, ~50-60bp for ER&D per Buoyant working rules).",
+  "price_drivers": [
+    {
+      "driver": "Constant-currency revenue growth versus guidance",
+      "why": "Tier-2 growth of 3.0% QoQ against Tier-1 at 1.2% in 2QFY27 explains why Persistent, Coforge and Zensar re-rate while Infosys, LTM and Hexaware lag on a second guidance cut.",
+      "sign": "+"
+    },
+    {
+      "driver": "Deal wins (TCV) and book-to-bill",
+      "why": "TCV is the lead on revenue 2-4 quarters out; Coforge TCV +102% and a USD2.4b order book (+45%) support its guide, while Wipro TCV -45% YoY and falling deal sizes weigh on visibility.",
+      "sign": "+"
+    },
+    {
+      "driver": "EBIT margin versus guided band",
+      "why": "Tier-1 margin fell 20bp YoY to 20.2% on AI investments, lateral hiring and wage hikes (Infosys, HCLT, Cyient, Zensar scheduled for 3Q-4Q); Coforge lifting its margin guide to 16% was rewarded.",
+      "sign": "+"
+    },
+    {
+      "driver": "AI-led pricing deflation and deal-size compression",
+      "why": "MOFSL notes deal sizes and durations are shrinking, pushing Tier-1 and Tier-2 into the same deals and compressing renewal pricing.",
+      "sign": "-"
+    },
+    {
+      "driver": "INR/USD and cross-currency (GBP, EUR)",
+      "why": "Rupee depreciation lifts INR margin while currency headwinds hurt some Tier-1 CC-to-USD conversion in 2Q.",
+      "sign": "+"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "cc_revenue_growth",
+      "name": "Constant-currency revenue growth (QoQ and YoY, organic)",
+      "priority": "core",
+      "definition": "Revenue growth with currency effects removed, stated organic where acquisitions contribute (Coforge 10.9% total vs 3.8% organic), by vertical and geography.",
+      "formula": "reported CC growth (company); organic = CC growth less acquired revenue",
+      "unit": "% QoQ, % YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Sector multiples are set on CC growth relative to peers: the 2.3% median in 2QFY27 and Tier-2's 3.0% vs Tier-1's 1.2% explain relative P/E gaps; a guidance cut such as Infosys' second cut to (-0.5%) to 0.5% resets forward EPS.",
+      "history_source": "get_investor_presentation metric filter 'constant currency' for INFY, HCLTECH, WIPRO, TECHM, LTM, KPITTECH, LTTS, TATAELXSI, TATATECH (in the Airavat company list); get_financials for INR revenue; MOFSL results tables in the library carry 8 quarters of USD and CC growth for TCS and others.",
+      "estimate_source": "get_consensus_estimates for Sales (INR) and EPS; USD growth derived with broker USD/INR; guidance bands from transcripts (get_qa for analyst Q&A); house live model at /sector/it-services for tier-1 drivers.",
+      "traps": "Cross-currency effects and acquisitions distort headline growth; some firms report USD growth only; Wipro and others give guidance as a QoQ band not an annual number; INR growth is not CC growth.",
+      "examples": ["TCS", "INFY", "HCLTECH", "PERSISTENT", "COFORGE"]
+    },
+    {
+      "code": "ebit_margin",
+      "name": "EBIT margin and QoQ margin bridge",
+      "priority": "core",
+      "definition": "Operating profit over revenue (EBIT, or EBITDA for ER&D) with a bridge for wage hike, INR, utilisation, pyramid, subcontracting and one-offs.",
+      "formula": "EBIT / revenue from operations; bridge from company deck",
+      "unit": "% of revenue",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Tier-1 margin of 20.2% (-20bp YoY) and Tier-2 at 14.6% (flat) show that growth is being bought with AI investment and lateral hiring; each 100bp of EBIT is ~5% of EPS, and managements guiding range-bound margins through FY27 caps upside.",
+      "history_source": "get_financials (employee cost, other expenses, D&A, EBIT); get_investor_presentation filters 'EBIT margin' and 'margin bridge'; transcripts for wage-hike timing and one-offs.",
+      "estimate_source": "get_consensus_estimates gives EBITDA and EPS (Bloomberg); company margin guidance and bands in transcripts (Coforge 16% EBIT); live model at /sector/it-services; no consensus for EBIT margin itself.",
+      "traps": "Other income FX gains and lower variable pay flatter EBIT; depreciation dips flatter margin; equipment and software pass-through lowers margin; M&A amortisation; margin defined as EBITDA for some ER&D names.",
+      "examples": ["TCS", "INFY", "WIPRO", "COFORGE", "TECHM"]
+    },
+    {
+      "code": "tcv_book_to_bill",
+      "name": "TCV, large deals and book-to-bill",
+      "priority": "core",
+      "definition": "Total contract value of deals won in the quarter, LTM TCV, number of large deals and TCV divided by revenue.",
+      "formula": "reported TCV; book-to-bill = quarterly TCV / quarterly revenue",
+      "unit": "USD bn, x",
+      "frequency": "quarterly",
+      "why_it_moves_price": "TCV leads revenue by 2-4 quarters; 2QFY27 TCV growth of +68% (Infosys), +27% (HCLT) and +102% (Coforge) against -45% (Wipro) and -12% (Mphasis) predicts the relative growth ranking and drives target-price revisions.",
+      "history_source": "get_investor_presentation metric filter 'TCV' and 'deal wins' (INFY, HCLTECH, WIPRO, TECHM, LTM decks); transcripts via search_research; MOFSL results notes in the library.",
+      "estimate_source": "No consensus field for TCV; management commentary on pipeline and ramp in transcripts; broker models in the library.",
+      "traps": "Not all firms disclose TCV (TCS gives deal wins only in calls; ER&D names often give none); TCV includes renewals and multi-year deals with slow ramps; deals announced but not yet booked.",
+      "examples": ["INFY", "HCLTECH", "WIPRO", "COFORGE", "TECHM"]
+    },
+    {
+      "code": "guidance_band",
+      "name": "FY27 revenue and margin guidance (band vs delivery)",
+      "priority": "core",
+      "definition": "Management annual CC growth and margin guidance bands, tracked against each quarter's delivery and revisions.",
+      "formula": "reported band; revision = change in band midpoint",
+      "unit": "% YoY CC, % EBIT",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Guidance resets anchor forward EPS: Infosys' second cut to (-0.5%) to 0.5% CC is the key negative in the quarter, while HCLT's higher floor (2.5-4.0%), Coforge's margin raise to 16% and Mphasis' raise to low double digits drive the upgrades.",
+      "history_source": "transcripts via search_research and get_qa with ticker and quarter filters; get_investor_presentation filter 'guidance'; MOFSL guidance sections in the library.",
+      "estimate_source": "Company guidance in transcripts is the source; get_consensus_estimates shows whether Bloomberg Sales and EPS sit inside the band.",
+      "traps": "Guidance is organic vs inorganic (HCLT raised on M&A) and by segment (IT services vs total); several companies guide only qualitatively; margin bands quoted on EBIT vs EBITDA.",
+      "examples": ["INFY", "HCLTECH", "LTM", "COFORGE", "MPHASIS"]
+    },
+    {
+      "code": "headcount_utilisation",
+      "name": "Headcount, utilisation and revenue per employee",
+      "priority": "secondary",
+      "definition": "Net headcount adds, fresher intake, utilisation and annualised USD revenue per employee.",
+      "formula": "annualised USD revenue / headcount",
+      "unit": "numbers, %, USD '000",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Net adds lead revenue by one quarter; utilisation and pyramid are the main margin levers management cites (higher utilisation and offshoring supported Tier-1 margins in 2Q), and subcontracting rising with flat adds means growth is being bought.",
+      "history_source": "get_investor_presentation filters 'headcount', 'utilisation' and 'subcontractor'; get_financials for employee cost; transcripts for hiring plans.",
+      "estimate_source": "No consensus; management hiring guidance in transcripts and broker models.",
+      "traps": "Headcount includes acquisitions and subcontractors differently; utilisation defined with or without trainees; ER&D utilisation includes ramp-down bench.",
+      "examples": ["TCS", "INFY", "HCLTECH", "LTTS", "KPITTECH"]
+    },
+    {
+      "code": "attrition",
+      "name": "LTM attrition",
+      "priority": "secondary",
+      "definition": "Voluntary attrition over the last twelve months as a percentage of average headcount.",
+      "formula": "reported",
+      "unit": "% LTM",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Rising attrition forces wage hikes and lateral hiring that MOFSL cites as margin offsets; Persistent, LTM, Tata Tech and Tata Elxsi hiked wages in 2Q and Infosys, HCLT, Cyient and Zensar follow in 3Q-4Q, so attrition predicts margin cost.",
+      "history_source": "get_investor_presentation metric filter 'attrition'; transcripts via search_research.",
+      "estimate_source": "No consensus; management commentary in transcripts.",
+      "traps": "LTM vs annualised quarterly; some firms exclude subsidiaries; lower variable pay can depress attrition temporarily.",
+      "examples": ["INFY", "TCS", "PERSISTENT", "LTM", "WIPRO"]
+    },
+    {
+      "code": "vertical_mix",
+      "name": "Vertical and geography mix (BFSI, retail, manufacturing, hi-tech; Americas, Europe)",
+      "priority": "secondary",
+      "definition": "Revenue growth and share by industry vertical and by geography, with BFSI and retail tracked separately.",
+      "formula": "reported; vertical CC growth QoQ and YoY",
+      "unit": "% of revenue, % growth",
+      "frequency": "quarterly",
+      "why_it_moves_price": "BFSI is the largest vertical for most large IT names and discretionary retail the swing vertical; vertical growth gaps explain why peers growing at the same headline rate carry different multiples.",
+      "history_source": "get_investor_presentation filter 'vertical' and 'geography'; get_financials segment note (filings can have fewer segments than the deck, e.g. TCS 6 vs 8 verticals).",
+      "estimate_source": "No consensus by vertical; management commentary in transcripts and broker models.",
+      "traps": "Vertical names differ across companies (Retail and CPG vs Consumer Business); filing segments and deck verticals must not be mixed; reclassifications.",
+      "examples": ["TCS", "INFY", "HCLTECH", "COFORGE", "PERSISTENT"]
+    },
+    {
+      "code": "inr_usd_currency_mix",
+      "name": "INR/USD and currency mix (realised rates)",
+      "priority": "secondary",
+      "definition": "Average realised USD/INR and the share of USD, GBP, EUR in revenue.",
+      "formula": "reported realised rate; INR EBIT sensitivity per 1% move",
+      "unit": "INR per USD, % of revenue",
+      "frequency": "quarterly",
+      "why_it_moves_price": "A 1% rupee depreciation adds ~20-30bp to IT services EBIT (higher for ER&D), so a 3% move is worth ~1-1.5% of EPS; GBP and EUR cross-currency shifts swing reported USD growth versus CC.",
+      "history_source": "get_commodity_prices for INR:USD (spot and history); get_investor_presentation filters 'realised rate' and 'currency mix'.",
+      "estimate_source": "Bloomberg forward INR via get_commodity_prices; house INR assumption in the live model at /sector/it-services; no consensus on currency mix.",
+      "traps": "Hedge gains in other income; closing vs average rate; non-USD share above ~45% needs per-currency sensitivity.",
+      "examples": ["TCS", "INFY", "HCLTECH", "TECHM", "KPITTECH"]
+    },
+    {
+      "code": "erd_client_concentration",
+      "name": "ER&D client concentration and programme cycle",
+      "priority": "secondary",
+      "definition": "Top-1, top-5 and top-10 client share of revenue, with vertical exposure to auto and programme ramps and roll-offs.",
+      "formula": "reported; top client share = top client revenue / total revenue",
+      "unit": "% of revenue",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "ER&D revenue follows client R&D budgets and vehicle programme cycles; a top client above ~20% of revenue means one OEM programme delay can cut growth for several quarters (Cyient, LTTS, KPIT and Tata Elxsi carried positive 2Q prints, so concentration is the next-quarter risk).",
+      "history_source": "get_investor_presentation filters 'top client' and 'client concentration' for KPITTECH, LTTS, TATAELXSI, TATATECH; related-party filings for group-company clients; transcripts for programme timing.",
+      "estimate_source": "No consensus; company deal and programme commentary in transcripts; broker models in the library.",
+      "traps": "Top-client revenue is often not reported; group-company clients show only in related-party notes; pass-through and licence revenue is lumpy.",
+      "examples": ["TATAELXSI", "KPITTECH", "LTTS", "TATATECH", "CYIENT"]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "USD/INR (and GBP/INR, EUR/INR)",
+      "source": "Airavat get_commodity_prices",
+      "why": "INR margin tailwind and cross-currency effect on USD growth"
+    },
+    {
+      "series": "US and Europe discretionary spend, BFSI technology budgets",
+      "source": "Accenture and Cognizant prints via transcripts and broker notes in the library",
+      "why": "Demand lead for Indian IT 1-2 quarters ahead"
+    },
+    {
+      "series": "Global auto and aerospace OEM R&D commentary",
+      "source": "Broker ER&D sector notes in the library",
+      "why": "Programme cycle for KPIT, LTTS, Tata Elxsi, Tata Technologies"
+    },
+    {
+      "series": "US 10-year yield; Nifty IT index",
+      "source": "Airavat get_price_history for Nifty IT constituents; yields via broker notes",
+      "why": "Multiple compression or expansion on growth-quality shifts"
+    }
+  ],
+  "valuation_anchor": "Forward P/E against each company's own 10-year band (IT services) with premium or discount to the nearest Tier-1 peer; ER&D names on 1-2 year forward P/E anchored on the post-2020 growth regime, with PEG, FCF and dividend yield as cross-checks.",
+  "watch_next_quarter": "Per MOFSL, most managements expect margins to stay range-bound through FY27: track whether Infosys' FY27 guide of (-0.5%) to 0.5% CC holds, Tier-1 and Tier-2 TCV conversion as deal sizes shrink, wage hikes landing in 3Q-4Q (Infosys, HCLT, Cyient, Zensar, LTTS), and Coforge's USD2.4b order book converting to its 16% EBIT guide."
+}

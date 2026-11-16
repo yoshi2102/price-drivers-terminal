@@ -1,0 +1,199 @@
+{
+  "code": "retail",
+  "name": "Retail",
+  "group": "Consumer",
+  "subsectors": [
+    "Value and lifestyle apparel and grocery (TRENT, DMART, VMM, V2RETAIL, VMART)",
+    "Jewellery (TITAN, KALYANKJIL, SENCO, PNGJL)",
+    "QSR (JUBLFOOD, DEVYANI, SAPPHIRE, WESTLIFE, RBA)",
+    "Footwear (BATAINDIA, METROBRAND, CAMPUS, RELAXO)"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [35, 19],
+    "headline": "Steady underlying demand trends despite the festive shift to 3QFY27",
+    "read": "Page 35 (Retail, ex RRVL and Meesho): aggregate revenue grew ~17% YoY (16% in 1Q), with apparel moderating to ~14% (17% in 1Q) on the festive shift, DMart accelerating to ~18% (~15% in 1Q), footwear to 11% (9%) on price hikes and Lenskart at ~33%. Aggregate gross margin was stable YoY (vs ~50bp expansion in 1Q), but EBITDA growth slowed to ~16% (~22% in 1Q) with margin down ~10bp on minimum wage hikes, deleverage and the festive shift; PAT growth fell to ~12% (~26%) and apparel PAT was flat YoY. Jewellery and QSR sit in the Consumer page (19): Kalyan India SSSG 20%, PNG retail 25.5%, Titan domestic jewellery LFL 15% on ticket size with flat buyers; QSR SSSG at multi-quarter highs (RBA 14%, Westlife 10.1%, Domino's LFL 4.1%, Devyani KFC 4.4%) with pricing held to 2.5-3%. Guidance: most retailers kept FY27 guidance with a 2H catch-up; Shoppers Stop raised department store openings to 12 (from 9-10); VMM targets ~10% SSSG and 100+ stores; V-Mart 17-20% revenue growth and 90-100 stores; Campus mid-teens growth at ~17% EBITDA margin; Titan keeps 11% jewellery margin for FY27; Kalyan 25% revenue growth; JUBI 1,000 stores over FY26-28. No rating changes.",
+    "surprises": ["TRENT", "SHOPERSTOP", "RELAXO", "WESTLIFE", "KALYANKJIL"],
+    "misses": ["ABFRL", "Raymond", "VMM", "GOCOLORS", "DEVYANI"]
+  },
+  "buoyant_skill": "anthropic-skills:retail-analysis (value apparel and grocery); anthropic-skills:jewellery-retail-analysis; anthropic-skills:restaurants-analysis; anthropic-skills:footwear-analysis",
+  "unit_economics": "Store retail: revenue = average retail area x revenue per sq ft (SSSG on the mature base plus new-store ramp); EBITDA = gross margin - staff - rent - other opex, and pre-Ind AS EBITDA also deducts lease cash payments. Jewellery: revenue = grams x gold price, profit = making-charge and studded mix less opex. QSR: revenue = average stores x average daily sales x days.",
+  "price_drivers": [
+    {
+      "driver": "Same-store growth (volume-led, ex festival shift)",
+      "why": "Aggregate revenue grew ~17% in 2QFY27 but the real test is SSSG once Navratri and Durga Puja timing is removed; Titan jewellery LFL of 15% was ticket-led with flat buyers, so the market discounts it versus Kalyan's 20% India SSSG.",
+      "sign": "+"
+    },
+    {
+      "driver": "Store additions and throughput per sq ft",
+      "why": "Growth has come mostly from new area, so revenue per sq ft shows whether new stores earn their rent; VMM (100+ stores) and V-Mart (90-100 stores) guide to continued openings.",
+      "sign": "+"
+    },
+    {
+      "driver": "Gross margin and input costs (cotton, gold, chicken, cheese)",
+      "why": "Aggregate gross margin held flat in 2Q, but the dip at DMart and apparel names was festive mix, and QSR managements flag cost inflation building into 3Q.",
+      "sign": "+"
+    },
+    {
+      "driver": "Operating cost inflation (minimum wages, rent) and deleverage",
+      "why": "Aggregate EBITDA margin fell ~10bp in 2Q on minimum wage hikes and operating deleverage, turning 22% EBITDA growth in 1Q into 16%.",
+      "sign": "-"
+    },
+    {
+      "driver": "Gold price and customs duty (jewellery)",
+      "why": "Softer gold in 2Q turned SSSG into volume for Kalyan and PNG (gold jewellery volumes +4%); a gold fall or duty change also moves inventory gains and Titan's 11% margin guide.",
+      "sign": "+"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "sssg_lfl",
+      "name": "Same-store sales growth / LFL (reported and festival-normalised)",
+      "priority": "core",
+      "definition": "Revenue growth from stores open in both periods, on each company's own cut-off, split into volume and price where disclosed. For QSR it is SSSG or LFL by brand.",
+      "formula": "reported (company definition); house view = two-quarter sum of 2Q and 3Q to remove festival timing",
+      "unit": "% YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "SSSG is the one growth number not bought with capex; a 1pp change in sustained SSSG moves value-retail DCFs by far more than a store-count change, so volume-led prints (Kalyan 20%, RBA 14%) re-rate while ticket-only prints (Titan LFL 15% on flat buyers) do not.",
+      "history_source": "get_investor_presentation with metric filter 'SSSG' or 'LFL' (TRENT is indexed in Airavat; DMART, VMM, V2, V-Mart, Titan, Kalyan, JUBLFOOD, DEVYANI via library decks); transcripts via search_research with ticker filter; MOFSL and Kotak results notes in the report library for 8-quarter tables; get_financials does not carry SSSG.",
+      "estimate_source": "No consensus field for SSSG; use broker models in the library, company guidance in transcripts (VMM ~10% SSSG, Campus mid-teens growth) and get_consensus_estimates Sales as an output check.",
+      "traps": "No common LFL definition (DMart stores older than 24 months, Trent older than 18 months and given only as a band); 'normalised' SSSG is published when festivals hurt; Navratri and Durga Puja moved into 3QFY27, so single-quarter 2Q comparisons mislead; Titan buyer growth is on TMZ vs portfolio bases.",
+      "examples": ["TRENT", "DMART", "KALYANKJIL", "JUBLFOOD", "VMM"]
+    },
+    {
+      "code": "revenue_per_sqft",
+      "name": "Revenue per sq ft and average-area growth",
+      "priority": "core",
+      "definition": "Revenue from operations divided by average retail area, annualised, with throughput growth = (1 + revenue growth) / (1 + average-area growth) - 1.",
+      "formula": "standalone revenue ex-GST / average of opening and closing area (Rs/sq ft per year); consolidated for VMM",
+      "unit": "Rs per sq ft per year",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Value retailers add 20-30% area a year, so revenue per sq ft separates earned growth from space; a falling figure with rising area (Trent area +33% against revenue +18.5% in 1QFY27) signals cannibalisation and invites de-rating.",
+      "history_source": "get_investor_presentation filters 'revenue per sq ft', 'retail area' and 'stores' (DMart prints it quarterly; V2, V-Mart and Baazar print monthly figures); otherwise derive from get_financials revenue and area from decks.",
+      "estimate_source": "No consensus; broker store-and-area models in the library (Kotak, MOFSL, Nuvama) and management store-opening guidance in transcripts.",
+      "traps": "Closing vs average area, standalone vs consolidated, quarterly vs annualised, and monthly vs annual bases all give different numbers for the same company (DMart FY26 33,422 on closing vs ~35,400 on average); Trent business updates are GST-inclusive.",
+      "examples": ["DMART", "TRENT", "VMM", "V2RETAIL", "METROBRAND"]
+    },
+    {
+      "code": "ebitda_pre_ind_as",
+      "name": "EBITDA margin pre-Ind AS 116 (with post-Ind AS gap)",
+      "priority": "core",
+      "definition": "Reported EBITDA less cash lease payments (principal plus interest), excluding other income, so owners and lessees and QSR operators compare on one basis.",
+      "formula": "EBITDA (post-Ind AS) - lease cash payments; margin on revenue from operations",
+      "unit": "% of revenue",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Post-Ind AS margins hide rent (Trent 18.3% vs 13.6% pre-Ind AS; V-Mart 13.6% vs 6.2%), so multiples are set on the pre-Ind AS figure; the 2Q aggregate margin slip of ~10bp came from wages and deleverage and drives EBITDA growth cuts.",
+      "history_source": "get_financials for EBITDA, lease payments in cash flow and finance cost split; get_investor_presentation filters 'EBITDA pre Ind AS' or 'Operating EBITDA' (Trent, VMM, V-Mart, V2 and Baazar reconcile it); QSR names print pre-Ind AS margin in decks (JUBLFOOD, DEVYANI, SAPPHIRE, WESTLIFE).",
+      "estimate_source": "get_consensus_estimates gives Bloomberg EBITDA on a post-Ind AS basis only; pre-Ind AS forecasts come from broker models (MOFSL, IIFL, Nuvama) and management margin guidance (Titan jewellery 11%, Campus ~17%, JUBI ~200bp improvement).",
+      "traps": "VMM Operating EBITDA excludes ESOP; Campus and Bata EBITDA include other income; Titan jewellery margin is EBIT-based and moves with customs-duty gains and hedge MTM; lease-term reassessment gains (V-Mart, Baazar, V2) break series.",
+      "examples": ["TRENT", "JUBLFOOD", "VMART", "TITAN", "DEVYANI"]
+    },
+    {
+      "code": "gross_margin",
+      "name": "Gross margin (mix, private label and input cost)",
+      "priority": "core",
+      "definition": "Revenue less materials, purchases and inventory change over revenue; for jewellery it is by product (plain, studded, coins) and for QSR it is food and paper cost.",
+      "formula": "(revenue - cost of goods sold) / revenue",
+      "unit": "% of revenue",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Aggregate gross margin was flat in 2Q (33.8%) so a 100bp miss in a single name moves EBITDA by far more than its SSSG does; cotton, gold, chicken and cheese costs reach GM within 1-2 quarters.",
+      "history_source": "get_financials (COGS, purchases, inventory change); get_investor_presentation filter 'gross margin'; Titan product margins and Kalyan studded share from decks and transcripts.",
+      "estimate_source": "Broker models in the library; get_consensus_estimates has no gross-margin field, so derive from consensus Sales and EBITDA only as a cross-check; management cost commentary in transcripts.",
+      "traps": "Relaxo keeps conversion cost in the inventory change; V2 books marketing gifts in COGS; Trent format margins are broker estimates; Westlife moved processing charges into COGS from 3QFY26; bullion lines carry ~0-1% margin.",
+      "examples": ["TRENT", "DMART", "WESTLIFE", "RELAXO", "KALYANKJIL"]
+    },
+    {
+      "code": "store_additions_area",
+      "name": "Store additions, closures and area by format",
+      "priority": "secondary",
+      "definition": "Gross openings, closures, net adds and retail area by banner and ownership model (COCO, FOFO, franchise).",
+      "formula": "reported",
+      "unit": "stores, mn sq ft",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Store-add guidance is the growth runway in the multiple: VMM 100+ stores, V-Mart 90-100, Shoppers Stop 12 department stores, JUBI 1,000 stores in FY26-28; a cut in pace de-rates faster than a margin miss.",
+      "history_source": "get_investor_presentation filters 'stores' and 'area' with ticker; quarterly business updates filed with exchanges for TRENT, DMART, V-Mart, V2; transcripts for pipeline and closures.",
+      "estimate_source": "Company guidance in transcripts and decks is the only source; broker models in the library hold the store schedule; no consensus field.",
+      "traps": "Store counts mean different things across documents (franchise, SIS, overseas); Trent area double-counts Zudio inside Star if not careful; announced openings slip by quarters.",
+      "examples": ["TRENT", "VMM", "VMART", "JUBLFOOD", "SHOPERSTOP"]
+    },
+    {
+      "code": "jewellery_studded_gold",
+      "name": "Jewellery studded share, buyer growth and gold-price effect",
+      "priority": "secondary",
+      "definition": "Studded (diamond) share of jewellery sales, buyer growth vs ticket size, and implied grams after removing the gold price from value growth.",
+      "formula": "implied grams = (1 + revenue growth ex bullion) / (1 + gold price growth) - 1; studded share reported",
+      "unit": "%, grams growth %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Titan's 15% LFL was ticket-led with flat buyers, while Kalyan and PNG showed volume (+4% gold volumes); softer gold lets buyers return, and studded jewellery earns 20-37% gross margin against ~13-14% for plain gold, so both the grams and the mix call move targets.",
+      "history_source": "get_investor_presentation for TITAN and KALYANKJIL (studded share, buyer growth, LTL); get_commodity_prices for gold INR and USD; get_financials for revenue ex bullion; transcripts for exchange and purchase-plan shares.",
+      "estimate_source": "Titan and Kalyan margin guidance in transcripts (Titan 11% jewellery EBIT, Kalyan 25% revenue growth); get_consensus_estimates for Sales and EBITDA; no consensus for grams or studded share, and broker volume series disagree.",
+      "traps": "Titan restated studded share in 1QFY27 (coloured stones moved to gold); bullion and digi-gold must be excluded; customs-duty and hedge MTM gains inflate margin; primary franchise billing differs from consumer sales.",
+      "examples": ["TITAN", "KALYANKJIL", "SENCO", "PNGJL"]
+    },
+    {
+      "code": "qsr_ads_store_margin",
+      "name": "QSR average daily sales, delivery share and store-level margin",
+      "priority": "secondary",
+      "definition": "Revenue per store per day, delivery and off-premise share, and brand-level contribution or restaurant margin before corporate cost, pre-Ind AS.",
+      "formula": "brand revenue / average stores / days; store margin as reported",
+      "unit": "Rs '000 per store per day, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "More than half of QSR cost is fixed, so SSSG above the 3-5% margin-neutral level expands margin and below it compresses it even with positive growth; 2QFY27 transaction-led SSSG with only 2.5-3% pricing supports margins while chicken, LPG and wage inflation threaten 3Q.",
+      "history_source": "get_investor_presentation filters 'ADS', 'delivery share' and 'LFL' for JUBLFOOD, DEVYANI, SAPPHIRE, WESTLIFE and RBA; transcripts via search_research; get_financials for revenue and lease payments.",
+      "estimate_source": "Management guidance in transcripts (JUBI 1,000 stores, ~200bp margin gain); broker models in the library; get_consensus_estimates for Sales and EBITDA (post-Ind AS); no consensus for ADS.",
+      "traps": "LFL and ADS bases differ (JFL LFL excludes split stores and resets each year); WLF restates comparable AUV each deck; international subsidiaries must be kept out of India KPIs; DIL-SF merger changes perimeter.",
+      "examples": ["JUBLFOOD", "DEVYANI", "SAPPHIRE", "WESTLIFE", "RBA"]
+    },
+    {
+      "code": "inventory_nwc_days",
+      "name": "Inventory days and working capital",
+      "priority": "secondary",
+      "definition": "Average inventory over COGS (and over sales) times 365, with NWC days and aged-stock provisions.",
+      "formula": "average inventory / COGS x 365; NWC = (inventory + receivables - payables) / revenue x 365",
+      "unit": "days",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "Rising inventory against falling throughput is the standard path to markdowns and a margin miss in value fashion; value peers carry 42 days (Trent) to ~135 days (V2, Baazar) and a two-quarter rise precedes gross margin cuts.",
+      "history_source": "get_financials balance sheet inventory, receivables, payables; get_investor_presentation filters 'inventory days' and 'NWC days'; MD&A in the library for stated turnover.",
+      "estimate_source": "No consensus field; broker balance-sheet models in the library and management working-capital commentary in transcripts.",
+      "traps": "Period-end stock sits just before festivals so use averages; bill discounting is debt not payables; sale-or-return accounting changes stock ownership (Campus, Metro).",
+      "examples": ["TRENT", "V2RETAIL", "DMART", "BATAINDIA", "VMART"]
+    },
+    {
+      "code": "footwear_pairs_asp",
+      "name": "Footwear pairs, ASP and channel mix",
+      "priority": "secondary",
+      "definition": "Pairs sold, average selling price (revenue over pairs) and price-band and channel mix for brand-led makers and own-retail chains.",
+      "formula": "ASP = revenue / pairs; growth split into pairs, price, mix",
+      "unit": "mn pairs, Rs per pair",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Footwear retailers' 11% revenue growth in 2QFY27 (9% in 1Q) came from price hikes; if pairs stay flat for two quarters while ASP rises the market reads it as price-only growth and does not pay for volume recovery.",
+      "history_source": "get_investor_presentation filters 'pairs', 'ASP' and 'price band' (CAMPUS and RELAXO decks; Metro and Bata give stores and rev/sq ft); get_financials for revenue; broker results notes in the library.",
+      "estimate_source": "Company guidance in transcripts (Campus mid-teens growth, ~17% EBITDA margin); get_consensus_estimates for Sales and EBITDA; no consensus for pairs.",
+      "traps": "Campus pairs include accessories; marketplace freight netting from mid-2025 and franchise sale-or-return lower revenue and ASP without changing consumer sales; primary billing differs from secondary sales.",
+      "examples": ["CAMPUS", "RELAXO", "METROBRAND", "BATAINDIA"]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "Gold price (INR/10g and USD/oz) and customs duty",
+      "source": "Airavat get_commodity_prices for gold; CBIC notifications via broker notes",
+      "why": "Splits jewellery value growth into price and grams and drives inventory gains and losses on duty changes"
+    },
+    {
+      "series": "Cotton, yarn and polyester prices; crude",
+      "source": "Airavat get_commodity_prices for crude; cotton and yarn from broker sector notes in the report library",
+      "why": "Apparel and footwear input cost reaching gross margin with a 1-2 quarter lag"
+    },
+    {
+      "series": "CPI food inflation and festival calendar",
+      "source": "MOSPI via broker notes; Panchang dates via broker previews",
+      "why": "DMart revenue tracks food inflation; festival shift moved Navratri and Durga Puja into 3QFY27"
+    },
+    {
+      "series": "State minimum-wage notifications; chicken, cheese, LPG prices",
+      "source": "Broker QSR trackers and notes in the library",
+      "why": "Staff and cost-of-sales inflation behind the 2Q margin slip and 3Q margin caution"
+    }
+  ],
+  "valuation_anchor": "EV / pre-Ind AS EBITDA one to two years forward against own post-FY26 de-rated band (EV excluding lease liabilities), with P/E on core PAT as cross-check; jewellery on P/E on core EPS; QSR on EV/EBITDA on pre-Ind AS EBITDA.",
+  "watch_next_quarter": "Per MOFSL, the festive-led revenue catch-up is expected in 2H and the first 40 days of 3Q were strong for jewellery: track whether apparel and DMart SSSG recover once Navratri and Durga Puja land in 3QFY27, QSR 3Q margins against chicken, LPG and wage inflation, and Titan's 11% jewellery margin and buyer growth as gold softens."
+}
