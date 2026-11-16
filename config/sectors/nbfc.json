@@ -138,7 +138,7 @@
     { "series": "AAA corporate bond and T-bill yields, repo", "source": "RBI and market data; transcripts for CoF commentary", "why": "Incremental cost of funds and NIM; higher bond yields compressed HFC and vehicle margins." },
     { "series": "Monsoon rainfall and drought districts", "source": "IMD; broker notes in report library", "why": "Collections in tractor finance, rural MSME and microfinance." },
     { "series": "CRIF bureau PAR by product", "source": "Broker sector notes in report library", "why": "Leads unsecured and MFI credit cost by 2-4 quarters." },
-    { "series": "Crude oil", "source": "Airavat get_commodity_prices", "why": "MOFSL cites elevated crude as a macro headwind to vehicle and consumer demand." }
+    { "series": "Crude oil", "source": "Airavat get_commodity_prices", "why": "MOFSL cites high crude as a macro headwind to vehicle and consumer demand." }
   ],
   "valuation_anchor": "P/B (and P/ABV) against RoE, with justified P/B = (RoE - g)/(CoE - g); diversified lenders on residual income, gold lenders on P/B and P/E against AUM growth, subsidiaries valued as a SOTP line only when the lending parent is valued standalone.",
   "watch_next_quarter": "Watch NIM recovery or compression as incremental CoF rises in 3Q-4QFY27 (BAF flags compression above its guide), Stage 2 and credit cost in drought-affected tractor, rural MSME and MFI books (SHFL expects 30-40bp extra for one or two quarters), gold-loan Stage 2 normalisation after the Apr'26 rules, and delivery against raised AUM guidance (MUTH 25%, BAF 26-27%, CIFC 22-23%)."

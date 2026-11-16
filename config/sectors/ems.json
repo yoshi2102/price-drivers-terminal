@@ -6,7 +6,7 @@
   "mofsl_2qfy27": {
     "pages": [21],
     "headline": "EMS: Strong sector growth; FY27 outlook remains robust on healthy order backlogs",
-    "read": "Coverage revenue rose 47% YoY to INR302b (CPPLUS +90%, SYRMA +74%, AMBER +60%, DIXON +47%, AVALON +37%; KAYNES +4%, DATAPATT -57%). Order inflow was ~INR48.6b and DATAPATT's order book grew 2.5x YoY; aggregate ex-DIXON/AMBER EBITDA margin was 12.3% (flat) despite component shortages and elevated working capital. AVALON raised FY27 growth guidance to 30%, SYRMA to 40-45% with a 10-10.5% margin, and DIXON kept ~33-34m mobile units (ex Vivo).",
+    "read": "Coverage revenue rose 47% YoY to INR302b (CPPLUS +90%, SYRMA +74%, AMBER +60%, DIXON +47%, AVALON +37%; KAYNES +4%, DATAPATT -57%). Order inflow was ~INR48.6b and DATAPATT's order book grew 2.5x YoY; aggregate ex-DIXON/AMBER EBITDA margin was 12.3% (flat) despite component shortages and high working capital. AVALON raised FY27 growth guidance to 30%, SYRMA to 40-45% with a 10-10.5% margin, and DIXON kept ~33-34m mobile units (ex Vivo).",
     "surprises": ["AVALON", "SYRMA"],
     "misses": ["KAYNES", "DATAPATTNS", "CYIENTDLM", "AMBER"]
   },
@@ -70,7 +70,7 @@
       "formula": "(inventory + receivables + contract assets - payables - advances) / revenue x 365; OCF / EBITDA",
       "unit": "days / %",
       "frequency": "quarterly",
-      "why_it_moves_price": "MOFSL flags elevated working capital from component shortages; Kaynes NWC of 163-190 days and negative OCF drove its multiple from 50-60x to ~35x, so cash conversion is the main re-rating variable.",
+      "why_it_moves_price": "MOFSL flags high working capital from component shortages; Kaynes NWC of 163-190 days and negative OCF drove its multiple from 50-60x to ~35x, so cash conversion is the main re-rating variable.",
       "history_source": "get_financials balance sheet and cash flow; get_investor_presentation 'working capital' filter",
       "estimate_source": "No consensus; company NWC targets on calls and broker models",
       "traps": "Bases differ (sales vs COGS, average vs year-end); bill discounting and supplier finance sit outside reported debt.",

@@ -84,7 +84,7 @@
       "formula": "(specific + NFB-NPA + standard provisions) / average gross advances, annualised; also net of faded recoveries",
       "unit": "% of avg advances",
       "frequency": "quarterly",
-      "why_it_moves_price": "MOFSL flags relatively elevated PSU credit costs from incremental ECL; recovery-netted credit cost of 17bp at SBI and BOB looks benign but depends on the written-off pools shrinking.",
+      "why_it_moves_price": "MOFSL flags relatively high PSU credit costs from incremental ECL; recovery-netted credit cost of 17bp at SBI and BOB looks benign but depends on the written-off pools shrinking.",
       "history_source": "get_financials (provisions); get_investor_presentation with metric filter 'credit cost'; Motilal Oswal results tables.",
       "estimate_source": "Broker models (Motilal Oswal, Kotak IE, IIFL) and management guidance from transcripts; no consensus field.",
       "traps": "Canara and Union show income tax inside 'provisions'; PNB P&L credit cost of ~3bp vs management 25bp after a provision release; floating and prudential provision builds.",

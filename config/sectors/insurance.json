@@ -46,7 +46,7 @@
       "history_source": "get_investor_presentation with metric filter 'VNB' and 'VNB margin'; EV report via list_library_documents (doc_type annual_report); Motilal Oswal results tables.",
       "estimate_source": "Management margin guidance from transcripts (SBILIFE 26-28% band); broker models (Motilal Oswal) for VNB; Bloomberg consensus covers PAT/EPS/BVPS, so VNB and EV come from broker models.",
       "traps": "Margin denominator (total vs individual APE); expense-overrun booked only at year end (ICICI Life); tax at 25% would cut VNB 10-15%; yield-curve gains non-repeatable.",
-      "examples": ["HDFCLIFE", "SBILIFE", "ICICIPRULI", "MAXFSL"]
+      "examples": ["HDFCLIFE", "SBILIFE", "ICICIPRULI", "MFSL"]
     },
     {
       "code": "combined_ratio",
