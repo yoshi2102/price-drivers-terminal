@@ -1,0 +1,243 @@
+{
+  "code": "oil-gas",
+  "name": "Oil and Gas",
+  "group": "Energy & Utilities",
+  "subsectors": [
+    "Upstream E&P",
+    "OMCs (refining and marketing)",
+    "City gas distribution",
+    "Gas transmission and trading",
+    "LNG regasification",
+    "Integrated O2C"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      33,
+      4
+    ],
+    "headline": "Beats outnumber misses; CGDs lag",
+    "read": "MOFSL's 13 oil and gas names reported sales of INR9,907b (+34% YoY, 9% above estimates), EBITDA INR1,463b (+36% YoY, 26% above) and PAT INR805b (+55% YoY, 34% above). RIL beat on O2C from strong transport fuel cracks and a polyester recovery, with E&P EBITDA down on lower KG-D6 output. Among OMCs, HPCL and IOCL beat on marketing as LPG under-recoveries eased sharply QoQ, while BPCL missed at EBITDA and PAT. IGL's EBITDA/scm turned negative on a steep QoQ gas cost rise and MAHGL also missed on gas cost; GAIL beat on gas trading and LPG; ONGC beat on higher oil realisation. Guidance: ONGC 39/40mmtoe in FY27/28, OINL FY27 crude 4mmt vs 3.45mmt, GAIL FY27 marketing EBIT INR90b+ and transmission 126mmscmd, MAHGL long-term volume growth 8-9%.",
+    "surprises": [
+      "RELIANCE",
+      "IOC",
+      "HINDPETRO",
+      "ONGC",
+      "GAIL",
+      "PETRONET"
+    ],
+    "misses": [
+      "IGL",
+      "MGL",
+      "OIL"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:refining-marketing-analysis",
+  "unit_economics": "OMC EBITDA = refining throughput x core GRM + marketing volume x margin per litre +/- inventory - LPG under-recovery; upstream = production x (realisation/bbl - opex - royalty); CGD EBITDA = scm x (net realisation - gas cost - opex); gas transmission = volume x tariff.",
+  "price_drivers": [
+    {
+      "driver": "Gross refining margin and product cracks",
+      "why": "Strong diesel and petrol cracks drove RIL's O2C jump and the sector beat; each USD1/bbl of GRM is about INR29bn for BPCL at 41mmt throughput.",
+      "sign": "+"
+    },
+    {
+      "driver": "OMC marketing margin per litre and LPG under-recovery",
+      "why": "Pump prices are frozen in practice, so crude moves land in marketing; HPCL and IOCL beat as LPG under-recoveries eased sharply QoQ.",
+      "sign": "+"
+    },
+    {
+      "driver": "Crude realisation and production (upstream)",
+      "why": "ONGC beat on higher oil realisation despite lower sales; FY27/28 production guided at 39/40mmtoe and OINL at 4mmt.",
+      "sign": "+"
+    },
+    {
+      "driver": "CGD gas cost versus pass-through",
+      "why": "IGL and MAHGL EBITDA/scm fell as APM allocation shrank and costlier gas lifted cost faster than CNG price hikes.",
+      "sign": "-"
+    },
+    {
+      "driver": "Policy: excise, SAED, APM allocation and compensation",
+      "why": "SAED on exports cuts refining margin at every refiner and LPG compensation ended Oct-26 with no FY27 scheme announced.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "grm",
+      "name": "Gross refining margin (reported, post-SAED, core)",
+      "priority": "core",
+      "definition": "Product realisations less crude cost per barrel on throughput, shown on reported, post-SAED and ex-inventory bases.",
+      "formula": "Reported GRM - refining inventory gain - petchem margin; post-SAED = core - SAED",
+      "unit": "USD/bbl",
+      "frequency": "quarterly",
+      "why_it_moves_price": "BPCL pre-SAED GRM of USD32.5/bbl against about USD14 post-SAED shows how policy takes the crack; MOFSL names transport fuel cracks as the RIL beat driver.",
+      "history_source": "get_investor_presentation metric filter 'GRM' for BPCL, IOC, HPCL, CPCL; MOFSL Exhibit 35 for SG GRM and reported GRM; transcripts for inventory split.",
+      "estimate_source": "No GRM consensus field; get_consensus_estimates for EBITDA; broker models carry GRM paths; get_commodity_prices for Brent and cracks.",
+      "traps": "Four bases (reported, post-SAED, ex-inventory, broker-implied); IOC 'normalised' also strips price lag, HPCL 'core' does not; companies withdrew disclosure in volatile quarters; FIFO vs weighted-average inventory.",
+      "examples": [
+        "RELIANCE",
+        "IOC",
+        "BPCL",
+        "HINDPETRO",
+        "CHENNPETRO",
+        "MRPL"
+      ]
+    },
+    {
+      "code": "marketing_margin",
+      "name": "OMC marketing margin per litre and inventory gain",
+      "priority": "core",
+      "definition": "Implied auto-fuel margin after RTP, plus inventory gain or loss in refining and marketing.",
+      "formula": "House core EBITDA - refining EBITDA at post-SAED GRM, per litre of domestic sales",
+      "unit": "Rs/l",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Rs1/l on auto fuels is about INR45-48bn for BPCL; MOFSL's implied marketing margin exhibit shows HPCL and IOCL beating on lower marketing losses, so this line decides who beats when pump prices are frozen.",
+      "history_source": "MOFSL Exhibit 34 (implied gross marketing margin); get_financials segment results; get_investor_presentation metric filter 'marketing' and 'inventory'; transcripts for inventory split.",
+      "estimate_source": "No consensus for margin per litre; broker notes (JM, Kotak, CLSA) carry normalised GMM of Rs2-4.5/l for FY28; get_commodity_assumptions for Brent deck.",
+      "traps": "GMM is a model output and ranges Rs-24.5 to +5.5/l across brokers for one print; BPCL discloses no refining inventory; LPG netted or not; compensation inside or outside EBITDA.",
+      "examples": [
+        "BPCL",
+        "IOC",
+        "HINDPETRO"
+      ]
+    },
+    {
+      "code": "upstream_realisation_production",
+      "name": "Crude realisation per bbl and oil and gas production",
+      "priority": "core",
+      "definition": "Net crude realisation after windfall levies and subsidy sharing, with oil and gas output in mmtoe.",
+      "formula": "Oil revenue / barrels sold; production in mmtoe",
+      "unit": "USD/bbl, mmtoe",
+      "frequency": "quarterly",
+      "why_it_moves_price": "ONGC's beat came from realisation while sales fell; OINL's beat came from production growth toward 4mmt; a USD1/bbl move is roughly 3-4% of ONGC EBITDAX.",
+      "history_source": "get_investor_presentation metric filter 'realisation' and 'production' for ONGC and OIL; get_financials; get_commodity_prices for Brent.",
+      "estimate_source": "get_consensus_estimates EBITDA and EPS; company production guidance on calls (ONGC 39/40mmtoe); get_commodity_assumptions for Brent.",
+      "traps": "Realisation is after discount or windfall tax; exploration write-offs hit PAT not EBITDAX; APM and new-well gas prices differ.",
+      "examples": [
+        "ONGC",
+        "OIL",
+        "RELIANCE"
+      ]
+    },
+    {
+      "code": "cgd_ebitda_scm",
+      "name": "CGD EBITDA per scm and volumes",
+      "priority": "core",
+      "definition": "Clean EBITDA divided by standard cubic metres sold, with CNG, domestic PNG and industrial volumes.",
+      "formula": "(Net realisation - gas cost - opex) per scm",
+      "unit": "Rs/scm",
+      "frequency": "quarterly",
+      "why_it_moves_price": "IGL's EBITDA/scm turned negative and MAHGL's fell on gas cost; each Re1/scm is about INR1.8bn of MGL EBITDA, roughly 13% of FY27E.",
+      "history_source": "get_investor_presentation metric filter 'EBITDA per scm' and 'volume' for MGL, IGL, GUJENERGY, ATGL; get_financials; transcripts for sourcing mix.",
+      "estimate_source": "get_consensus_estimates EBITDA; broker volume models (MGL 4.95/5.3 mmscmd FY27E/28E); no consensus per scm; MAHGL long-term growth guide 8-9%.",
+      "traps": "One-offs in revenue (trade-margin reversals); APM share basis drifts; GEL CGD EBITDA rests on a transfer price; IGL ex-DTC construct.",
+      "examples": [
+        "MGL",
+        "IGL",
+        "GUJENERGY",
+        "ATGL"
+      ]
+    },
+    {
+      "code": "apm_share_passthrough",
+      "name": "APM share of gas and price pass-through",
+      "priority": "secondary",
+      "definition": "APM gas as a share of total sourcing and the recovery ratio of cost increases through CNG and PNG price hikes.",
+      "formula": "APM mmscmd / total mmscmd; change in realisation / change in gas cost",
+      "unit": "%, ratio",
+      "frequency": "quarterly",
+      "why_it_moves_price": "APM share fell from about 68% to 26% of CNG supply in two years while price hikes recovered only 50-70% within a quarter, which is the margin squeeze behind the CGD misses.",
+      "history_source": "get_investor_presentation metric filter 'sourcing' and 'APM'; transcripts for mmscmd by tier.",
+      "estimate_source": "No consensus; allocation letters and company price actions on calls.",
+      "traps": "APM percentage basis switches between calls; mmscmd sourcing is call-only at MGL and IGL.",
+      "examples": [
+        "MGL",
+        "IGL",
+        "GUJENERGY",
+        "ATGL"
+      ]
+    },
+    {
+      "code": "lpg_under_recovery",
+      "name": "LPG under-recovery and compensation",
+      "priority": "secondary",
+      "definition": "Gap between import parity and the administered cylinder price, with the off-balance-sheet buffer and instalments booked.",
+      "formula": "Gross loss = change in buffer + compensation recognised",
+      "unit": "Rs cr, Rs/cyl",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Easing under-recovery lifted HPCL and IOCL; INR300bn of FY25-26 compensation ran to Oct-26 and no FY27 scheme was announced, so forward EBITDA loses about INR632 cr a month at BPCL.",
+      "history_source": "get_investor_presentation metric filter 'LPG' and 'under-recovery'; transcripts for buffer; annual reports for scheme notes.",
+      "estimate_source": "No consensus; broker assumptions of 0-75% compensation; policy announcements.",
+      "traps": "Compensation shown in revenue; brokers strip it differently so one print reads as a 13% miss or 7% beat.",
+      "examples": [
+        "BPCL",
+        "IOC",
+        "HINDPETRO"
+      ]
+    },
+    {
+      "code": "gas_transmission_trading",
+      "name": "Gas transmission volume, tariff and trading EBIT",
+      "priority": "secondary",
+      "definition": "Pipeline throughput in mmscmd with tariff, plus gas marketing and LPG/liquid hydrocarbon earnings.",
+      "formula": "Volume x tariff; segment EBIT",
+      "unit": "mmscmd, INR b",
+      "frequency": "quarterly",
+      "why_it_moves_price": "GAIL's beat came from gas trading and LPG with transmission in line; FY27 marketing EBIT guided to INR90b+ and transmission to 126mmscmd; PLNG beat on regas volumes above estimate.",
+      "history_source": "get_investor_presentation metric filter 'transmission' and 'marketing EBIT' for GAIL; PLNG decks for utilisation; get_financials segments.",
+      "estimate_source": "get_consensus_estimates for GAIL and PETRONET; company guidance (126mmscmd, INR90b+ EBIT).",
+      "traps": "Trading spreads swing with spot LNG; petchem losses distort consolidated EBITDA; unified tariff change from Jan-26.",
+      "examples": [
+        "GAIL",
+        "PETRONET",
+        "GSPL"
+      ]
+    },
+    {
+      "code": "net_debt_capex_omc",
+      "name": "OMC net debt, capex and project delivery",
+      "priority": "secondary",
+      "definition": "House net debt (leases in, working-capital debt shown separately) and capex against project plan.",
+      "formula": "Net debt / EBITDA; project % complete vs plan",
+      "unit": "x, INR b",
+      "frequency": "quarterly",
+      "why_it_moves_price": "BPCL FY28 capex guide of INR400-450b and refinery cost overruns (HRRL, Bina) keep free cash flow negative and cap the OMC multiple.",
+      "history_source": "get_financials balance sheet; get_investor_presentation metric filter 'capex' and 'net debt'.",
+      "estimate_source": "Company capex guidance; broker net-debt inputs span INR208-671bn for BPCL so state the date.",
+      "traps": "Working-capital debt moves with crude; JV debt (HMEL, HRRL) outside reported net debt.",
+      "examples": [
+        "BPCL",
+        "IOC",
+        "HINDPETRO"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "Brent, Dubai and Singapore complex GRM; diesel and petrol cracks",
+      "source": "Airavat get_commodity_prices; get_commodity_assumptions for Kotak Brent deck; broker trackers",
+      "why": "Refining margin, upstream realisation and OMC inventory"
+    },
+    {
+      "series": "Pump prices, excise duty and SAED rates",
+      "source": "Broker sector notes in report library; PPAC and CBIC outside Airavat",
+      "why": "Marketing margin and refining net of tax"
+    },
+    {
+      "series": "Saudi CP and LPG prices",
+      "source": "get_commodity_prices; broker notes",
+      "why": "LPG under-recovery"
+    },
+    {
+      "series": "Spot LNG, Henry Hub, propane",
+      "source": "get_commodity_prices; broker notes",
+      "why": "CGD gas cost and industrial parity"
+    },
+    {
+      "series": "INR:USD",
+      "source": "get_commodity_prices",
+      "why": "Marketing margin and GRM in rupees"
+    }
+  ],
+  "valuation_anchor": "SOTP on mid-cycle EBITDA at 5.5-6x for OMC refining and marketing plus listed stakes less holdco discount, with P/B trough as floor; P/E on clean EPS for CGD (11-14x); EV/EBITDA for upstream and gas transmission.",
+  "watch_next_quarter": "Per MOFSL, track GAIL marketing EBIT against INR90b+, ONGC and OINL production against 39mmtoe and 4mmt, and whether CGDs recover gas cost through price hikes after IGL and MAHGL misses. Also LPG compensation for FY27, SAED reviews and pump price action."
+}

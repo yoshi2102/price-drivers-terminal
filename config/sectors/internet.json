@@ -1,0 +1,227 @@
+{
+  "code": "internet",
+  "name": "Internet & New-Age Tech",
+  "group": "Tech & Internet",
+  "subsectors": [
+    "Food delivery",
+    "Quick commerce",
+    "Digital payments",
+    "Online travel",
+    "E-commerce marketplaces"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      11,
+      12
+    ],
+    "headline": "No dedicated Internet & New-Age Tech section in the 2QFY27 compendium (page 13 onward runs Automobiles to Utilities with no Internet page)",
+    "read": "MOFSL covers 13 Internet & New-Age Tech companies but prints no sector narrative or guidance. Its sector PAT charts show Internet as the top gainer in 1HFY27 (loss-to-profit), with Internet also leading 2HFY27E PAT growth (loss-to-profit), and the FY28E earnings-revision table names Internet & New-Age Tech, with Technology and Telecom, as sectors that weighed on the 0.7% FY28 upgrade to the MOFSL Universe. Eternal appears among the stocks driving index-level earnings. Company-level numbers must come from company decks and broker notes, not this report.",
+    "surprises": [],
+    "misses": []
+  },
+  "buoyant_skill": "anthropic-skills:food-quick-commerce-analysis",
+  "unit_economics": "Platform: NOV (net order value) = orders x NAOV; adjusted revenue = NOV x take rate (commission + ads + fees); contribution = revenue - delivery cost - discounts - other variable; Adj EBITDA = contribution - fixed cost - rent. Quick commerce adds stores x NOV per store per day and gross profit under inventory model. Payments: GMV x net take in bp + devices x rent. Travel and marketplaces: GMV x take rate.",
+  "price_drivers": [
+    {
+      "driver": "Quick commerce contribution margin and competitive discounting",
+      "why": "Funded entrants decide whether Instamart-type losses (about -1.4% of NOV in Q2FY27) narrow; basket-discount gaps lead contribution by about a quarter.",
+      "sign": "+"
+    },
+    {
+      "driver": "Food delivery NOV growth and take rate",
+      "why": "FD growth near 20% with adjusted take ~30-34% of NOV funds the group; zero-commission entrants and platform-fee limits cap take.",
+      "sign": "+"
+    },
+    {
+      "driver": "Adjusted EBITDA after rent and ESOP",
+      "why": "ESOP was ~69% of Eternal's FY26 Adj EBITDA, so core EBITDA after ESOP is the number valued, not segment results.",
+      "sign": "+"
+    },
+    {
+      "driver": "Capital intensity of dark stores",
+      "why": "Capex of INR2.5-3.6 cr per store and 12-14 days NWC under inventory model set whether store adds earn their cost of capital.",
+      "sign": "-"
+    },
+    {
+      "driver": "Regulation: gig-worker levies, UPI MDR, FDI rules",
+      "why": "Social-security levy of 1-2% of turnover (capped at 5% of payouts), UPI MDR framework and IOCC rules change unit economics by rule.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "nov_gov_growth",
+      "name": "GOV / NOV / GMV growth with orders x order value split",
+      "priority": "core",
+      "definition": "Gross or net order value growth by segment, split into users, frequency and order value, on a like-for-like perimeter.",
+      "formula": "Orders x NAOV; GOV x NOV/GOV",
+      "unit": "% YoY, Rs cr",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Growth earned through MTU and frequency is rewarded; discount-funded GOV is not (Eternal FD GOV ran 4pp ahead of NOV in Q2FY26), and share moves when two companies' growth gap exceeds ~4pp.",
+      "history_source": "get_investor_presentation metric filter 'GOV' / 'NOV' / 'GMV' / 'orders' / 'MTU' (ETERNAL, SWIGGY, PAYTM, PINELABS, IXIGO, NYKAA); get_financials for revenue; shareholder letters in the library.",
+      "estimate_source": "get_consensus_estimates gives Bloomberg Sales for the group; GOV/NOV forecasts come from broker models in the report library.",
+      "traps": "Eternal sunset GOV for NOV from Q1FY27; Swiggy reports margins on GOV; perimeter changes (Bistro, Toing, Paytm ticketing); MOFSL has no sector table.",
+      "examples": [
+        "ETERNAL",
+        "SWIGGY",
+        "PAYTM",
+        "IXIGO",
+        "NYKAA"
+      ]
+    },
+    {
+      "code": "take_rate",
+      "name": "Take rate (adjusted revenue or gross profit % of NOV)",
+      "priority": "core",
+      "definition": "Adjusted revenue (commission + ads + customer fees) over NOV for marketplaces; gross profit % NOV under inventory model; net payment revenue in bp of GMV for payments.",
+      "formula": "Adjusted revenue / NOV; GP / NOV; NPR / GMV",
+      "unit": "% or bp",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Platform-fee rises (Rs2 to Rs13) drove margin for three years; each Rs1 is ~26bp of NOV, so a cap or a zero-commission rival cuts the take that funds the margin.",
+      "history_source": "get_investor_presentation metric filter 'take rate' / 'adjusted revenue' / 'net payment revenue' / 'PPM'; get_financials for revenue; transcripts for fee changes.",
+      "estimate_source": "No consensus field; Broker models in the report library; company commentary.",
+      "traps": "1P transition grosses up revenue (Blinkit from Q2FY26); gross vs net payments revenue (Paytm gross, Pine Labs net); take on NOV vs GOV vs revenue differs by broker.",
+      "examples": [
+        "ETERNAL",
+        "SWIGGY",
+        "PAYTM",
+        "PINELABS",
+        "IXIGO"
+      ]
+    },
+    {
+      "code": "contribution_margin",
+      "name": "Contribution margin per order (% of NOV, Rs per order)",
+      "priority": "core",
+      "definition": "Revenue less delivery cost, platform-funded discounts and other variable cost, with scope (rent in or out) stated.",
+      "formula": "(Adjusted revenue - delivery - discounts - variable cost) / NOV",
+      "unit": "% of NOV, Rs/order",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Instamart contribution moved from -0.2% to -1.0% of GOV (-1.4% of NOV) in Q2FY27 as competitors matched discounts; contribution sets how fast a challenger converges to breakeven.",
+      "history_source": "get_investor_presentation metric filter 'contribution' (ETERNAL, SWIGGY); shareholder letters; transcripts.",
+      "estimate_source": "No consensus field; Company guidance (Swiggy Instamart 0 to -100bp) and broker models.",
+      "traps": "Eternal and Swiggy define scope differently; GOV vs NOV base changes the magnitude 35-45%; rent above or below the line.",
+      "examples": [
+        "ETERNAL",
+        "SWIGGY"
+      ]
+    },
+    {
+      "code": "adj_ebitda",
+      "name": "Adjusted EBITDA and core EBITDA after ESOP",
+      "priority": "core",
+      "definition": "Company Adj EBITDA (post-rent, pre-ESOP, ex other income) and house core EBITDA after recurring ESOP, by segment.",
+      "formula": "Segment result - rent; Adj EBITDA - recurring ESOP",
+      "unit": "Rs cr, % of NOV",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Group profit is the sum of FD profits less QC and new-bet losses; Eternal FY26 Adj EBITDA was INR1,189 cr but core EBITDA after INR819 cr ESOP only ~INR370 cr.",
+      "history_source": "get_financials (segment results, ESOP, lease note); get_investor_presentation metric filter 'Adjusted EBITDA'; shareholder letters.",
+      "estimate_source": "get_consensus_estimates Bloomberg EBITDA / PAT / EPS (bases mixed: pre- and post-ESOP); broker models give segment EBITDA.",
+      "traps": "Segment result excludes rent; treasury and tax drive PAT (Eternal ETR 61-66%); street bases mix pre-ESOP EBITDA with different share counts.",
+      "examples": [
+        "ETERNAL",
+        "SWIGGY",
+        "PAYTM",
+        "PINELABS"
+      ]
+    },
+    {
+      "code": "qc_store_throughput",
+      "name": "Dark stores, NOV per store per day and capex per store",
+      "priority": "secondary",
+      "definition": "Store count, net adds, NOV (or orders) per store per day on average stores, capex per net add and NWC days.",
+      "formula": "Quick commerce NOV / average stores / days",
+      "unit": "Rs lakh per store per day, Rs cr per store",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Store adds into served pincodes dilute throughput; breakeven needs ~Rs7 lakh GOV per day (about 800-1,000 orders) and company frameworks assume Rs2.5 cr capex and 12 days NWC.",
+      "history_source": "get_investor_presentation metric filter 'stores' / 'NOV per store' / 'orders per store'; Sensor Tower and locator data cited in broker notes in the library.",
+      "estimate_source": "No consensus field; Store-count guidance in transcripts (Eternal's store target; Swiggy CMD framework) and broker models.",
+      "traps": "Period-end vs average stores; Swiggy restated orders per store per day (active-store-days); frameworks are not delivered results.",
+      "examples": [
+        "ETERNAL",
+        "SWIGGY"
+      ]
+    },
+    {
+      "code": "mtu_frequency",
+      "name": "MTU and order frequency",
+      "priority": "secondary",
+      "definition": "Monthly transacting users and orders per user per month.",
+      "formula": "Orders / average MTU / months",
+      "unit": "millions, orders/month",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Frequency fell 23% YoY at Instamart when AOV was engineered up; users and frequency show whether growth is share gain or price.",
+      "history_source": "get_investor_presentation metric filter 'MTU' / 'frequency' (ETERNAL, SWIGGY, IXIGO, NYKAA); app-trend data in broker notes (Sensor Tower via CLSA).",
+      "estimate_source": "No consensus field; Broker models.",
+      "traps": "Eternal MTU definitions include merchant-app users at Paytm; Sensor Tower restated history in Sep-26.",
+      "examples": [
+        "ETERNAL",
+        "SWIGGY",
+        "PAYTM",
+        "NYKAA"
+      ]
+    },
+    {
+      "code": "payments_npr_bp",
+      "name": "Net payment revenue in bp of GMV and MDR status",
+      "priority": "secondary",
+      "definition": "Payments revenue after processing charges, excluding incentives, per unit of merchant GMV.",
+      "formula": "(Payment revenue - incentives - PPC) / GMV",
+      "unit": "bp",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Paytm NPR ex-PIDF ran ~8.4-9bp of GMV; UPI MDR framework (0.40% above Rs2,000, go-live pending) is the swing factor brokers value at Rs470-1,200 cr for FY28.",
+      "history_source": "get_investor_presentation metric filter 'net payment revenue' / 'GMV' / 'PPM' (PAYTM, PINELABS); get_financials; transcripts.",
+      "estimate_source": "No consensus field; Bloomberg Sales/EBITDA/PAT/EPS only; MDR sizing from broker notes.",
+      "traps": "Gross vs net reporting; PIDF and UPI incentives inside other operating revenue; DLG expense timing in lending.",
+      "examples": [
+        "PAYTM",
+        "PINELABS"
+      ]
+    },
+    {
+      "code": "travel_bookings",
+      "name": "Gross bookings and take rate (online travel)",
+      "priority": "secondary",
+      "definition": "Gross booking value and revenue as % of GBV for online travel agencies.",
+      "formula": "Revenue / gross bookings",
+      "unit": "Rs cr, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Bookings growth with stable take and falling marketing share drives operating leverage at asset-light travel platforms.",
+      "history_source": "get_investor_presentation metric filter 'GBV' / 'gross bookings' / 'air tickets' (IXIGO); get_financials.",
+      "estimate_source": "No consensus field; Bloomberg Sales/EBITDA only for IXIGO.",
+      "traps": "Gross vs net revenue recognition; one-off ad and convenience-fee changes.",
+      "examples": [
+        "IXIGO"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "App usage (Sensor Tower WAU/MAU) and UPI P2M data",
+      "source": "Broker sector notes in the library",
+      "why": "Lead on MTU and GMV direction"
+    },
+    {
+      "series": "Basket-discount trackers (Jefferies, Axis, Bernstein)",
+      "source": "Broker sector notes in the library",
+      "why": "Lead on quick-commerce contribution"
+    },
+    {
+      "series": "Minimum wages, gig-worker levies, labour codes",
+      "source": "Sector reports in the library",
+      "why": "Delivery cost per order"
+    },
+    {
+      "series": "NPCI/RBI MDR circulars",
+      "source": "Primary documents outside Airavat; broker notes",
+      "why": "Payments take rate"
+    },
+    {
+      "series": "Competitor funding (Amazon, Flipkart, Zepto IPO)",
+      "source": "Broker updates in the library",
+      "why": "Length of discount cycle"
+    }
+  ],
+  "valuation_anchor": "SOTP by segment: food delivery EV/core EBITDA (street 30-40x forward Adj EBITDA, re-base for ESOP), quick commerce EV/NOV with implied steady-state margin plus DCF, challenger on DCF with losses to breakeven; payments on core NPR DCF plus separate MDR NPV and treasury.",
+  "watch_next_quarter": "MOFSL has no Internet guidance section; from its charts, Internet is the largest 2HFY27E PAT-growth contributor (loss-to-profit) and its Retail page flags festive demand shifting into 3QFY27, so track festive-quarter NOV, quick-commerce discounting against funded entrants, store additions and Paytm's MDR go-live."
+}

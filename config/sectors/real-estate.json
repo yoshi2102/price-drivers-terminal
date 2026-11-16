@@ -1,0 +1,230 @@
+{
+  "code": "real-estate",
+  "name": "Real Estate",
+  "group": "Real assets",
+  "subsectors": [
+    "Residential developers",
+    "Office and retail annuity",
+    "Hotels",
+    "Development management",
+    "REITs (read-across only)"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      34,
+      4
+    ],
+    "headline": "Resilient 2Q; FY27 guidance broadly maintained",
+    "read": "Pre-sales across MOFSL's 15-name universe rose 26% YoY to INR428b, but only 3% ex OBER (+604%, INR79b maiden NCR project); the top four contributed 56% against a 65% four-quarter average. Collections were INR258b (+14% YoY, collection efficiency 60%). Revenue rose 13% to INR180b, EBITDA 20% to INR48b (27% margin) and adjusted PAT 7% to INR44b. Misses were SIGNATUR and BRGD (pre-sales down 9-10%), ABREL fell 66% on no launches and DLF fell 12% but at INR38b beat estimates. Guidance: LODHA FY27 pre-sales INR240b on a INR191b 2H pipeline, BRGD INR90b, ABREL INR150b by FY29, DLF Mumbai P-2 launch in 3QFY27. Top picks LODHA, BRGD, ABREL, OBER.",
+    "surprises": [
+      "PRESTIGE",
+      "DLF",
+      "KOLTEPATIL"
+    ],
+    "misses": [
+      "SIGNATURE",
+      "BRIGADE"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:real-estate-analysis",
+  "unit_economics": "Cash = collections - construction - approvals - overheads - tax - land - interest; value = NAV of own-share project DCFs + unlaunched land + capitalised annuity NOI - net debt; reported P&L lags presales by 2-5 years.",
+  "price_drivers": [
+    {
+      "driver": "Pre-sales value and launch delivery",
+      "why": "Pre-sales are the lead indicator for NAV; the 2QFY27 +26% was mostly one project (OBER INR79b) and launches slip, so stock moves on launch grid delivery.",
+      "sign": "+"
+    },
+    {
+      "driver": "Collections and operating cash surplus",
+      "why": "Collections of INR258b at 60% efficiency fund land buys and debt reduction; RERA escrow locks 70% of receipts.",
+      "sign": "+"
+    },
+    {
+      "driver": "Land and BD replenishment against leverage",
+      "why": "Developers added INR130b (BRGD) and INR110b (SIGNATUR) of GDV in 2Q; land spend above operating cash surplus raises net debt.",
+      "sign": "-"
+    },
+    {
+      "driver": "Pricing versus construction cost",
+      "why": "Like-for-like price growth is 1-5% against construction inflation of 3-15% depending on source, setting embedded margin on new launches.",
+      "sign": "+"
+    },
+    {
+      "driver": "Interest rates and inventory overhang",
+      "why": "The first RBI hike in Oct-26 and 17-21 months of inventory hit sector multiples before volumes.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "presales_value",
+      "name": "Pre-sales value (own share) and volume",
+      "priority": "core",
+      "definition": "Bookings net of cancellations at economic share, excluding DM, land and inherited bookings, with area and realisation per sq ft.",
+      "formula": "Own-share bookings value; value / area sold",
+      "unit": "INR b, Rs psf",
+      "frequency": "quarterly",
+      "why_it_moves_price": "INR428b was +26% YoY but +3% ex OBER; pre-sales are the first print investors read and the metric guidance is set on (LODHA INR240b, BRGD INR90b).",
+      "history_source": "get_investor_presentation metric filter 'pre-sales' or 'bookings' for DLF, LODHA, GODREJPROP, PRESTIGE, BRIGADE, OBEROIRLTY; MOFSL results exhibit 44; transcripts for units and psf.",
+      "estimate_source": "No consensus field for pre-sales; company guidance in transcripts; broker models (Nomura top-17 tracker); get_consensus_estimates for revenue and PAT.",
+      "traps": "Gross vs own share (DLF Westpark at 100%); DM bookings and data-centre land in presales (LODHA); Oberoi includes stamp duty from Q1FY26; cancellations netted silently.",
+      "examples": [
+        "DLF",
+        "LODHA",
+        "GODREJPROP",
+        "PRESTIGE",
+        "OBEROIRLTY",
+        "BRIGADE"
+      ]
+    },
+    {
+      "code": "collections",
+      "name": "Collections and operating cash surplus",
+      "priority": "core",
+      "definition": "Customer receipts for residential and commercial sales less construction, approvals, overheads, selling and tax.",
+      "formula": "RE collections; collections / presales (36-month)",
+      "unit": "INR b, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Collections of INR258b (+14%) turn bookings into cash; DLF's net cash of INR15,084 cr at Sep-26 held INR12,270 cr in RERA accounts, so free cash is much lower.",
+      "history_source": "get_investor_presentation metric filter 'collections' and 'cash flow'; MOFSL exhibit 45; get_financials cash flow statement.",
+      "estimate_source": "Company guidance on calls; broker models; no consensus.",
+      "traps": "Five operating-cash-flow definitions; Brigade total includes lease and hotel receipts; DLF includes rent.",
+      "examples": [
+        "DLF",
+        "GODREJPROP",
+        "LODHA",
+        "BRIGADE",
+        "OBEROIRLTY"
+      ]
+    },
+    {
+      "code": "launches_gdv",
+      "name": "Launches and BD additions (GDV)",
+      "priority": "core",
+      "definition": "GDV launched in the quarter against the guided grid and GDV of land and projects added.",
+      "formula": "Launched GDV / guided GDV; BD GDV added",
+      "unit": "INR b",
+      "frequency": "quarterly",
+      "why_it_moves_price": "FY27 launch pipelines (PEPL INR466b, GPL INR320b, LODHA INR191b, DLF and SOBHA INR180b each) set 2H presales; launch slippage of 3-5 quarters is the main source of estimate cuts.",
+      "history_source": "get_investor_presentation metric filter 'launch' and 'GDV'; transcripts for launch quarter by project.",
+      "estimate_source": "Company launch guidance in transcripts; broker launch trackers in report library.",
+      "traps": "GDV bases (gross, share, incl. DM) differ; renamed projects hide slippage; Oberoi, ABREL defer launches.",
+      "examples": [
+        "LODHA",
+        "GODREJPROP",
+        "DLF",
+        "PRESTIGE",
+        "SOBHA",
+        "BRIGADE"
+      ]
+    },
+    {
+      "code": "net_debt_ocs",
+      "name": "Net debt (all-in) and leverage",
+      "priority": "core",
+      "definition": "Borrowings plus NCDs, deferred land and JV debt at share less cash, with RERA escrow shown separately.",
+      "formula": "Net debt all-in / equity; net debt / operating cash surplus",
+      "unit": "INR b, x",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Land and annuity capex above operating cash surplus is how developers raise leverage; reported net debt omits zero-coupon NCDs and deferred land (Oberoi commitments reached INR5,564 cr).",
+      "history_source": "get_financials balance sheet; get_investor_presentation metric filter 'net debt'; annual reports via read_library_document for NCDs and commitments.",
+      "estimate_source": "Company debt guidance; broker net-debt estimates; get_consensus_estimates for EPS only.",
+      "traps": "RERA cash netted by some; JV debt off balance sheet at GPL; investor CCDs outside net debt (Max).",
+      "examples": [
+        "DLF",
+        "GODREJPROP",
+        "PRESTIGE",
+        "BRIGADE",
+        "PURVA"
+      ]
+    },
+    {
+      "code": "embedded_margin",
+      "name": "Embedded EBITDA margin on new pre-sales",
+      "priority": "secondary",
+      "definition": "Expected lifetime EBITDA on own-share pre-sales after overheads and selling cost.",
+      "formula": "Lifetime EBITDA / own-share presales value",
+      "unit": "%",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "Margins on new launches decide whether EBITDA of INR48b (27% margin) is sustainable as legacy low-cost land such as DLF Gurugram runs off.",
+      "history_source": "get_investor_presentation metric filter 'margin' and 'embedded' for DLF and GPL; transcripts.",
+      "estimate_source": "Company disclosures; broker NAV models; no consensus.",
+      "traps": "DLF's embedded margin is gross before overheads, GPL's is EBIT; landowner revenue gross-up dilutes reported margin.",
+      "examples": [
+        "DLF",
+        "GODREJPROP",
+        "LODHA",
+        "OBEROIRLTY"
+      ]
+    },
+    {
+      "code": "rental_annuity",
+      "name": "Annuity NOI, occupancy and exit rent",
+      "priority": "secondary",
+      "definition": "Attributable office, mall and hotel NOI with occupancy, rent per sq ft and renewals.",
+      "formula": "Contracted rent ex CAM at economic share",
+      "unit": "INR cr, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "DLF's DCCDL rental exit of about INR68b for FY27 and BRGD's annuity portfolio growing to 12.5msf (INR17b rent by FY29) set the annuity value; a 50bp cap-rate move changes NAV about 6%.",
+      "history_source": "get_investor_presentation metric filter 'rental', 'occupancy', 'NOI'; get_financials; transcripts for exit-rent guidance.",
+      "estimate_source": "Company exit-rent guidance on calls; broker NAV models; no consensus.",
+      "traps": "CAM inside rental EBITDA; equity-accounted DCCDL sits below EBITDA; DLF cut exit-rent guide in one quarter.",
+      "examples": [
+        "DLF",
+        "PHOENIXLTD",
+        "OBEROIRLTY",
+        "BRIGADE",
+        "PRESTIGE"
+      ]
+    },
+    {
+      "code": "realisation_inventory",
+      "name": "Realisation, price growth and unsold inventory",
+      "priority": "secondary",
+      "definition": "Pre-sales per square foot like-for-like and months of unsold inventory in the key cities.",
+      "formula": "Price growth on same project; unsold units / quarterly sales",
+      "unit": "Rs psf, months",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Top-7 ASP up 7% is mostly mix; inventory at 17-21 months and the Oct-26 rate hike limit pricing power, so this decides whether margin expands.",
+      "history_source": "get_investor_presentation metric filter 'realisation'; Anarock and PropEquity via sector notes in report library (Axis, Nuvama, JM).",
+      "estimate_source": "No consensus; broker sector notes.",
+      "traps": "Area basis (carpet vs saleable) changes psf by 1.6x; launch mix inflates ASP.",
+      "examples": [
+        "DLF",
+        "LODHA",
+        "GODREJPROP",
+        "PRESTIGE",
+        "SOBHA"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "RBI repo rate, home-loan rates, 10-year G-sec",
+      "source": "Broker sector notes in report library",
+      "why": "Affordability and sector multiple"
+    },
+    {
+      "series": "Anarock and PropEquity sales, launches, inventory months",
+      "source": "Sector notes in report library (JM, Axis, Nuvama)",
+      "why": "Industry demand and overhang"
+    },
+    {
+      "series": "Mumbai registrations and stamp duty",
+      "source": "Broker notes; IGR outside Airavat",
+      "why": "MMR demand mood"
+    },
+    {
+      "series": "Office absorption, vacancy and rent",
+      "source": "CBRE, Colliers, C&W via broker notes",
+      "why": "Annuity rent and cap rate"
+    },
+    {
+      "series": "Steel and cement prices",
+      "source": "Airavat get_commodity_prices",
+      "why": "Construction cost"
+    }
+  ],
+  "valuation_anchor": "NAV with project DCFs at 11-12.5% cost of equity, unlaunched land at a stated haircut and annuity at 7-8.5% cap rate; premium or discount to NAV judged on BD replication, with P/E and P/B as cross-checks only; REITs (Embassy, Mindspace, Brookfield, Nexus) used for cap-rate read-across.",
+  "watch_next_quarter": "Per MOFSL, track delivery of the 2H launch pipelines (LODHA INR191b, DLF Mumbai P-2, ABREL Khar in 4Q, PEPL INR466b), BRGD and LODHA against FY27 pre-sales guidance, and collection efficiency (60% in 2Q)."
+}

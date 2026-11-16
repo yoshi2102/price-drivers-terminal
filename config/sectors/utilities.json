@@ -1,0 +1,222 @@
+{
+  "code": "utilities",
+  "name": "Utilities",
+  "group": "Energy & Utilities",
+  "subsectors": [
+    "Regulated thermal and hydro generation",
+    "Merchant and PPA thermal IPPs",
+    "Transmission",
+    "Renewable developers and storage",
+    "Wind and solar OEMs",
+    "Smart metering"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      40,
+      4
+    ],
+    "headline": "Generation players deliver resilient performance; OEMs face margin pressure",
+    "read": "For MOFSL's 13 utilities, revenue and EBITDA were 9% and 4% above estimates (+23% and +18% YoY, EBITDA INR403b) and PAT was 33% above estimates (+44% YoY, INR212b). JSWE and TPL delivered on higher generation and plant utilisation, NTPC and APL PAT was helped by regulatory income and one-off gains, while TPWR and PWGR missed EBITDA. Margins: ACME 85%, PEL 28% with 99% cell utilisation, APL 42.3%, JSWE 56.8%, PWGR 82%, TPWR 18.7%, wind OEMs SUEL and IWL 15%. Guidance: ACME FY27 BESS 12GWh+ and 15GW RE target by 2030, APL Korba II unit 1 in 3QFY27, NTPC RE additions cut to 6.5GW for FY27, PWGR FY27 capitalisation INR250-300b (cut from INR300b), TPWR FY27 RE adds of 2.5GW, IWL FY27 revenue growth of 75% unlikely.",
+    "surprises": [
+      "ADANIPOWER",
+      "JSWENERGY",
+      "TPW (code as printed by MOFSL)"
+    ],
+    "misses": [
+      "SUZLON",
+      "INOXWIND"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:power-analysis",
+  "unit_economics": "Regulated generation PAT = regulated equity x RoE + incentives - under-recovery; PPA IPP EBITDA = contracted MW x availability x capacity charge + merchant units x (price - fuel); renewables EBITDA = MW x CUF x 8,760 x tariff x ~85% margin; transmission revenue = tariff x availability from COD.",
+  "price_drivers": [
+    {
+      "driver": "Regulated equity growth through capacity capitalisation",
+      "why": "Earnings track equity added at COD; NTPC cut RE addition guidance to 6.5GW for FY27 and PWGR cut capitalisation to INR250-300b, so execution moves estimates.",
+      "sign": "+"
+    },
+    {
+      "driver": "Plant availability and PLF",
+      "why": "JSWE and TPL beat on higher generation and utilisation; APL margin reached 42.3% on higher PLF; availability below 85% norm loses fixed charge.",
+      "sign": "+"
+    },
+    {
+      "driver": "Merchant and short-term tariffs",
+      "why": "Exchange prices averaged Rs5.10/kWh in Q1FY27 against Rs3.86 in FY26; open capacity earns the spread.",
+      "sign": "+"
+    },
+    {
+      "driver": "Commissioning and project execution",
+      "why": "APL Korba II and Mahan II, ACME's BESS and IWL's delivery slip drive near-term estimate cuts and re-ratings.",
+      "sign": "+"
+    },
+    {
+      "driver": "Interest rates, OEM input cost and one-offs",
+      "why": "Wind OEM margins fell to 15% on forex and commodity inflation; regulatory income and tax items flattered NTPC and APL PAT.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "regulated_equity_core_roe",
+      "name": "Regulated equity and core RoE",
+      "priority": "core",
+      "definition": "Equity base on which CERC allows 15.5% RoE, and PAT per unit of that equity after stripping one-offs.",
+      "formula": "Adjusted PAT ex treasury, dividends and LPS / average regulated equity",
+      "unit": "INR b, %",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "P/B on regulated equity is the primary NTPC and Power Grid multiple; MOFSL notes NTPC PAT was helped by regulatory income, so core RoE tells what recurs.",
+      "history_source": "get_investor_presentation metric filter 'regulated equity' for NTPC, POWERGRID, NHPC; get_financials; broker results notes (Elara, PL, Nuvama) for core RoE.",
+      "estimate_source": "No consensus for regulated equity; broker models (Equirus NTPC model) and company capitalisation guidance (PWGR INR250-300b).",
+      "traps": "Standalone vs consolidated vs attributable scope; prior-period tariff orders and RDA swing PAT; capacity at 100% for JVs.",
+      "examples": [
+        "NTPC",
+        "POWERGRID",
+        "NHPC",
+        "SJVN"
+      ]
+    },
+    {
+      "code": "plf_paf",
+      "name": "Plant load factor and plant availability",
+      "priority": "core",
+      "definition": "Generation as a share of capacity and the share of hours available against the 85% normative level.",
+      "formula": "Generation / (MW x hours); available hours / total",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Higher PLF lifted APL margin to 42.3% and JSWE generation; for regulated plants PAF below norm is lost fixed charge, and above 85% PLF earns incentive.",
+      "history_source": "get_investor_presentation metric filter 'PLF' and 'PAF'; CEA station data via broker monthly notes; get_financials for generation.",
+      "estimate_source": "No consensus; company guidance on calls; broker demand models.",
+      "traps": "Companies compare against different all-India PLF benchmarks; JSWE deemed PLF can exceed 100%.",
+      "examples": [
+        "NTPC",
+        "ADANIPOWER",
+        "JSWENERGY",
+        "NHPC",
+        "TATAPOWER"
+      ]
+    },
+    {
+      "code": "capacity_additions_cod",
+      "name": "Capacity additions and COD delivery against guidance",
+      "priority": "core",
+      "definition": "Commissioned MW by fuel against what management guided, with under-construction pipeline.",
+      "formula": "Delivered MW / guided MW",
+      "unit": "MW, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "NTPC RE guidance cut to 6.5GW from 8GW, ACME raised BESS to 12GWh+, and APL's units are due in 3Q and 4Q: delivery against guidance sets forward regulated equity and EBITDA.",
+      "history_source": "get_investor_presentation metric filter 'capacity' and 'commissioning'; transcripts for COD dates; get_financials for capex.",
+      "estimate_source": "Company guidance in transcripts; broker models; no consensus.",
+      "traps": "Capacity at 100% including JVs; acquired vs organic; slippage typically 2-6 quarters.",
+      "examples": [
+        "NTPC",
+        "ADANIPOWER",
+        "JSWENERGY",
+        "ACMESOLAR",
+        "TATAPOWER",
+        "POWERGRID"
+      ]
+    },
+    {
+      "code": "merchant_ppa_realisation",
+      "name": "Merchant tariff and PPA realisation per kWh",
+      "priority": "secondary",
+      "definition": "Realised price on contracted and short-term sales against exchange averages.",
+      "formula": "Revenue / units sold, split PPA and merchant",
+      "unit": "Rs/kWh",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Open capacity falling to under 5% at Adani Power and JSW Energy cuts merchant sensitivity; new PPAs at Rs5.3-6.3/kWh with capacity-based fixed charges drive EBITDA.",
+      "history_source": "get_investor_presentation metric filter 'realisation' and 'merchant'; IEX data via broker monthly notes; get_financials.",
+      "estimate_source": "No consensus; get_commodity_prices for coal; company contracted-capacity disclosures on calls.",
+      "traps": "Adani Power counts bought power as merchant; JSWE does not disclose merchant realisation; regulatory income booked on cash receipt.",
+      "examples": [
+        "ADANIPOWER",
+        "JSWENERGY",
+        "TATAPOWER",
+        "NTPC"
+      ]
+    },
+    {
+      "code": "renewable_cuf",
+      "name": "Renewable CUF, EBITDA margin and storage pipeline",
+      "priority": "secondary",
+      "definition": "Capacity utilisation factor of solar and wind assets with margin and BESS MW/GWh commissioned.",
+      "formula": "Generation / (MW x 8,760)",
+      "unit": "%, GWh",
+      "frequency": "quarterly",
+      "why_it_moves_price": "ACME's 85% EBITDA margin and a BESS target raised to 12GWh+ show how utilisation and storage pipeline set RE valuation; PEL's cell plant utilisation at 99% drove its 28% margin.",
+      "history_source": "get_investor_presentation metric filter 'CUF' and 'BESS'; get_financials; transcripts.",
+      "estimate_source": "Company targets (ACME 15GW by 2030, TPL 4.4GW pipeline); no consensus.",
+      "traps": "Curtailment, grid delays and tariff vs merchant mix; storage economics not disclosed.",
+      "examples": [
+        "ACMESOLAR",
+        "JSWENERGY",
+        "TATAPOWER",
+        "WAAREEENER"
+      ]
+    },
+    {
+      "code": "transmission_capitalisation",
+      "name": "Transmission capitalisation and availability",
+      "priority": "secondary",
+      "definition": "Assets commissioned (INR) and line availability, which start tariff and RoE.",
+      "formula": "Capitalisation delivered / guided",
+      "unit": "INR b, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "PWGR missed EBITDA and cut FY27 capitalisation guidance to INR250-300b; each year-1 vintage earns about 17% of cost in revenue.",
+      "history_source": "get_investor_presentation metric filter 'capitalisation' for POWERGRID and ADANIENSOL; transcripts.",
+      "estimate_source": "Company guidance; broker models; no consensus.",
+      "traps": "Capitalisation bunches in Q4; SCA accounting at BOOT assets inflates revenue; RDA movements swing PAT.",
+      "examples": [
+        "POWERGRID",
+        "ADANIENSOL"
+      ]
+    },
+    {
+      "code": "oem_margin_orderbook",
+      "name": "Wind OEM EBITDA margin and order book",
+      "priority": "secondary",
+      "definition": "Equipment makers' margin on deliveries and executable orders.",
+      "formula": "EBITDA / revenue; order book / revenue",
+      "unit": "%, INR b",
+      "frequency": "quarterly",
+      "why_it_moves_price": "SUEL and IWL margins of 15% were below estimates and drove FY27 EBITDA cuts of 9-21% at brokers; IWL abandoned 75% growth guidance.",
+      "history_source": "get_investor_presentation metric filter 'order book' and 'EBITDA margin'; get_financials.",
+      "estimate_source": "get_consensus_estimates; company margin guidance (SUEL above 15.1%, ~16.1%).",
+      "traps": "Forex and commodity inflation on fixed-price orders; revenue recognition at delivery.",
+      "examples": [
+        "SUZLON",
+        "INOXWIND"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "All-India demand, peak demand and exchange prices",
+      "source": "Broker monthly power notes in report library; IEX outside Airavat",
+      "why": "Merchant tariff and PLF"
+    },
+    {
+      "series": "Thermal coal and imported coal prices",
+      "source": "Airavat get_commodity_prices",
+      "why": "Fuel cost for merchant and imported-coal plants"
+    },
+    {
+      "series": "Repo rate and 10-year G-sec",
+      "source": "Broker sector notes",
+      "why": "Finance cost for IPPs and regulated add-cap RoE"
+    },
+    {
+      "series": "Copper, aluminium, steel",
+      "source": "Airavat get_commodity_prices",
+      "why": "OEM and transmission project cost"
+    },
+    {
+      "series": "CERC tariff orders and discom receivables",
+      "source": "Broker notes and company filings",
+      "why": "Regulatory income and cash conversion"
+    }
+  ],
+  "valuation_anchor": "P/B on regulated equity (1.5-2.5x, justified by core RoE over cost of equity) for NTPC and Power Grid; SOTP on plant EV/EBITDA with a lower multiple on merchant for IPPs; EV/EBITDA and DCF for renewables; NPV per meter for smart metering.",
+  "watch_next_quarter": "Per MOFSL, monitor APL's Korba II unit commissioning in 3QFY27, NTPC and PWGR capitalisation against cut guidance, ACME and PEL BESS and cell ramp, and wind OEM margin recovery (SUEL guided to ~16.1% for FY27)."
+}

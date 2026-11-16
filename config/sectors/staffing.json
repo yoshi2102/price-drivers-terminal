@@ -1,0 +1,200 @@
+{
+  "code": "staffing",
+  "name": "Staffing",
+  "group": "Services",
+  "subsectors": [
+    "General flexi staffing",
+    "Professional and IT staffing",
+    "Apprenticeship",
+    "Facility management and security"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      4,
+      11
+    ],
+    "headline": "No dedicated Staffing section in the 2QFY27 compendium; coverage appears only in MOFSL's sector tables",
+    "read": "MOFSL's Exhibit 8 shows its 4-company Staffing universe with sales of INR131b (+15% YoY, 1% above estimates), EBITDA INR4b (+23% YoY, 3% above) and PAT INR2b (+34% YoY, 13% above). The earnings-revision table moves staffing FY27E PAT from INR9b to INR10b (+1.9%) and FY28E from INR11b to INR11b (-1.6%). The review prints no sector commentary, company-level surprises, misses or guidance for staffing.",
+    "surprises": [],
+    "misses": []
+  },
+  "buoyant_skill": "anthropic-skills:staffing-analysis",
+  "unit_economics": "Staffing EBITDA = average associates x months x (markup per associate per month - cost to serve); revenue includes associate wages as a pass-through, so EBITDA margin on gross revenue is about 1-1.6% for general staffing and 3.5-6% for facility services.",
+  "price_drivers": [
+    {
+      "driver": "Markup per associate per month (PAPM)",
+      "why": "Wages pass through at zero margin, so profit moves only with markup; TeamLease PAPM has stayed near INR665-689 while general-staffing margin held 1.0-1.1% for nine quarters.",
+      "sign": "+"
+    },
+    {
+      "driver": "Net headcount additions and open mandates",
+      "why": "Associates drive revenue and 80JJAA eligibility; insourcing events (TeamLease ~23k at one NBFC) and falling open mandates cut growth.",
+      "sign": "+"
+    },
+    {
+      "driver": "Labour codes and minimum-wage revisions",
+      "why": "Codes in force from Nov-25 and state wage steps of 20-47% lift revenue and dilute margin; they favour organised players or push clients to direct fixed-term hiring.",
+      "sign": "-"
+    },
+    {
+      "driver": "Section 80JJAA tax benefit",
+      "why": "TeamLease ETR was 5.9% in FY26 with a INR36.6 cr benefit (~23% of PBT); disallowance would cut EPS sharply.",
+      "sign": "+"
+    },
+    {
+      "driver": "Working capital and statutory disputes",
+      "why": "Pay-first segments and government receivables stretch DSO, and PF and GST demands are large against net worth.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "associates_net_adds",
+      "name": "Billable associates and net additions",
+      "priority": "core",
+      "definition": "End-period associates by segment with net adds, split between sourced and transferred and excluding named insourcing events.",
+      "formula": "Opening + sourced adds + transfers - exits",
+      "unit": "count",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Headcount is the volume driver of gross profit; the market reacts to net adds and open mandates (TeamLease ~17.5k, Quess ~37k) more than to PAT.",
+      "history_source": "get_investor_presentation metric filter 'associates' and 'headcount' for TEAMLEASE, QUESS, SIS, UDS; transcripts for open mandates and insourcing events.",
+      "estimate_source": "No consensus field; company statements and broker headcount models (HSIE, Emkay, IIFL); get_consensus_estimates for revenue as a cross-check.",
+      "traps": "Direct vs transferred hires; apprentices and DA counted differently by brokers; one-off insourcing events.",
+      "examples": [
+        "TEAMLEASE",
+        "QUESS",
+        "SIS",
+        "UDS"
+      ]
+    },
+    {
+      "code": "papm_markup",
+      "name": "Markup per associate per month (PAPM)",
+      "priority": "core",
+      "definition": "Gross profit per associate per month on the company's definition and on house basis.",
+      "formula": "Segment gross profit / average associates / months",
+      "unit": "Rs/month",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Markup is the only profit lever in a pass-through model; client-size ladder runs from about INR300-500 for large clients to over INR1,000 for small ones, so mix shifts PAPM without any price move.",
+      "history_source": "get_investor_presentation metric filter 'PAPM' or 'markup'; transcripts (TeamLease gives it on calls); HSIE and Emkay initiations in report library for house PAPM.",
+      "estimate_source": "No consensus; management commentary and broker models (HSIE, Emkay, IIFL).",
+      "traps": "Company PAPM undefined at Quess; planned exits of low-PAPM clients raise average without pricing; pass-through billing dilutes margin %.",
+      "examples": [
+        "TEAMLEASE",
+        "QUESS"
+      ]
+    },
+    {
+      "code": "ebitda_per_associate",
+      "name": "EBITDA per associate per month and conversion of markup",
+      "priority": "core",
+      "definition": "General-staffing EBITDA per associate and share of markup converted to EBITDA after core cost.",
+      "formula": "EBITDA / average associates / months; EBITDA / gross profit",
+      "unit": "Rs/month, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "TeamLease holds roughly INR285-292 per associate per month, converting ~40% of markup; cost-to-serve and associate-to-core ratio determine operating leverage when PAPM is flat.",
+      "history_source": "get_financials segment results; get_investor_presentation metric filter 'EBITDA' by segment; HSIE Jan-25 Quess IC and Emkay Dec-24 TeamLease IC in the library.",
+      "estimate_source": "get_consensus_estimates EBITDA; broker models (TEAMLEASE_model_v2 reference); no consensus per associate.",
+      "traps": "Deck EBITDA vs filed segment result differ; unallocated cost; TeamLease count includes DA at some brokers.",
+      "examples": [
+        "TEAMLEASE",
+        "QUESS"
+      ]
+    },
+    {
+      "code": "professional_staffing_margin",
+      "name": "Professional and specialised staffing growth and margin",
+      "priority": "secondary",
+      "definition": "Revenue and EBITDA margin of IT, GCC and specialised staffing.",
+      "formula": "Segment EBITDA / segment revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Specialised staffing is ~6% of TeamLease revenue but ~30% of profit and earns 6-13% margin, so GCC hiring swings group earnings.",
+      "history_source": "get_financials segment note; get_investor_presentation metric filter 'specialised' or 'professional'; transcripts.",
+      "estimate_source": "No consensus; company commentary and broker segment models.",
+      "traps": "TeamLease restated specialised revenue without explanation; MSP pass-through dilutes margin.",
+      "examples": [
+        "TEAMLEASE",
+        "QUESS"
+      ]
+    },
+    {
+      "code": "house_dso",
+      "name": "Days sales outstanding and cash conversion",
+      "priority": "secondary",
+      "definition": "Trade receivables plus unbilled revenue over revenue, by segment, with OCF to EBITDA excluding tax refunds.",
+      "formula": "(Trade receivables + unbilled) / revenue x 365",
+      "unit": "days",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Facility and security businesses carry 60-90 days and fund payroll; TeamLease quotes 6-7 days against ~25 days implied, so definition risk affects the cash multiple.",
+      "history_source": "get_financials balance sheet; annual reports via read_library_document; get_investor_presentation metric filter 'DSO'.",
+      "estimate_source": "No consensus; management targets on calls (SIS OCF/EBITDA 60-65%).",
+      "traps": "Companies define DSO differently; gratuity reimbursement right grossed up balance sheets by about INR390-400 cr at TeamLease.",
+      "examples": [
+        "SIS",
+        "UDS",
+        "TEAMLEASE",
+        "QUESS"
+      ]
+    },
+    {
+      "code": "tax_80jjaa",
+      "name": "Effective tax rate and 80JJAA dependence",
+      "priority": "secondary",
+      "definition": "Tax deduction on incremental employee cost and its share of PBT.",
+      "formula": "80JJAA effect / PBT",
+      "unit": "%",
+      "frequency": "annual",
+      "why_it_moves_price": "A disallowance moves EPS by 20-40%; Quess carries a qualified standalone audit opinion over claims and TeamLease has reassessments pending.",
+      "history_source": "get_financials tax reconciliation; annual reports via read_library_document for contingent liabilities.",
+      "estimate_source": "No consensus on tax outcome; brokers show EPS at reported and statutory rate.",
+      "traps": "Associates under client supervision are the dispute ground; claims depend on net additions.",
+      "examples": [
+        "TEAMLEASE",
+        "QUESS",
+        "SIS"
+      ]
+    },
+    {
+      "code": "fm_security_margin",
+      "name": "Facility and security segment EBITDA margin and wage repricing",
+      "priority": "secondary",
+      "definition": "Margin of security, FM and IFM businesses after minimum-wage pass-through lag.",
+      "formula": "Segment EBITDA / revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Cost-plus contracts reprice after a lag, so state wage steps cut margin for 1-2 quarters; India security margin runs 4.5-6%, FM 4-6.5%.",
+      "history_source": "get_investor_presentation metric filter 'segment EBITDA' for SIS and UDS; transcripts for repricing lag.",
+      "estimate_source": "get_consensus_estimates; company margin targets (SIS India security 6%).",
+      "traps": "UDS deck EBITDA includes other income; SIS gratuity treatment differs; acquisitions distort constant-currency growth.",
+      "examples": [
+        "SIS",
+        "UDS"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "State minimum-wage notifications and labour-code rule status",
+      "source": "Broker sector notes and company decks; no Airavat series",
+      "why": "Revenue per associate and facility-services repricing"
+    },
+    {
+      "series": "IT and GCC hiring, BFSI hiring",
+      "source": "Broker sector notes in report library",
+      "why": "Professional staffing volume and insourcing risk"
+    },
+    {
+      "series": "EPFO net payroll additions",
+      "source": "Outside Airavat (public releases paused after Sep-25)",
+      "why": "Formalisation read"
+    },
+    {
+      "series": "AUD:INR",
+      "source": "Airavat get_commodity_prices (INR:USD series only; cross rate by calculation)",
+      "why": "SIS International reported growth"
+    }
+  ],
+  "valuation_anchor": "P/E on normalised EPS at both reported and statutory tax rate (TeamLease broker range 13-18x, Quess higher), SOTP on segment EV/EBITDA, and for facility businesses EV/EBITDA by segment; build own band from price history.",
+  "watch_next_quarter": "MOFSL gives no staffing guidance in this review; monitor Q3 open mandates and net adds at TeamLease and Quess, state labour-code rule notifications, minimum-wage repricing at SIS and UDS, and any 80JJAA ruling."
+}

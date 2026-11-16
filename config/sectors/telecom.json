@@ -1,0 +1,238 @@
+{
+  "code": "telecom",
+  "name": "Telecom",
+  "group": "Services",
+  "subsectors": [
+    "Wireless operators",
+    "Tower infrastructure",
+    "Enterprise and wholesale connectivity",
+    "Home broadband and DTH",
+    "Africa mobile"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      37
+    ],
+    "headline": "Steady 2Q for telcos and Indus; reduction in digital losses drive stronger 2Q for TCOM",
+    "read": "Private telcos' combined wireless revenue rose 3% QoQ (+9% YoY) to INR728b, with blended ARPU +2% QoQ (+4.8% YoY) and 9.6m net adds (11m in 1Q). Combined wireless EBITDA rose ~4% QoQ to INR435b (MOFSL estimate INR429b) on ~70% blended incremental margin versus ~63% in 1Q. Bharti gained ~21bp revenue share QoQ, RJio ~6bp, and Vi lost 26bp. Bharti net debt ex-lease rose INR64b QoQ to INR883b; Vi net debt rose INR34b to INR1.57t with a INR450b FY26-29 capex target and INR105b of funding tied up. TCOM consolidated EBITDA rose ~21% YoY (5% beat), margin up ~200bp to 21.3%, with digital losses halved to -3.6%; Indus was in line with a pickup in tenancy additions. Guidance: JPL 4-5% organic ARPU growth without tariff hikes, TCOM double-digit FY27 EBITDA growth, Vi public-sector-bank funding to conclude in 3Q.",
+    "surprises": [
+      "TATACOMM"
+    ],
+    "misses": []
+  },
+  "buoyant_skill": "anthropic-skills:telecom-analysis",
+  "unit_economics": "Wireless: revenue = average paying subscribers x ARPU x months; EBITDAaL = revenue - network opex - licence fee and SUC (~8-9% of AGR) - sales and distribution - employee - lease cost; flow-through of 60-90% of incremental revenue. Towers: tenancies x rental per tenancy +/- energy margin. Enterprise: core connectivity (price down 10-15%) + digital on net revenue.",
+  "price_drivers": [
+    {
+      "driver": "ARPU growth and tariff actions",
+      "why": "Blended ARPU rose ~2% QoQ with no round; a broad tariff hike flows through at 60-90% to EBITDA, and the street keeps pushing its assumed hike date out.",
+      "sign": "+"
+    },
+    {
+      "driver": "Revenue market share and active subscriber quality",
+      "why": "Bharti gained 21bp QoQ and Vi lost 26bp; share earned on revenue, not SIMs, drives relative multiples.",
+      "sign": "+"
+    },
+    {
+      "driver": "Incremental EBITDAaL margin and capex intensity",
+      "why": "~70% incremental margin in 2Q lifts EBITDA; capex ex-spectrum at 14-20% of wireless revenue sets free cash flow after DoT dues.",
+      "sign": "+"
+    },
+    {
+      "driver": "Government dues, spectrum instalments and Vi survival",
+      "why": "Bharti's deferred payment liability exceeds its external net debt; Vi's spectrum payments step up to INR27,000 cr by FY29 and its funding decides market structure.",
+      "sign": "-"
+    },
+    {
+      "driver": "Tower tenancy additions and counterparty health",
+      "why": "Indus tenancy adds picked up in 2Q as Vi builds out; a Vi failure returns provisions and exits.",
+      "sign": "+"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "arpu",
+      "name": "ARPU (reported and equal-days) and mix",
+      "priority": "core",
+      "definition": "Average revenue per user per month on the company's own definition, restated to equal days, with split into tariff, mix and days.",
+      "formula": "Mobile revenue / average customers / months; ARPU x 91.25 / days",
+      "unit": "Rs per month",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Each Rs10 of ARPU is a large share of EBITDA at 60-90% flow-through; 2Q blended ARPU +4.8% YoY was organic and the next tariff round is the largest swing factor.",
+      "history_source": "get_investor_presentation metric filter 'ARPU' (BHARTIARTL, IDEA, BHARTIHEXA; Jio via the Reliance deck); get_financials; MOFSL telecom tables; TRAI QPIR in the library.",
+      "estimate_source": "get_consensus_estimates Bloomberg Sales/EBITDA/PAT/EPS only; ARPU forecasts from broker models and the tariff-hike date from sector notes (no consensus ARPU field).",
+      "traps": "ARPU definitions are not comparable (Bharti paying customers, Jio all SIMs, Vi blended); extra day in 2Q; M2M in TRAI base.",
+      "examples": [
+        "BHARTIARTL",
+        "BHARTIHEXA",
+        "IDEA"
+      ]
+    },
+    {
+      "code": "rms_net_adds",
+      "name": "Revenue market share and active ex-M2M net adds",
+      "priority": "core",
+      "definition": "Operator share of industry access AGR and active subscriber net adds with M2M removed.",
+      "formula": "Operator access AGR / industry access AGR; active adds ex-M2M",
+      "unit": "%, millions",
+      "frequency": "monthly",
+      "why_it_moves_price": "Share on revenue is the score: Bharti +21bp QoQ and Vi -26bp in 2Q; 60-75% of Bharti's 2026 TRAI net adds were machine SIMs, so raw adds mislead.",
+      "history_source": "TRAI monthly and QPIR via list_library_documents / sector reports; Avendus monthly subscriber re-cut in the library; get_investor_presentation metric filter 'subscribers' / 'net adds'.",
+      "estimate_source": "No consensus field; No consensus; broker models and TRAI AGR trends.",
+      "traps": "Bharti began including M2M in TRAI counts from Dec-2025; TRAI restates; AGR is not P&L revenue.",
+      "examples": [
+        "BHARTIARTL",
+        "IDEA",
+        "BHARTIHEXA"
+      ]
+    },
+    {
+      "code": "ebitdaal_margin",
+      "name": "EBITDAaL margin and incremental margin",
+      "priority": "core",
+      "definition": "EBITDA after lease costs over revenue, with incremental margin on quarterly revenue change.",
+      "formula": "(EBITDA - lease depreciation - lease interest) / revenue; delta EBITDA / delta revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "~70% blended incremental margin beat MOFSL's 55% estimate and lifted wireless EBITDA to INR435b; EBITDAaL is the cross-company basis because tower rent sits below EBITDA under Ind AS 116.",
+      "history_source": "get_financials (D&A and finance cost split, lease note); get_investor_presentation metric filter 'EBITDAaL' / 'EBITDA margin'; MOFSL telecom tables.",
+      "estimate_source": "get_consensus_estimates Bloomberg EBITDA / Sales (reported EBITDA, not EBITDAaL); EBITDAaL forecasts from broker models.",
+      "traps": "India ex-passive EBITDAaL is call-only at Bharti; Indus consolidation (19-Nov-2024) distorts Dec-2024; Jio fibre sits in an InvIT.",
+      "examples": [
+        "BHARTIARTL",
+        "IDEA",
+        "BHARTIHEXA",
+        "INDUSTOWER"
+      ]
+    },
+    {
+      "code": "capex_fcf",
+      "name": "Capex intensity and equity FCF after DoT payments",
+      "priority": "secondary",
+      "definition": "Capex excluding spectrum as % of revenue and cash flow after leases, interest and spectrum/AGR instalments.",
+      "formula": "Capex / revenue; OCF - capex - lease - interest - DPL instalments",
+      "unit": "%, Rs b",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Bharti 2Q FCF fell to INR97b on deferred 5G spectrum repayments (+INR44b YoY) and a data-centre land purchase; JPL cash capex fell 49% in 1H giving INR189b FCF; dividends are paid from this number.",
+      "history_source": "get_financials cash flow; get_investor_presentation metric filter 'capex' / 'free cash flow'; transcripts.",
+      "estimate_source": "No consensus field; Bloomberg capex not a listed field; capex guidance in transcripts (Vi INR450b FY26-29).",
+      "traps": "Capex scope (with or without Indus) changes the ratio; spectrum cash shown separately; Jio capex capitalisation.",
+      "examples": [
+        "BHARTIARTL",
+        "IDEA",
+        "BHARTIHEXA"
+      ]
+    },
+    {
+      "code": "net_debt_layers",
+      "name": "Three-layer net debt and DPL schedule",
+      "priority": "secondary",
+      "definition": "External net debt, plus deferred spectrum and AGR payment liability, plus lease liabilities, each over matching EBITDA.",
+      "formula": "(a) bank/bond - cash; (b) + DPL; (c) + leases",
+      "unit": "Rs b, x EBITDAaL",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Bharti's net debt ex-lease was INR883b but DPL is larger than that; Vi's INR1.57t and AGR reassessment (Rs64,046 cr) set equity-need risk and dilution.",
+      "history_source": "get_financials balance sheet (borrowings, lease liabilities); annual reports for DPL tranches via read_library_document.",
+      "estimate_source": "No consensus field; Management and broker projections.",
+      "traps": "Management quotes external debt only; AGR relief is upside not base case; Africa local-currency debt.",
+      "examples": [
+        "BHARTIARTL",
+        "IDEA",
+        "INDUSTOWER"
+      ]
+    },
+    {
+      "code": "tenancy_sharing",
+      "name": "Tenancies, sharing factor and rental per tenancy [towers]",
+      "priority": "secondary",
+      "definition": "Co-locations, gross adds and exits, sharing factor and rental per tenancy, with provisions separated.",
+      "formula": "Tenancies / towers; rental revenue / average tenancies",
+      "unit": "x, Rs per tenancy",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Tower returns rise from 12% to 39% for 1 to 3 tenants; Indus 2Q tenancy adds picked up and Africa rollouts (Uganda, Zambia, Nigeria 3QFY27) add growth.",
+      "history_source": "get_investor_presentation metric filter 'tenancies' / 'sharing factor' (INDUSTOWER); get_financials.",
+      "estimate_source": "No consensus field; Bloomberg Sales/EBITDA only; tenancy guidance in transcripts.",
+      "traps": "Provision write-backs inflated FY25 margin (~69% vs ~52% ex-provisions); energy pass-through at negative margin.",
+      "examples": [
+        "INDUSTOWER"
+      ]
+    },
+    {
+      "code": "homes_adds",
+      "name": "Homes broadband net adds, ARPU and capex per connect",
+      "priority": "secondary",
+      "definition": "Home broadband customers, FTTH versus FWA mix, ARPU and capex per net add.",
+      "formula": "Net adds; homes revenue / customers; capex / net adds",
+      "unit": "thousands, Rs",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Homes OpFCF was about -INR776 cr in Q1FY27; low-price FWA acquisition churned and dilutes ARPU, so payback decides whether the adjacency earns its cost.",
+      "history_source": "get_investor_presentation metric filter 'homes' / 'FWA' (BHARTIARTL); get_financials segment note.",
+      "estimate_source": "No consensus field; Management commentary in transcripts.",
+      "traps": "Jio counts home broadband inside ARPU; FWA equipment cost.",
+      "examples": [
+        "BHARTIARTL"
+      ]
+    },
+    {
+      "code": "africa_cc_growth",
+      "name": "Africa constant-currency growth and FX gap",
+      "priority": "secondary",
+      "definition": "Airtel Africa revenue and EBITDA in constant currency versus reported, with mobile money.",
+      "formula": "CC growth vs reported growth",
+      "unit": "% YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Bharti's consolidated revenue and EBITDA rose 4-5% QoQ on strong Africa; the naira and other currency moves create gaps of several points between CC and reported.",
+      "history_source": "get_investor_presentation metric filter 'constant currency' / 'Africa' (BHARTIARTL); get_financials.",
+      "estimate_source": "No consensus field; Management commentary; broker FX assumptions.",
+      "traps": "CC base resets each April; hyperinflation accounting (Malawi).",
+      "examples": [
+        "BHARTIARTL"
+      ]
+    },
+    {
+      "code": "enterprise_digital",
+      "name": "Enterprise data revenue, core vs digital margin [enterprise]",
+      "priority": "secondary",
+      "definition": "Data revenue growth reported and constant currency, with digital portfolio margin and core connectivity margin.",
+      "formula": "Digital EBITDA / digital revenue",
+      "unit": "% YoY, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "TCOM data revenue grew ~12% YoY (~6% ex-FX) and digital losses halved to -3.6%, taking EBITDA margin to 21.3%; digital margin path decides the multiple.",
+      "history_source": "get_investor_presentation metric filter 'data revenue' / 'digital portfolio' (TATACOMM); get_financials.",
+      "estimate_source": "get_consensus_estimates Bloomberg Sales/EBITDA for TATACOMM; company guidance of double-digit FY27 EBITDA growth.",
+      "traps": "FX can add 6-8pp to INR growth; net vs gross revenue; acquisitions.",
+      "examples": [
+        "TATACOMM"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "TRAI monthly subscribers and QPIR",
+      "source": "Broker sector notes and sector reports in the library",
+      "why": "Share and ARPU lead"
+    },
+    {
+      "series": "Tariff plan-card changes",
+      "source": "Broker notes in the library",
+      "why": "Pricing signal"
+    },
+    {
+      "series": "USD/INR and African currencies",
+      "source": "Airavat get_commodity_prices (INR:USD)",
+      "why": "Africa translation and DPL"
+    },
+    {
+      "series": "Diesel and power prices",
+      "source": "Airavat get_commodity_prices",
+      "why": "Tower energy margin and network opex"
+    },
+    {
+      "series": "Spectrum auction and AGR rulings",
+      "source": "Sector reports in the library",
+      "why": "Government dues and Vi funding"
+    }
+  ],
+  "valuation_anchor": "SOTP on forward EV/EBITDAaL (India ex-passive core multiple from own post-Nov-2024 regime band, street 11.5-15x; Africa, Indus and Nxtra at market value less 20-25% holdco discount), net debt layers matched to EBITDA basis without double-counting DoT dues; Vi on scenario EV/cash EBITDA; towers on EV/EBITDA ex-provisions.",
+  "watch_next_quarter": "Per MOFSL, watch Bharti Hexacom subscriber normalisation in 3Q after weather disruption, completion of Vi's public-sector-bank funding in 3Q and its tower rollout, Indus order book and Nigeria rollout in 3QFY27, TCOM's double-digit FY27 EBITDA growth, and any tariff round given JPL's 4-5% organic ARPU claim."
+}

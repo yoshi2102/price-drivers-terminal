@@ -1,0 +1,236 @@
+{
+  "code": "healthcare-bpo",
+  "name": "Healthcare BPO",
+  "group": "Healthcare",
+  "subsectors": [
+    "Payer BPM",
+    "Provider RCM",
+    "Life-sciences commercialisation services"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      29
+    ],
+    "headline": "In-line performance; growth outlook remains constructive",
+    "read": "IKS grew organic USD revenue 13% YoY (industry ~12%) at a 27.7% EBITDA margin, ahead of estimates but diluted by TruBridge versus the legacy ~34.5-35%. Sagility grew 11.9% YoY organic in constant currency and its adjusted EBITDA margin reached 26.3%, a six-quarter high, prompting guidance of 25-26% for FY27 (from 24-25%). Indegene's INR revenue rose 39.5% YoY on acquisitions and Enterprise Commercial Solutions, with a ~16.5% margin and a target of 19%+ by 4QFY27; it signed nine USD1m+ ACV deals. MOFSL reiterates BUY on all three.",
+    "surprises": [
+      "IKS"
+    ],
+    "misses": []
+  },
+  "buoyant_skill": "anthropic-skills:bpm-analysis",
+  "unit_economics": "Revenue = billable FTEs (or transactions, or % of client collections) x rate, less 1-2% a year productivity give-back; EBITDA = revenue - offshore delivery cost (wage-led, INR-denominated) - technology; FX gains and hedge results sit either inside or below EBITDA depending on the company.",
+  "price_drivers": [
+    {
+      "driver": "Organic constant-currency growth",
+      "why": "IKS 13% and Sagility 11.9% organic in 2Q against ~12% industry growth; multiples compress when organic growth drops to the market rate.",
+      "sign": "+"
+    },
+    {
+      "driver": "AI deflation of FTE-priced work",
+      "why": "Global core-BPM lines shrank in 2026 and Sagility's stated give-back is rising from ~1-1.5% to ~2%; stocks de-rated from 30x toward 17-20x P/E on this fear.",
+      "sign": "-"
+    },
+    {
+      "driver": "House EBITDA margin excluding FX",
+      "why": "Sagility 26.3% and IKS 27.7% (TruBridge dilution) both include or sit near FX benefits; Indegene's 16.5% shows the miss risk against a 19%+ target.",
+      "sign": "+"
+    },
+    {
+      "driver": "Client concentration and top-client growth",
+      "why": "Sagility top-10 is ~84% of revenue; IKS quarterly top-5 near 42%; a 20% cut at one client is the standard stress test.",
+      "sign": "-"
+    },
+    {
+      "driver": "Acquisition integration and organic-vs-acquired split",
+      "why": "Indegene's 39.5% growth is mostly acquired; TruBridge integration (return to growth from FY28) and BioPharm earn-outs decide quality of growth.",
+      "sign": "+"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "organic_cc_growth",
+      "name": "Organic constant-currency revenue growth",
+      "priority": "core",
+      "definition": "USD revenue growth excluding acquired revenue for the first 12 months and FX.",
+      "formula": "Reported CC growth - acquired revenue / base revenue",
+      "unit": "% YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Growth against the ~12% industry rate is the premium justification: IKS 13% and Sagility 11.9% sustain 17-25x multiples, and Indegene's headline 39.5% is acquisition-led.",
+      "history_source": "get_investor_presentation metric filter 'constant currency' / 'organic' (SAGILITY, FSL, ECLERX, INDGN); get_financials for USD revenue; transcripts (organic is call-only at IKS and Firstsource).",
+      "estimate_source": "No consensus field; get_consensus_estimates Bloomberg Sales only; guidance from transcripts (Sagility low-double-digit organic FY27; Indegene FY27 above FY26).",
+      "traps": "Firstsource guides CC including acquisitions (organic ~9.8% vs 13.6% headline); IKS TruBridge consolidated from 10-Jul-2026 and its run-rate was reset; Indegene stopped the ex-BioPharm split.",
+      "examples": [
+        "SAGILITY",
+        "FSL",
+        "ECLERX",
+        "INDGN",
+        "IKS"
+      ]
+    },
+    {
+      "code": "house_ebitda_margin",
+      "name": "House EBITDA margin (ex FX, ex other income)",
+      "priority": "core",
+      "definition": "Income from services less operating cost, excluding FX gains, hedge results and treasury, shown beside the company figure.",
+      "formula": "(Income from services - operating costs) / income from services",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Margin guidance changes move the stocks: Sagility raised to 25-26%, Indegene's band slipped from 22-24% to 19-20%; FX gains were ~2pp of IKS FY26 company margin.",
+      "history_source": "get_financials (revenue, employee cost, other expenses, other income, FX); get_investor_presentation metric filter 'EBITDA margin' / 'adjusted EBITDA'; MOFSL tables.",
+      "estimate_source": "get_consensus_estimates Bloomberg EBITDA / Sales for the implied margin; company margin guidance in transcripts (IKS FY30 EBITDA ~INR30b aspiration).",
+      "traps": "Sagility redefined adjusted EBITDA in Q1FY26; IKS company EBITDA includes FX and contingent-consideration gains; eClerx's band includes other income; hedge results booked in revenue at Firstsource, eClerx and IKS.",
+      "examples": [
+        "SAGILITY",
+        "IKS",
+        "INDGN",
+        "FSL",
+        "ECLERX"
+      ]
+    },
+    {
+      "code": "client_concentration",
+      "name": "Top-client share and top-client growth",
+      "priority": "core",
+      "definition": "Share of revenue from top-1/5/10 clients and their growth against the rest.",
+      "formula": "Top-N client revenue / total revenue",
+      "unit": "%, % YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Sagility's top-3 grew 9.1% a year versus 16.2% for the company, and IKS top-5 revenue grew 60% YoY in 1QFY27; either too slow or too fast signals a mining or concentration problem and drives stress-test discounts.",
+      "history_source": "get_investor_presentation metric filter 'top client' / 'top 5' / 'top 10' / 'client buckets'; annual reports for Ind AS 108 major-customer notes (read_library_document).",
+      "estimate_source": "No consensus field; No forward estimate; assessed via stress test (cut largest client 20%).",
+      "traps": "Quarterly vs annual concentration bases differ at IKS; Sagility counts client groups; Firstsource dropped top-client share after Q4FY24.",
+      "examples": [
+        "SAGILITY",
+        "IKS",
+        "INDGN",
+        "ECLERX"
+      ]
+    },
+    {
+      "code": "deflation_pricing",
+      "name": "Stated price give-back and non-FTE revenue share",
+      "priority": "secondary",
+      "definition": "Management-stated productivity give-back per year and the disclosed share of outcome, PMPM or %-of-collections revenue.",
+      "formula": "Stated % or (volume growth - revenue growth) residual",
+      "unit": "% per year",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Sagility moved its give-back from 1.5-2% to 'could go to 200bp'; any outcome-pricing claim without a disclosed share is narrative and does not protect against AI deflation.",
+      "history_source": "Transcripts via search_research (filter 'deflation', 'pricing'); get_investor_presentation for contingent revenue; annual reports for contract-price notes.",
+      "estimate_source": "No consensus field; Management commentary in transcripts; Kotak and Nuvama sector notes in the library.",
+      "traps": "Only Sagility quantifies it; Firstsource 'about half non-linear' is undefined; IKS gives no number.",
+      "examples": [
+        "SAGILITY",
+        "FSL",
+        "IKS",
+        "ECLERX"
+      ]
+    },
+    {
+      "code": "acv_deals",
+      "name": "ACV, large deals and bookings conversion",
+      "priority": "secondary",
+      "definition": "Annual contract value of wins and large deals against trailing revenue.",
+      "formula": "ACV (TTM) / revenue (TTM)",
+      "unit": "US$ mn, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Indegene signed nine USD1m+ ACV deals including one USD5m+ and Sagility cited a payment-integrity deal with ACV above USD10m; conversion to revenue timing sets next-4-quarter growth.",
+      "history_source": "get_investor_presentation metric filter 'ACV' / 'large deals' / 'wins' (SAGILITY, INDGN, ECLERX); transcripts.",
+      "estimate_source": "No consensus field; Company deal pipeline language in transcripts.",
+      "traps": "Sagility ACV is 'potential steady-state'; Firstsource and IKS never disclose ACV; wins counted gross, not net new.",
+      "examples": [
+        "INDGN",
+        "SAGILITY",
+        "ECLERX",
+        "FSL"
+      ]
+    },
+    {
+      "code": "revenue_per_employee",
+      "name": "Headcount, attrition and revenue per employee",
+      "priority": "secondary",
+      "definition": "Average headcount, net adds, attrition and USD revenue per average employee.",
+      "formula": "USD revenue / average headcount",
+      "unit": "US$ per employee",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Revenue growing faster than headcount (Firstsource FY26 revenue +14.6% vs headcount +4.5%) shows AI-led productivity or outcome pricing; the same gap can mean FTE work leaving.",
+      "history_source": "get_investor_presentation metric filter 'headcount' / 'attrition'; get_financials employee cost.",
+      "estimate_source": "No consensus field; Broker models.",
+      "traps": "Attrition has no common basis; Indegene headcount includes contractors; archetypes are not comparable.",
+      "examples": [
+        "SAGILITY",
+        "FSL",
+        "ECLERX",
+        "INDGN",
+        "IKS"
+      ]
+    },
+    {
+      "code": "fx_hedge",
+      "name": "FX gain, hedge book and INR sensitivity",
+      "priority": "secondary",
+      "definition": "Hedge book, hedge rate versus spot, hedge gain or loss and where it is booked.",
+      "formula": "(Hedge rate - spot) x hedged amount",
+      "unit": "Rs mn, bp of margin",
+      "frequency": "quarterly",
+      "why_it_moves_price": "INR depreciation funds wage hikes and price cuts, but hedge books convert gains into lagged losses; derivative liabilities of INR1.8bn (Sagility), INR4.6bn (Firstsource) and INR1.6bn (eClerx) were carried at Mar-26.",
+      "history_source": "Annual reports and financials notes (get_financials; read_library_document); transcripts for hedge commentary.",
+      "estimate_source": "No consensus field; Management commentary only.",
+      "traps": "Hedge results sit inside revenue at Firstsource/eClerx/IKS but in other income at Sagility; Indegene hedge MTM ran through P&L until Jan-2026.",
+      "examples": [
+        "SAGILITY",
+        "FSL",
+        "ECLERX",
+        "INDGN"
+      ]
+    },
+    {
+      "code": "cash_conversion",
+      "name": "Cash conversion and client upfront payments",
+      "priority": "secondary",
+      "definition": "Operating cash flow after tax over house EBITDA, before and after client advances; DSO including unbilled.",
+      "formula": "OCF after tax / house EBITDA; (billed + unbilled receivables) / revenue x days",
+      "unit": "%, days",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "IKS's advances of ~13% of revenue to win platform deals depress cash conversion (FY26 company OCF/EBITDA 62% after payments); falling conversion precedes de-rating.",
+      "history_source": "get_financials cash flow and balance sheet; annual reports for contract assets and deferred contract costs.",
+      "estimate_source": "No consensus field; Broker models.",
+      "traps": "Indegene's net DSO deducts unearned revenue; factoring flatters Firstsource DSO.",
+      "examples": [
+        "IKS",
+        "SAGILITY",
+        "FSL",
+        "INDGN"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "USD/INR and USD/GBP",
+      "source": "Airavat get_commodity_prices",
+      "why": "Revenue translation and hedge gains"
+    },
+    {
+      "series": "CMS Medicare Advantage rate notices, Medicaid and ACA enrolment",
+      "source": "Broker sector notes in the library",
+      "why": "Payer budgets and member volume"
+    },
+    {
+      "series": "US payer MLR and provider reimbursement",
+      "source": "Broker sector notes in the library",
+      "why": "Outsourcing demand and price pressure"
+    },
+    {
+      "series": "Global peer prints (EXL, Genpact, Concentrix)",
+      "source": "Broker sector notes in the library",
+      "why": "AI-deflation read-across"
+    },
+    {
+      "series": "US offshoring bills (HIRE Act S.2976, S.2495)",
+      "source": "Broker sector notes in the library",
+      "why": "Binary policy risk"
+    }
+  ],
+  "valuation_anchor": "P/E on 2-year-forward house-normalised EPS ex net cash, against own regime band (AI de-rating regime from Feb-2026: street targets ~15-25x, IKS ~25-34x); EV/EBITDA after leases as cross-check; IKS services and EHR book valued separately.",
+  "watch_next_quarter": "Per MOFSL, track IKS TruBridge synergies from 2HFY27 and cross-sell, Sagility's raised 25-26% margin and the USD10m+ payment-integrity deal, and Indegene's path to 19%+ margin by 4QFY27 with 2HFY27 growth above 1H."
+}

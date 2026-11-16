@@ -1,0 +1,240 @@
+{
+  "code": "media",
+  "name": "Media",
+  "group": "Services",
+  "subsectors": [
+    "TV broadcasting",
+    "Film exhibition",
+    "Music labels",
+    "News broadcasting",
+    "IPL and sports franchises"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      3,
+      4,
+      12
+    ],
+    "headline": "No dedicated Media section in the 2QFY27 compendium (the sector pages run Automobiles to Utilities with no Media page)",
+    "read": "MOFSL covers 3 Media companies and prints no sector narrative or guidance. Its sector charts place Media near the middle of the 1HFY27 PAT-growth ranking (about +17%, chart reading) and show 2HFY27E PAT growth of roughly +39% (chart reading), while the incremental-PAT contribution table shows Media adding only about INR1b. No company surprises or misses are named, so company numbers must come from decks and broker notes.",
+    "surprises": [],
+    "misses": []
+  },
+  "buoyant_skill": "anthropic-skills:broadcasting-analysis",
+  "unit_economics": "Broadcaster: revenue = advertising (inventory x yield) + subscription (paying homes x rate) + film + franchise; house EBITDA = revenue - operating cost - content amortisation, excluding treasury income. Exhibition: footfall x ATP + F&B spend per head + advertising less rent and staff. Music: licensing and streaming revenue less royalty and amortised content cost.",
+  "price_drivers": [
+    {
+      "driver": "Television advertising growth",
+      "why": "Linear TV ad revenue fell 10.3% in 2025 and Sun and Zee ad lines fell YoY for ten straight quarters; ad stabilisation is the main re-rating trigger.",
+      "sign": "+"
+    },
+    {
+      "driver": "Subscription revenue growth",
+      "why": "Sun domestic subscription growth slowed from 9-11% in FY26 to +2.3% in 2QFY27 as pay-TV homes fell to ~104mn.",
+      "sign": "+"
+    },
+    {
+      "driver": "Content-adjusted EBITDA margin",
+      "why": "Sun house margin fell from 44% to 38% in FY26 once film and rights amortisation is charged; film releases swing reported EBITDA by 40%+ in a quarter.",
+      "sign": "+"
+    },
+    {
+      "driver": "Treasury and capital allocation",
+      "why": "Sun holds ~Rs7,500 cr and other income is ~28% of PBT; payout and non-core use of cash decide the multiple on a 5-10x core P/E.",
+      "sign": "+"
+    },
+    {
+      "driver": "IPL and sports franchise value",
+      "why": "The 2028-32 IPL media rights auction (mid-CY27) and franchise deal marks (RCB INR166.6bn) determine the value of Sun's cricket line.",
+      "sign": "+"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "ad_revenue_growth",
+      "name": "Advertising revenue growth",
+      "priority": "core",
+      "definition": "TV advertising revenue (including slot sales) growth YoY and over two years, with radio shown separately.",
+      "formula": "Ad revenue / prior-year ad revenue - 1",
+      "unit": "% YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Ad revenue is the most cyclical and most de-rated line; Zee's ad line leads Sun's, and the ad-cap removal (announced Aug-2026) adds only ~1-3% industry inventory.",
+      "history_source": "get_financials revenue split (Sun FY26 annual report); get_investor_presentation metric filter 'advertising' (ZEEL deck); broker results notes (JM, Kotak, IIFL) in the report library.",
+      "estimate_source": "get_consensus_estimates gives Bloomberg Sales for SUNTV/ZEEL; ad-line forecasts come from broker models (ICICI Securities language-market ad model).",
+      "traps": "BARC ratings suspended from Jul-2026; Sun broadcast-slot sales sit in ad revenue; FMCG A&P growth no longer correlates with TV ads.",
+      "examples": [
+        "SUNTV",
+        "ZEEL",
+        "NETWORK18",
+        "TVTODAY"
+      ]
+    },
+    {
+      "code": "subscription_growth",
+      "name": "Domestic subscription growth and related-party share",
+      "priority": "core",
+      "definition": "Domestic and international subscription revenue growth, price versus subscriber split, and the share billed to promoter-group distributors.",
+      "formula": "Subscription revenue / prior-year - 1",
+      "unit": "% YoY, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Subscription is ~48% of Sun's revenue and is price-led; growth fell to +2.3% in 2QFY27 and 56% of Sun's subscription comes from promoter-group distributors.",
+      "history_source": "get_financials revenue lines; Sun annual report related-party note via read_library_document; transcripts (ZEEL; Sun calls are second-hand via brokers).",
+      "estimate_source": "No consensus field; Bloomberg Sales only; NTO price-cycle commentary in broker notes.",
+      "traps": "FIFA added 15-20pp to Zee's Q2 subscription growth; NTO price caps; TRAI quarterly data lags ~3 months.",
+      "examples": [
+        "SUNTV",
+        "ZEEL"
+      ]
+    },
+    {
+      "code": "house_ebitda_margin",
+      "name": "Content-adjusted house EBITDA margin",
+      "priority": "core",
+      "definition": "Revenue less operating cost less amortisation of film, programme and broadcasting rights, excluding other income.",
+      "formula": "(Revenue - operating costs - content amortisation) / revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Sun reports EBITDA before film and rights amortisation (51.1% FY26) while brokers quote 40.7%; EV/EBITDA for the same stock ranges 4x to 11x on basis alone.",
+      "history_source": "get_financials (D&A split, intangible notes in the annual report); broker results notes for house-basis EBITDA; Zee deck for programming cost.",
+      "estimate_source": "get_consensus_estimates Bloomberg EBITDA / PAT / EPS (bases differ by broker); no consensus on content-adjusted EBITDA.",
+      "traps": "Zee front-loaded movie amortisation from Q4FY26 (Rs4,084mn); film quarters spike EBITDA while EBIT barely moves; Zee Q2 EBITDA Rs708mn vs Rs858mn across brokers.",
+      "examples": [
+        "SUNTV",
+        "ZEEL",
+        "NETWORK18"
+      ]
+    },
+    {
+      "code": "content_cost_pct",
+      "name": "Content cost % of TV revenue",
+      "priority": "secondary",
+      "definition": "Programme cost plus rights amortisation over advertising and subscription revenue; Zee on programming cost and inventory days.",
+      "formula": "(Programme and production cost + rights amortisation) / (ad + subscription revenue)",
+      "unit": "%, days",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Sun ran 25.4% in FY26 and Zee 50-56%; Zee's inventory (~Rs65bn, ~293 days of revenue) and write-down risk drive its discount.",
+      "history_source": "get_financials (inventories, programming cost); Sun annual report intangibles note; get_investor_presentation metric filter 'content' (ZEEL).",
+      "estimate_source": "No consensus field; Broker models; Zee guidance on programming cost.",
+      "traps": "Different cost locations (Sun D&A vs Zee COGS); inventory days on revenue vs on programming cost (293 vs ~500+).",
+      "examples": [
+        "SUNTV",
+        "ZEEL"
+      ]
+    },
+    {
+      "code": "viewership_share",
+      "name": "Viewership and network share (BARC)",
+      "priority": "secondary",
+      "definition": "Weekly network share of viewing by genre or language; shown as not available while BARC is suspended.",
+      "formula": "Network GRPs / market GRPs",
+      "unit": "%",
+      "frequency": "weekly",
+      "why_it_moves_price": "Zee says share gains convert to revenue after 13-16 weeks; with BARC data suspended from Jul-2026 (news from Mar-2026) this lead indicator is blind.",
+      "history_source": "Zee decks and transcripts (data stops at week 24 of 2026); broker sector notes; no Airavat structured series.",
+      "estimate_source": "No consensus field; No estimates.",
+      "traps": "Suspension of ratings; share claims use selective target groups and markets.",
+      "examples": [
+        "ZEEL",
+        "SUNTV",
+        "NETWORK18"
+      ]
+    },
+    {
+      "code": "film_exhibition",
+      "name": "Film contribution, box office, footfalls, ATP and SPH",
+      "priority": "secondary",
+      "definition": "Film revenue less same-period amortisation for producers; occupancy, average ticket price and spend per head for exhibitors.",
+      "formula": "Film revenue - production amortisation; footfalls x ATP; F&B / footfalls",
+      "unit": "Rs cr, %, Rs",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Jailer 2 (Q3FY27) is expected to add Rs3.5-4bn of Sun revenue, while exhibitors re-rate on footfalls and spend per head, not screen count.",
+      "history_source": "get_financials; get_investor_presentation metric filter 'footfalls' / 'ATP' / 'SPH' (PVRINOX); box-office trackers cited in broker notes.",
+      "estimate_source": "No consensus field; Bloomberg Sales/EBITDA only; slate guidance in transcripts.",
+      "traps": "Release-quarter EBITDA spikes; Ind AS 116 rent; box-office gross vs net.",
+      "examples": [
+        "SUNTV",
+        "PVRINOX",
+        "ZEEL"
+      ]
+    },
+    {
+      "code": "franchise_sf",
+      "name": "Sports franchise revenue, fee and EBITDA (IPL, SA20, The Hundred)",
+      "priority": "secondary",
+      "definition": "Cricket revenue, franchise fee (~20-23% of revenue) and EBITDA on a season basis (Q4 plus Q1 for the IPL).",
+      "formula": "Cricket revenue - franchise fee - identifiable cricket costs",
+      "unit": "Rs cr, %",
+      "frequency": "annual",
+      "why_it_moves_price": "Sun's cricket EBITDA margin fell from 50% to 36% in FY26; broker values of the cricket line span Rs70bn to Rs170bn, so the 2028-32 rights reset swings Sun's value.",
+      "history_source": "get_financials segment lines; Sun annual report; broker results notes (Elara, Kotak, Axis) in the library.",
+      "estimate_source": "No consensus field; Broker models only; no Bloomberg segment field.",
+      "traps": "IPL straddles two fiscal quarters; central-pool income may be booked on estimate; Leeds franchise carried at indefinite life.",
+      "examples": [
+        "SUNTV"
+      ]
+    },
+    {
+      "code": "treasury_other_income",
+      "name": "Treasury and other income % of PBT",
+      "priority": "secondary",
+      "definition": "Cash and investments and other income share of profit before tax, with FVTPL gains separated.",
+      "formula": "Other income / PBT",
+      "unit": "%, Rs cr",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "Sun's ~Rs7,540 cr treasury and other income at ~28.5% of standalone PBT mean P/E on group EPS flatters the core; brokers' core multiples run 5x to 12.4x depending on treatment.",
+      "history_source": "get_financials other income and balance sheet; Sun annual report notes.",
+      "estimate_source": "get_consensus_estimates Bloomberg PAT / EPS includes treasury income; no separate field.",
+      "traps": "MTM gains on debt funds; aircraft advance and films under production are not treasury.",
+      "examples": [
+        "SUNTV",
+        "ZEEL"
+      ]
+    },
+    {
+      "code": "music_label",
+      "name": "Music label licensing revenue and content amortisation",
+      "priority": "secondary",
+      "definition": "Music licensing, streaming and film-rights revenue growth with royalty and content amortisation.",
+      "formula": "Revenue growth; EBITDA / revenue",
+      "unit": "% YoY, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Streaming and licensing revenue compounds at high-teens with 60%+ EBITDA margins at Tips and Saregama, which rerate on catalogue acquisitions and licence renewals.",
+      "history_source": "get_investor_presentation metric filter 'licensing' / 'streaming' (TIPSMUSIC); get_financials; transcripts.",
+      "estimate_source": "No consensus field; Bloomberg Sales/EBITDA only.",
+      "traps": "Lumpy film-music rights revenue; content amortisation policy differs; Zee Music P&L not disclosed.",
+      "examples": [
+        "TIPSMUSIC",
+        "SAREGAMA"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "FMCG advertising and A&P growth",
+      "source": "Broker sector notes in the library",
+      "why": "TV ad demand lead"
+    },
+    {
+      "series": "Box office (Sacnilk, Ormax)",
+      "source": "Broker sector notes in the library",
+      "why": "Film and exhibition quarter"
+    },
+    {
+      "series": "TRAI NTO and ad-cap/ratings rules",
+      "source": "Sector reports; TRAI outside Airavat",
+      "why": "Subscription and ad inventory"
+    },
+    {
+      "series": "IPL media rights auction timetable",
+      "source": "Broker notes in the library",
+      "why": "Franchise value"
+    },
+    {
+      "series": "Treasury yields (G-sec, debt funds)",
+      "source": "Airavat get_commodity_prices where available; broker notes",
+      "why": "Other income"
+    }
+  ],
+  "valuation_anchor": "Broadcasters: SOTP with core media P/E on core media PAT ex treasury and ex franchises (street 5-12x), treasury at face net of DTL, franchises on deal marks; Zee on forward core EPS (9-18x) cross-checked with SOTP. Exhibition: EV/EBITDA on post-Ind AS 116 basis. Music: P/E on forward EPS.",
+  "watch_next_quarter": "MOFSL gives no Media commentary; track Zee's Q3 print first, Sun's Jailer 2 film quarter, subscription price cycle (next round ~Feb-2027), BARC ratings resumption and ad-cap removal effects on 3QFY27 ad revenue, and the 2028-32 IPL rights process."
+}

@@ -1,0 +1,240 @@
+{
+  "code": "metals",
+  "name": "Metals",
+  "group": "Materials",
+  "subsectors": [
+    "Integrated steel",
+    "Stainless steel",
+    "Primary aluminium",
+    "Zinc and silver",
+    "Copper",
+    "Iron ore and coal mining"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      32,
+      4
+    ],
+    "headline": "Robust volume recovery drives earnings in 2Q; margins sustained despite cost inflation",
+    "read": "Aggregate revenue for MOFSL's 13 metals names grew 27% YoY and 8% QoQ (8% above estimates) and EBITDA grew 47% YoY, flat QoQ (5% above estimates); PAT grew 78% YoY. Ferrous revenue rose 19% YoY on volume, but steel EBITDA/t softened INR1,000-1,500 QoQ as NSR fell INR1,500-2,000/t and input cost rose (JSW Steel INR13,326/t vs INR14,997; Tata Steel INR13,299 vs INR12,743; SAIL INR8,171 vs INR10,725). Non-ferrous revenue jumped 44% YoY and margin rose to 28% from 25.9% on higher metal prices and premia. Guidance: steel domestic ASP to rise ~INR3,000-3,500/t QoQ in 3Q with coking coal up USD10-15/t; JSL cut FY27 volume growth to 4-6% but raised 2H EBITDA/t to INR20,000-22,000; HZ cut FY27 CoP guide to USD825-850/t from USD975-1,000/t; NALCO sees alumina NSR USD370-380/t in 3Q and aluminium at USD2,900-3,000/t in FY27.",
+    "surprises": [
+      "JSWSTEEL",
+      "HINDZINC"
+    ],
+    "misses": [
+      "COALINDIA",
+      "MIDWESTLTD"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:steel-analysis",
+  "unit_economics": "Steel EBITDA = tonnes x (NSR/t - iron ore - coking coal - conversion cost/t); aluminium EBITDA = tonnes x (LME + premium +/- hedge - alumina - power - other hot-metal cost); zinc EBITDA = tonnes x (LME zinc + silver credit - CoP).",
+  "price_drivers": [
+    {
+      "driver": "Steel spread over iron ore and coking coal",
+      "why": "Domestic HRC tracks landed import parity, so EBITDA/t moves with HRC less 1.6t ore and 0.75t coking coal; MOFSL has ferrous NSR down INR1,500-2,000/t QoQ against a 3Q rise guided at INR3,000-3,500/t.",
+      "sign": "+"
+    },
+    {
+      "driver": "LME aluminium, zinc and copper plus regional premia",
+      "why": "Non-ferrous margin rose to 28% from 25.9% on metal price and premium; aluminium near USD3,000/t and zinc near USD4,000/t drive most of the beat.",
+      "sign": "+"
+    },
+    {
+      "driver": "Coking coal and alumina cost",
+      "why": "Coking coal is guided up USD10-15/t QoQ in 3QFY27 and Hindalco guides higher aluminium cost; the cost reaches the P&L about one quarter after the spot move.",
+      "sign": "-"
+    },
+    {
+      "driver": "Import parity, safeguard duty and China exports",
+      "why": "Safeguard duty steps down to 11.5% to Apr-27 and 11% to Apr-28; China exported 119-134mt of steel in 2025 and caps Indian prices when domestic HRC sits near parity.",
+      "sign": "-"
+    },
+    {
+      "driver": "Capacity additions versus demand and leverage",
+      "why": "India crude capacity is planned to rise from 215 to 246mtpa by FY28 while capex keeps net debt rising at JSW Steel and Tata Steel.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "steel_ebitda_per_t",
+      "name": "Steel EBITDA per tonne (house India perimeter)",
+      "priority": "core",
+      "definition": "EBITDA of the India steel perimeter over own-steel tonnes sold, excluding grants, FX on borrowings, prior-period items and traded steel.",
+      "formula": "House India EBITDA / own-steel tonnes (Rs/t)",
+      "unit": "Rs/t",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Sector valuation is EV/EBITDA on mid-cycle EBITDA/t; the 2QFY27 range of INR8,171 (SAIL) to INR21,568/t (Jindal Stainless) and the INR1,000-1,500/t QoQ slip are what moved the group.",
+      "history_source": "MOFSL results exhibit carries 8 quarters of EBITDA/t for JSWSTEEL, TATASTEEL, SAIL, JINDALSTEL and JSL; get_investor_presentation metric filter 'EBITDA per tonne' for JSW and Tata decks; get_financials for revenue and EBITDA; transcripts for call-only JSW figures.",
+      "estimate_source": "No consensus field for EBITDA/t; derive from get_consensus_estimates EBITDA divided by broker volume; company guidance (JSL INR20,000-22,000/t for 2HFY27) from transcripts; Nomura and Kotak broker models in the report library.",
+      "traps": "Perimeters differ (JSW standalone, India ops, consolidated; Tata India includes transfers; SAIL tonnes include traded steel); grants of about INR800/t at JSW; four versions of adjusted EBITDA; coal inventory lag.",
+      "examples": [
+        "JSWSTEEL",
+        "TATASTEEL",
+        "SAIL",
+        "JINDALSTEL",
+        "JSL"
+      ]
+    },
+    {
+      "code": "steel_spread",
+      "name": "Steel spread over raw material (spot and lagged)",
+      "priority": "core",
+      "definition": "Mix-weighted HRC and rebar price less 1.6x iron ore and 0.75x premium hard coking coal in rupees; shown spot and with coal lagged one quarter.",
+      "formula": "Benchmark steel price - 1.6 x iron ore (Rs/t) - 0.75 x PHCC (USD/t x INR/USD)",
+      "unit": "Rs/t",
+      "frequency": "monthly",
+      "why_it_moves_price": "Lagged spread change explains most of the QoQ change in EBITDA/t; a USD10/t coking coal rise costs roughly INR20-28bn of annual EBITDA at JSW Steel (house calc).",
+      "history_source": "get_commodity_prices for HRC, rebar, iron ore, coking coal and INR; broker spread trackers (IIFL, Nomura) in the library; get_financials for realisation.",
+      "estimate_source": "get_commodity_assumptions gives Kotak's FY27-29E steel, iron ore and coking coal deck; no consensus for the spread itself.",
+      "traps": "Coal and ore indices differ by USD40-60/t across brokers; NMDC moved to ex-tax quotes in Jan-26 (series break); the formula understates raw material cost by INR3,000-5,000/t so compare changes not levels.",
+      "examples": [
+        "JSWSTEEL",
+        "TATASTEEL",
+        "JINDALSTEL",
+        "SAIL"
+      ]
+    },
+    {
+      "code": "aluminium_cop_ebitda",
+      "name": "Aluminium hot-metal CoP and EBITDA per tonne vs LME",
+      "priority": "core",
+      "definition": "Hot-metal cost of production (alumina + power + carbon) and EBITDA per tonne sold, before and after hedges, against LME plus premium.",
+      "formula": "EBITDA / tonnes sold; CoP = alumina + power + other hot-metal per tonne",
+      "unit": "USD/t",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Each USD100/t on LME is about 6-7% of Vedanta Aluminium EBITDA; Hindalco guides a QoQ rise in 3Q cost, and NALCO guides USD2,900-3,000/t LME and USD370-380/t alumina NSR.",
+      "history_source": "get_investor_presentation metric filter 'cost of production' and 'EBITDA per tonne' (Vedanta aluminium, Hindalco, NALCO decks); get_commodity_prices for LME aluminium and alumina; transcripts for hedge books and NALCO alumina realisation.",
+      "estimate_source": "get_consensus_estimates for EBITDA; broker models for CoP (Nomura-format models for VAML, NALCO, Hindalco); no consensus field for CoP or premium; company guidance on calls.",
+      "traps": "Hindalco discloses CoP only as percentage change; VAML segment vs P&L EBITDA differ; hedge loss inside realisation; NALCO deck EBITDA includes other income; short vs long alumina changes sign of alumina moves.",
+      "examples": [
+        "HINDALCO",
+        "NATIONALUM",
+        "VEDL",
+        "HINDCOPPER"
+      ]
+    },
+    {
+      "code": "zinc_cop_silver",
+      "name": "Zinc CoP and silver realisation (Hindustan Zinc)",
+      "priority": "core",
+      "definition": "Mined-metal cost of production per tonne and silver volume against LME zinc and silver prices.",
+      "formula": "CoP excluding royalty (USD/t); silver tonnes sold",
+      "unit": "USD/t",
+      "frequency": "quarterly",
+      "why_it_moves_price": "HZ cut FY27 CoP guidance to USD825-850/t from USD975-1,000/t on higher sulphuric acid prices while zinc near USD4,000/t and silver at 680t guidance widened the margin and drove the beat.",
+      "history_source": "get_investor_presentation metric filter 'cost of production', 'silver' for HINDZINC; get_financials; get_commodity_prices for zinc and silver.",
+      "estimate_source": "Company CoP and silver guidance in transcripts; get_consensus_estimates for EBITDA only; get_commodity_assumptions for Kotak zinc deck.",
+      "traps": "CoP excludes or includes royalty by deck; by-product credits (acid, silver) move CoP without mining change; concentrate sales sit inside silver tonnage.",
+      "examples": [
+        "HINDZINC",
+        "VEDL"
+      ]
+    },
+    {
+      "code": "captive_raw_material",
+      "name": "Captive iron ore, coking coal and bauxite share",
+      "priority": "secondary",
+      "definition": "Share of ore, coal or bauxite consumed from own mines, with royalty and auction premium cost per tonne.",
+      "formula": "Captive input consumed / total input consumed",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Auction premiums of 100-175% and revenue-share coal blocks mean captive is not free; JSW captive ore fell to about 30% against a 50% goal while Tata's leases expire in 2030, so cost per tonne drives the long-run margin.",
+      "history_source": "get_investor_presentation metric filter 'captive' and 'mining'; get_financials for royalty line; annual reports via read_library_document.",
+      "estimate_source": "Company mine milestones in transcripts; broker models; no consensus.",
+      "traps": "Mined versus consumed; mining premium booked on different lines at each company; mine start dates slip 2-6 quarters.",
+      "examples": [
+        "JSWSTEEL",
+        "TATASTEEL",
+        "JINDALSTEL",
+        "NMDC",
+        "VEDL"
+      ]
+    },
+    {
+      "code": "steel_volume_utilisation",
+      "name": "Steel sales volume and utilisation",
+      "priority": "secondary",
+      "definition": "Own-steel sales and crude production against rated capacity.",
+      "formula": "Crude production / average rated capacity",
+      "unit": "mt, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "2Q volume beat drove the 8% revenue beat in a seasonally weak quarter; JSL cut FY27 volume growth to 4-6%, showing volume guidance moves estimates.",
+      "history_source": "get_investor_presentation metric filter 'volume' and 'utilisation'; MOFSL results tables; JPC data via broker notes.",
+      "estimate_source": "Company guidance on calls; get_consensus_estimates sales as a cross-check.",
+      "traps": "Trial-run tonnes inside production; SAIL traded tonnes; Tata transfers to downstream units.",
+      "examples": [
+        "JSWSTEEL",
+        "TATASTEEL",
+        "SAIL",
+        "JSL"
+      ]
+    },
+    {
+      "code": "net_debt_capex",
+      "name": "Net debt to EBITDA and capex versus guidance",
+      "priority": "secondary",
+      "definition": "Layered net debt (borrowings + leases + acceptances - cash) over EBITDA, with capex against plan.",
+      "formula": "Net debt / house EBITDA",
+      "unit": "x",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Leverage caps (JSW 3.0x, Jindal Steel 1.5x breached) gate capex; cost overruns and acceptances outside company net debt change the ratio the market uses.",
+      "history_source": "get_financials balance sheet and cash flow; get_investor_presentation metric filter 'net debt' and 'capex'.",
+      "estimate_source": "Company capex guidance in transcripts; broker models; get_consensus_estimates for EBITDA.",
+      "traps": "Company net debt excludes leases and about USD2bn of JSW acceptances; JV debt and letters of comfort sit outside.",
+      "examples": [
+        "JSWSTEEL",
+        "TATASTEEL",
+        "JINDALSTEL",
+        "VEDL"
+      ]
+    },
+    {
+      "code": "premium_realisation",
+      "name": "Realisation, premium and hedge effect on non-ferrous",
+      "priority": "secondary",
+      "definition": "Net realisation per tonne after LME, regional premium and hedge result.",
+      "formula": "Metal revenue / tonnes sold - LME",
+      "unit": "USD/t",
+      "frequency": "quarterly",
+      "why_it_moves_price": "MOFSL attributes the non-ferrous margin rise to price and premium, so premium resets (NALCO tender, Japan MJP) move earnings without volume change.",
+      "history_source": "get_investor_presentation metric filter 'premium' and 'realisation'; get_commodity_prices for LME.",
+      "estimate_source": "No consensus; broker notes and company hedge books on calls.",
+      "traps": "Hedge losses net inside realisation; premium definitions differ across companies.",
+      "examples": [
+        "HINDALCO",
+        "NATIONALUM",
+        "VEDL"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "HRC, rebar and import parity (China FOB)",
+      "source": "Airavat get_commodity_prices; broker trackers in report library",
+      "why": "Sets steel NSR"
+    },
+    {
+      "series": "Iron ore and premium hard coking coal",
+      "source": "Airavat get_commodity_prices; get_commodity_assumptions for Kotak FY27-29E deck",
+      "why": "Input cost, one-quarter lag"
+    },
+    {
+      "series": "LME aluminium, zinc, copper, alumina; silver",
+      "source": "Airavat get_commodity_prices",
+      "why": "Non-ferrous revenue and margin"
+    },
+    {
+      "series": "INR:USD",
+      "source": "Airavat get_commodity_prices",
+      "why": "Realisation and dollar-linked cost"
+    },
+    {
+      "series": "Safeguard duty, China steel exports, India net imports",
+      "source": "Broker sector notes in report library",
+      "why": "Domestic price ceiling"
+    }
+  ],
+  "valuation_anchor": "EV/EBITDA on mid-cycle EBITDA/t for steel (multiples move inversely to earnings, so anchor on the long-run 6.5-8x forward average), EV/EBITDA at LME mid-cycle for aluminium and zinc, P/B versus RoE for SAIL.",
+  "watch_next_quarter": "Per MOFSL, steel volumes improve in 2H with domestic ASP up INR3,000-3,500/t QoQ against coking coal up USD10-15/t: track whether the spread widens. Also Hindalco's aluminium cost step-up and Novelis normalising by 4Q, NALCO alumina NSR near USD370-380/t, and HZ CoP against its USD825-850/t guide."
+}

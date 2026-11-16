@@ -1,0 +1,270 @@
+{
+  "code": "healthcare",
+  "name": "Healthcare",
+  "group": "Healthcare",
+  "subsectors": [
+    "US generics and specialty",
+    "India branded formulations",
+    "CDMO and API",
+    "Hospitals",
+    "Diagnostics"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      27,
+      28
+    ],
+    "headline": "Operationally strong quarter; outlook remains encouraging",
+    "read": "Pharma coverage revenue was 4% above estimates and EBITDA and PAT 9% above, helped by operating efficiencies and currency; aggregate revenue rose 17% YoY, EBITDA 23% and PAT 15%. US sales fell 3% YoY in constant currency (an improvement on the prior two quarters) but rose ~4.7% in INR; India domestic formulations (ex-GNP/TRP) grew 14.6% YoY against IPM growth of 14.8%, with chronic ~17% and acute ~13%. Super-specialty hospitals (ASTERDM, APHS, FORH, MAXH, MEDANTA) grew revenue/EBITDA/PAT 32%/38%/30% on ~22% volume growth and low double-digit ARPOB growth. Guidance: ALPM FY27 revenue growth 20-25% (from mid-teens), EMCURE above 20%, IPCA 14-16%, PIRPHARMA 19-20%, MANKIND EBITDA margin 25.5-26.5%, SUNP high single digit, MAXHEALT 500-bed Gurgaon Sector 56 by end-FY27, APHS ~1,800 beds in two years. Earnings upgrades: LAURUS 28.4%/30.4% (FY27/FY28), DIVIS 20.8%/18.5%; downgrades BIOCON 21.9%/14.5%.",
+    "surprises": [
+      "ALPM",
+      "LAURUSLABS",
+      "AGARWALE"
+    ],
+    "misses": [
+      "BIOCON"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:pharma-formulations-analysis",
+  "unit_economics": "Global generics: EBITDA = base US sales (prior base x (1 - erosion) + launches) + one-off exclusivities + specialty - COGS - R&D - front-end cost. India branded: IPM growth x relative growth x gross margin less MR cost (MRs x productivity). CDMO/API: molecules x wallet x tonnes x Rs/kg. Hospitals: EBITDA = beds x occupancy x ARPOB x 365 - fixed cost per bed.",
+  "price_drivers": [
+    {
+      "driver": "US base sales ex-exclusivity and launch refill",
+      "why": "Share prices follow base US$ after stripping gRevlimid-type one-offs; Q2 US sales were -3% CC, and lower G-Revlimid hit DRREDDY, CIPLA and SUNPHARMA.",
+      "sign": "+"
+    },
+    {
+      "driver": "India branded growth versus IPM",
+      "why": "IPM grew 14.8% in 2Q with chronic ~17%; companies outgrowing IPM on volume (not price) earn premium multiples.",
+      "sign": "+"
+    },
+    {
+      "driver": "Core EBITDA margin after FX and one-offs",
+      "why": "Aggregate EBITDA grew 23% against revenue 17%; much of the beat came from operating efficiency and INR, which can reverse.",
+      "sign": "+"
+    },
+    {
+      "driver": "Hospital ARPOB and occupancy as beds are added",
+      "why": "Super-specialty chains grew ~22% in volume with low double-digit ARPOB despite aggressive bed additions; new-bed ramp decides margin.",
+      "sign": "+"
+    },
+    {
+      "driver": "USFDA site status, tariffs and price control",
+      "why": "An OAI/warning letter stops approvals from a site for years; NLEM and trade-margin caps (oncology) cut India realisation.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "us_base_sales",
+      "name": "US sales and base US sales ex-exclusivity",
+      "priority": "core",
+      "definition": "US generics and specialty sales in US$, with named one-off exclusivities (lenalidomide, tolvaptan, mirabegron) and milestones removed.",
+      "formula": "US sales - named exclusivity sales - licence/milestone income +/- shelf-stock adjustments",
+      "unit": "US$ mn, % YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Exclusivity income is valued as a declining NPV, not at the sector multiple; a base that shrinks faster than launches fill it de-rates the stock, as lower G-Revlimid did in 2Q.",
+      "history_source": "get_investor_presentation metric filter 'US sales' / 'North America' for SUNPHARMA, DRREDDY, LUPIN, ZYDUSLIFE, CIPLA, AUROPHARMA; get_financials for geography revenue; transcripts for US$ and one-off commentary (DRREDDY gives US$ only on calls); broker results-update notes (IIFL, Nomura, Kotak) for product-level estimates.",
+      "estimate_source": "No consensus field; get_consensus_estimates gives Bloomberg Sales/EBITDA/PAT/EPS only; US$ forecasts come from broker models in the report library and call guidance.",
+      "traps": "INR depreciation lifts INR growth while CC falls (2Q: -3% CC, +4.7% INR); one-off sizes are broker estimates, never disclosed; restated US$ histories (Lupin, Sun).",
+      "examples": [
+        "SUNPHARMA",
+        "DRREDDY",
+        "LUPIN",
+        "ZYDUSLIFE",
+        "CIPLA",
+        "ALKEM"
+      ]
+    },
+    {
+      "code": "india_vs_ipm",
+      "name": "India formulations growth versus IPM (volume, price, new products)",
+      "priority": "core",
+      "definition": "Domestic formulation growth against Indian Pharmaceutical Market growth from one audit source, split into volume, price and new introductions.",
+      "formula": "Company secondary growth - IPM growth (same source and period)",
+      "unit": "% YoY, pp gap",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Chronic-heavy franchises growing ahead of IPM (2Q IPM +14.8%, chronic ~17%) earn the highest multiples; outperformance from price or launches with volume below IPM is discounted.",
+      "history_source": "get_investor_presentation metric filter 'IPM' / 'India formulations' / 'market share' (SUNPHARMA, MANKIND, TORRENTPHARM, ALKEM, IPCALAB, AJANTPHARM); AIOCD-AWACS and IQVIA monthly summaries cited in broker notes in the library; MOFSL results tables carry the DF growth series.",
+      "estimate_source": "No consensus field; Bloomberg Sales only; company guidance (IPCA domestic 15-16%, TRP DF 12% FY27, MANKIND) from transcripts.",
+      "traps": "AWACS prints 1-3pp below IQVIA; do not mix sources; GNP/TRP low base inflates the aggregate (22% vs 14.6% ex-GNP/TRP); primary vs secondary gap.",
+      "examples": [
+        "MANKIND",
+        "TORRENTPHARM",
+        "SUNPHARMA",
+        "IPCALAB",
+        "AJANTPHARM",
+        "ALKEM"
+      ]
+    },
+    {
+      "code": "core_ebitda_margin",
+      "name": "Core EBITDA margin (ex FX, one-offs, licence income)",
+      "priority": "core",
+      "definition": "Operating margin after removing net FX gains booked inside EBITDA, milestone and licence income, and shelf-stock charges.",
+      "formula": "(EBITDA - FX gain - licence/milestone income) / core revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "FX and exclusivity flatter margin: Sun FY26 was ~28% ex-FX versus 30% reported; investors capitalise the core number, so a beat made of INR and one-offs reverses.",
+      "history_source": "get_financials (revenue, material cost, employee, other expenses, FX line); get_investor_presentation metric filter 'EBITDA margin'; MOFSL results tables; broker notes name the EBITDA basis (ex-FX, ex-OOI).",
+      "estimate_source": "get_consensus_estimates Bloomberg EBITDA / Sales gives implied margin on the street basis; company guidance (MANKIND 25.5-26.5%, ZYDUSLIFE 24%+, EMCURE 75-100bp expansion, IPCA +100-125bp).",
+      "traps": "Three EBITDA bases in broker tables; other income inside EBITDA at DRREDDY/Natco; recurring 'exceptionals' at Sun; R&D capitalisation.",
+      "examples": [
+        "SUNPHARMA",
+        "DRREDDY",
+        "ZYDUSLIFE",
+        "LUPIN",
+        "MANKIND",
+        "EMCURE"
+      ]
+    },
+    {
+      "code": "hospital_arpob",
+      "name": "ARPOB and payor/case mix",
+      "priority": "core",
+      "definition": "Average revenue per occupied bed per day, with international and insurance mix, for hospital chains.",
+      "formula": "Hospital revenue / (occupied bed days)",
+      "unit": "Rs per day",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Super-specialty chains compounded EBITDA 38% on ~22% volume and low double-digit ARPOB in 2Q; ARPOB is the price-and-mix lever that determines whether new beds add margin.",
+      "history_source": "get_investor_presentation metric filter 'ARPOB' for MAXHEALT, APOLLOHOSP, FORTIS, MEDANTA, ASTERDM, NH, KIMS; get_financials for revenue; transcripts for like-for-like ARPOB.",
+      "estimate_source": "No consensus field; Bloomberg Sales/EBITDA/PAT/EPS only; ARPOB forecasts and bed plans from broker models and guidance (MAXHEALT, APHS, AGARWALE targets).",
+      "traps": "Network ARPOB mixes new and mature hospitals; international patient share; pharmacy and diagnostics revenue sit outside hospital ARPOB for Apollo.",
+      "examples": [
+        "MAXHEALT",
+        "APOLLOHOSP",
+        "FORTIS",
+        "MEDANTA",
+        "NH"
+      ]
+    },
+    {
+      "code": "beds_occupancy",
+      "name": "Bed additions, occupancy and EBITDA per bed",
+      "priority": "secondary",
+      "definition": "Operational beds, occupancy % and EBITDA per operational bed, separating mature from ramping hospitals.",
+      "formula": "Occupied bed days / (operational beds x days); EBITDA / average operational beds",
+      "unit": "beds, %, Rs mn per bed",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Volume +22% came with aggressive capacity adds (APHS ~1,800 beds in two years; MAXHEALT 500-bed Gurgaon by FY27-end); new beds dilute margin for 2-4 quarters until occupancy reaches 60-65%.",
+      "history_source": "get_investor_presentation metric filter 'occupancy', 'beds', 'ALOS' for the hospital chains; capex and project notes in transcripts.",
+      "estimate_source": "No consensus field; Company bed-addition guidance in transcripts; broker models.",
+      "traps": "Operational vs total beds; occupancy on a mature-hospital basis; Fortis and Aster restated perimeters after mergers (ASTERDM merger synergy INR2b).",
+      "examples": [
+        "MAXHEALT",
+        "APOLLOHOSP",
+        "FORTIS",
+        "KIMS",
+        "MEDANTA"
+      ]
+    },
+    {
+      "code": "cdmo_revenue_growth",
+      "name": "CDMO and API revenue growth and customer offtake",
+      "priority": "secondary",
+      "definition": "CRDMO/CDMO and API segment revenue growth, commercial-molecule share and top-customer concentration.",
+      "formula": "Segment revenue / prior-year segment revenue - 1",
+      "unit": "% YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Lower customer offtake in CRDMO caused BIOCON's 68.6% earnings miss; DIVISLAB beat by 33% on generics plus custom synthesis, so offtake timing drives large single-quarter moves.",
+      "history_source": "get_investor_presentation metric filter 'CDMO' / 'custom synthesis' / 'CRDMO' (DIVISLAB, LAURUSLABS, SYNGENE, NEULANDLAB, SAILIFE); get_financials segment note; transcripts for destocking language.",
+      "estimate_source": "No consensus field; Bloomberg Sales/EBITDA only; capex commercialisation guidance in transcripts (DIVI: one of three major projects near commercial) and broker notes.",
+      "traps": "Single shipments move quarters 20-40%; molecule names never disclosed; inventory build inflates gross margin; development vs commercial reclassification.",
+      "examples": [
+        "DIVISLAB",
+        "LAURUSLABS",
+        "SYNGENE",
+        "BIOCON",
+        "NEULANDLAB"
+      ]
+    },
+    {
+      "code": "fda_site_status",
+      "name": "USFDA site status and approvals pipeline",
+      "priority": "secondary",
+      "definition": "Share of US revenue and pending ANDAs at plants under OAI, warning letter or import alert, with re-inspection dates.",
+      "formula": "US revenue from flagged sites / total US revenue",
+      "unit": "%",
+      "frequency": "event-driven",
+      "why_it_moves_price": "An OAI stops approvals from a site for 1-7+ years while existing supply continues; clearance (Sun Halol is the open case) re-rates the stock.",
+      "history_source": "Transcripts and annual reports in the library (read_library_document); USFDA outcome notes in broker updates; search_research filter 'warning letter' / 'OAI'.",
+      "estimate_source": "No consensus field; Management timelines in transcripts; broker risk notes.",
+      "traps": "Remediation dates slip; partner/CMO sites omitted; OAI rate ~12% of India inspections.",
+      "examples": [
+        "SUNPHARMA",
+        "LUPIN",
+        "CIPLA",
+        "ZYDUSLIFE",
+        "GLENMARK"
+      ]
+    },
+    {
+      "code": "pcpm",
+      "name": "Field force and productivity (MRs, PCPM)",
+      "priority": "secondary",
+      "definition": "Medical representatives and Rx sales per MR per month in Rs lakh for India-branded companies.",
+      "formula": "India branded Rx sales / average MRs / 12",
+      "unit": "Rs lakh per MR per month",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "New MRs take 12-18 months to become productive, so additions (TRP ~9,100 MRs, +~500 evaluated for FY28) depress margin first and lift growth later.",
+      "history_source": "get_investor_presentation metric filter 'MR' / 'field force' / 'productivity'; annual reports for year-end MR counts; transcripts.",
+      "estimate_source": "No consensus field; Company guidance in transcripts; broker models.",
+      "traps": "Company sales per MR includes consumer and trade generics; year-end vs average MRs.",
+      "examples": [
+        "MANKIND",
+        "TORRENTPHARM",
+        "ERIS",
+        "IPCALAB",
+        "AJANTPHARM"
+      ]
+    },
+    {
+      "code": "diagnostics_growth",
+      "name": "Diagnostics volume, realisation per test and margin",
+      "priority": "secondary",
+      "definition": "Test volumes, revenue per patient or test and EBITDA margin for diagnostics chains.",
+      "formula": "Revenue / tests (or patients); EBITDA / revenue",
+      "unit": "Rs per test, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "MOLBIO held FY27 guidance of ~25% revenue growth and 24-25% margin; diagnostics rerate on volume growth with stable realisation and collection-centre productivity.",
+      "history_source": "get_investor_presentation metric filter 'patients' / 'tests' / 'revenue per patient' (DRLAL, METROPOLIS, THYROCARE, VIJAYA); get_financials.",
+      "estimate_source": "No consensus field; Bloomberg Sales/EBITDA only; guidance in transcripts.",
+      "traps": "Covid-era base for older series; B2B vs B2C mix; home collection cost.",
+      "examples": [
+        "DRLAL",
+        "METROPOLIS",
+        "THYROCARE",
+        "VIJAYA"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "USD/INR",
+      "source": "Airavat get_commodity_prices (INR:USD)",
+      "why": "Lifts INR US sales and books FX gains in EBITDA"
+    },
+    {
+      "series": "IPM monthly growth (AIOCD-AWACS / IQVIA)",
+      "source": "Broker sector notes in the library",
+      "why": "India lead indicator ahead of results"
+    },
+    {
+      "series": "US generic price erosion and IQVIA T3M",
+      "source": "Broker monthly notes in the library",
+      "why": "US base trajectory"
+    },
+    {
+      "series": "NPPA/WPI NLEM allowance, trade-margin caps",
+      "source": "Sector reports in the library",
+      "why": "India price component"
+    },
+    {
+      "series": "USFDA inspection outcomes and tariff/MFN news",
+      "source": "Broker updates in the library",
+      "why": "Binary site and policy risk"
+    }
+  ],
+  "valuation_anchor": "Pharma: P/E on 1-2 year forward base EPS (ex one-off exclusivities, ex treasury) plus exclusivity NPV, against own post-FY25 band; SOTP for diversified groups (India branded 20-32x EBITDA, US generics 8-12x). Hospitals: EV/EBITDA on forward EBITDA and EV per operational bed. CDMO: EV/core EBITDA with P/E cross-check.",
+  "watch_next_quarter": "Per MOFSL, track MAXHEALT network revenue acceleration in 3Q/4QFY27 as new beds ramp, DRREDDY semaglutide relaunch in Canada (Nov-26) and Brazil in 4QFY27, ZYDUSLIF saroglitazar PBC approval (Nov-26), SUNP Illumya PsA launch, and whether DIVI's commercialising capex lifts custom synthesis."
+}
