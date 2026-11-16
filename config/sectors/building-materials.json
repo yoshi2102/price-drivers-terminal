@@ -1,0 +1,198 @@
+{
+  "code": "building-materials",
+  "name": "Building Materials",
+  "group": "Materials",
+  "subsectors": [
+    "Plastic pipes",
+    "Tiles",
+    "Bathware",
+    "Adhesives",
+    "Plywood and wood panels (MDF, laminates)"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      14
+    ],
+    "headline": "A mixed-bag quarter",
+    "read": "Plastic pipes: healthy volumes but weak margins. Astral pipe volume +19% YoY with segment EBITDA margin down ~270bp YoY and QoQ; Supreme volume +24% YoY (+18% QoQ) but EBIT margin down ~80bp QoQ; Prince Pipe volume +22% YoY, +28% QoQ with ~13% EBITDA margin. Tiles: Kajaria volume +10% YoY, revenue +24%, EBITDA margin 19.5%; Cera revenue +24% but EBITDA margin 12.2%. Wood panels: Century Ply revenue/EBITDA/PAT +28%/32%/46%, EBITDA margin 12.9%, plywood margin 15.8% with MDF and particle board a drag. Guidance: Supreme cut FY27 volume growth to ~10% from 12%+ (margin 14-14.5%); Astral targets 15% consolidated margin from 13.1%; Kajaria expects double-digit tile volume growth and 18-20% margin; CPBI targets 20% MDF margin by FY29. No upgrades or downgrades.",
+    "surprises": [
+      "KAJARIACER",
+      "PRINCEPIPE"
+    ],
+    "misses": [
+      "ASTRAL",
+      "SUPREMEIND",
+      "CERA"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:tiles-analysis",
+  "unit_economics": "Pipes: EBITDA = tonnes x (net realisation/kg - PVC resin cost/kg - conversion), with inventory gains or losses on resin; Tiles: revenue = volume (own, subsidiary, outsourced) x realisation per sqm, margin set by gas cost per sqm and Morbi price gap; Panels: EBITDA/CBM = realisation - timber, resin and fixed cost per CBM at a given utilisation.",
+  "price_drivers": [
+    {
+      "driver": "Raw material cost and pass-through (PVC resin, gas, timber and resin)",
+      "why": "PVC price swings create inventory gains or losses at pipe makers; gas at ~Rs70-91/SCM sets tile cost; timber and urea set MDF margin.",
+      "sign": "-"
+    },
+    {
+      "driver": "Volume growth versus market and channel restocking",
+      "why": "Pipe volume growth of 19-24% in 2Q came off a low base and channel restocking; sustained double digit growth gives market share gains.",
+      "sign": "+"
+    },
+    {
+      "driver": "Morbi competition and price gap (tiles); capacity cycle (MDF)",
+      "why": "Branded tile premium over Morbi narrowed after the 2026 gas spike, helping Kajaria; MDF overcapacity caps price and Century's MDF margin.",
+      "sign": "+"
+    },
+    {
+      "driver": "Adjacencies and operating leverage",
+      "why": "Bathware and adhesives (Kajaria adhesive target Rs2.4bn FY27) carry better RoCE and dilute tile cyclicality.",
+      "sign": "+"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "volume_growth_by_source",
+      "name": "Volume growth (pipes in tonnes, tiles in MSM, panels in CBM)",
+      "priority": "core",
+      "definition": "Unit volume growth by product line, split where relevant into own, subsidiary and outsourced supply and organic versus restocking.",
+      "formula": "Volume / prior-year volume - 1",
+      "unit": "% YoY",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Volume ahead of the market (Kajaria +10% vs ~5-6%) signals share gain; growth driven by channel restocking after a PVC price bottom reverses next quarter.",
+      "history_source": "get_investor_presentation with metric filter 'volume' (Supreme, Astral, Kajaria, Century publish volumes); get_financials revenue as a cross-check; Motilal Oswal results tables in the report library carry 8 quarters.",
+      "estimate_source": "get_consensus_estimates for Sales; volume forecasts only from broker models and company guidance in transcripts (Supreme FY27 ~10%, Prince double digit).",
+      "traps": "Pipe volumes exclude trading and include only plastic pipes in some decks; Somany series broken by JV reclassification; Orient Bell gives growth % only.",
+      "examples": [
+        "SUPREMEIND",
+        "ASTRAL",
+        "KAJARIACER",
+        "PRINCEPIPE",
+        "CENTURYPLY"
+      ]
+    },
+    {
+      "code": "segment_ebitda_margin",
+      "name": "Segment EBITDA margin (pipes, tiles, plywood, MDF)",
+      "priority": "core",
+      "definition": "Segment operating profit margin on revenue, ex other income, with the segment's own basis stated.",
+      "formula": "Segment EBITDA / segment revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Margin miss against consensus drove Astral (13.1%), Supreme and Cera (12.2%) to the miss list despite strong volumes; margin recovery guidance (Astral 15%, Cera 13-14%) is what the stock is priced on.",
+      "history_source": "get_financials segment disclosures; get_investor_presentation metric filter 'EBITDA margin'; Motilal Oswal and other broker results notes for segment tables.",
+      "estimate_source": "get_consensus_estimates EBITDA (company level); segment margins from broker models and management guidance (Kajaria 18-20%, Cera 13-14%, CPBI MDF 20% by FY29).",
+      "traps": "Gross margin has two bases at tile makers (after materials, or also after fuel); Supreme reports EBIT in some commentary; inventory gain or loss on PVC inside margin.",
+      "examples": [
+        "ASTRAL",
+        "SUPREMEIND",
+        "KAJARIACER",
+        "CERA",
+        "CENTURYPLY"
+      ]
+    },
+    {
+      "code": "realisation_and_price_hikes",
+      "name": "Realisation per unit and price actions",
+      "priority": "core",
+      "definition": "Net revenue per kg, sqm or CBM, split into price and mix, with hikes announced versus retained.",
+      "formula": "Segment revenue / volume; price action % and date",
+      "unit": "Rs/kg, Rs/sqm, Rs/CBM",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Kajaria revenue +24% on volume +10% shows price-led growth after the gas pass-through; if volume does not hold, realisation reverts after three years of decline (FY24-26).",
+      "history_source": "get_investor_presentation metric filter 'realisation' or 'NSR'; transcripts for hikes; derive from get_financials segment revenue and volume.",
+      "estimate_source": "Not in Bloomberg consensus; broker models and company statements (CPBI plywood hikes 2-3% from Nov-26).",
+      "traps": "Never divide total revenue by tile volume (includes bathware, adhesives); PVC pass-through is price-neutral to margin per kg.",
+      "examples": [
+        "KAJARIACER",
+        "SOMANYCERA",
+        "CENTURYPLY",
+        "SUPREMEIND",
+        "GREENPANEL"
+      ]
+    },
+    {
+      "code": "input_cost_gas_pvc_timber",
+      "name": "Key input cost (gas Rs/SCM, PVC resin Rs/kg, timber/resin)",
+      "priority": "core",
+      "definition": "Delivered price of the dominant input for each product and its share of cost.",
+      "formula": "Reported or tracked input price; fuel cost per sqm produced for tiles",
+      "unit": "Rs/SCM, Rs/kg",
+      "frequency": "monthly",
+      "why_it_moves_price": "PVC falls cause inventory losses and channel destocking, rises cause gains; Morbi gas at Rs90/SCM vs Kajaria's ~Rs70 blended widened its advantage; timber +10% is about 3pp of MDF margin.",
+      "history_source": "get_commodity_prices for PVC proxies where available; transcripts via search_research for gas by region and fuel mix (Kajaria call); broker sector notes (ICICI Sec tiles reports) for Morbi gas.",
+      "estimate_source": "No consensus; house view from commodity series and management commentary.",
+      "traps": "Gas prints may be gas only or blended with biofuel; PVC lag creates inventory effects counted in EBITDA.",
+      "examples": [
+        "KAJARIACER",
+        "SUPREMEIND",
+        "ASTRAL",
+        "GREENPANEL",
+        "CENTURYPLY"
+      ]
+    },
+    {
+      "code": "utilisation_and_capacity",
+      "name": "Utilisation and capacity additions",
+      "priority": "secondary",
+      "definition": "Production divided by time-weighted commercial capacity, with new line ramp.",
+      "formula": "Production / average commercial capacity",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "MDF and tile capacity coming up (Kajaria +28% by 1QFY28; ~400k CBM MDF in 2HFY27) pressures price when utilisation is below breakeven; high utilisation supports operating leverage.",
+      "history_source": "get_investor_presentation metric filter 'capacity' and 'utilisation'; transcripts for plant start dates.",
+      "estimate_source": "Company guidance in transcripts; broker models; no consensus.",
+      "traps": "Capacity bases are restated (Kajaria 90.5 to 82.7 MSM); thickness-normalised capacity at MDF makers.",
+      "examples": [
+        "KAJARIACER",
+        "CENTURYPLY",
+        "GREENPANEL",
+        "SOMANYCERA",
+        "ASTRAL"
+      ]
+    },
+    {
+      "code": "adjacency_revenue",
+      "name": "Adjacency revenue and margin (bathware, adhesives, laminates)",
+      "priority": "secondary",
+      "definition": "Revenue and margin of newer lines against stated targets.",
+      "formula": "Adjacency revenue / total revenue; adjacency EBITDA margin",
+      "unit": "Rs cr and %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Kajaria's adhesive target of Rs2.4bn in FY27 and Rs4.0bn in FY28 and Cera's 13-14% margin path justify premium multiples; misses hurt re-rating.",
+      "history_source": "get_investor_presentation metric filter 'bathware' or 'adhesive'; get_financials segment lines.",
+      "estimate_source": "Management guidance in transcripts; broker models only.",
+      "traps": "Targets slipped before (bathware target missed ~14%); adjacencies distort per-unit tile metrics.",
+      "examples": [
+        "KAJARIACER",
+        "CERA",
+        "ASTRAL",
+        "CENTURYPLY",
+        "SOMANYCERA"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "Morbi gas and propane price, tile exports",
+      "source": "Broker sector notes in the library (ICICI Sec tiles); company transcripts",
+      "why": "Sets Morbi cost curve and tile price gap"
+    },
+    {
+      "series": "PVC and crude derivatives",
+      "source": "Airavat get_commodity_prices; broker notes",
+      "why": "Pipe margin and inventory effects"
+    },
+    {
+      "series": "Timber, urea and melamine; MDF imports",
+      "source": "Broker sector reports (JM EXIM, Investec); transcripts",
+      "why": "MDF and plywood margin; import ceiling on price"
+    },
+    {
+      "series": "Housing launches and cement volumes",
+      "source": "Sector reports in the library",
+      "why": "Late-cycle demand for tiles and panels"
+    }
+  ],
+  "valuation_anchor": "P/E on core EPS against own post-2024 band for pipes and tiles; EV/EBITDA on mid-cycle clean EBITDA and EV/CBM against replacement cost for MDF.",
+  "watch_next_quarter": "Per MOFSL: PVC price stability and channel restocking for pipe margin recovery (Astral toward 15% from 3Q), Kajaria's double-digit tile volume and 18-20% margin, Cera's 13-14% margin on RM pass-through, and Century's plywood margin moderation on marketing spend with MDF margin pressure from new capacity."
+}

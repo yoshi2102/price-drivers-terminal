@@ -1,0 +1,242 @@
+{
+  "code": "automobiles",
+  "name": "Automobiles",
+  "group": "Autos",
+  "subsectors": [
+    "Passenger vehicles",
+    "Two-wheelers",
+    "Commercial vehicles",
+    "Tractors",
+    "Auto ancillaries",
+    "Tyres"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      13
+    ],
+    "headline": "Demand outlook strong; margins to remain under pressure in 3Q as well",
+    "read": "Retail was strong, channel inventory lean and exports grew strongly. Coverage margins were broadly flat YoY despite steel, rubber and copper inflation; aggregate OEM EBITDA margin printed 10.3% in 2QFY27 against 10.5% in 1QFY27, and aggregate ancillary margin 12.3% (excluding CIE). M&M and TMPV were the 4W laggards (M&M tractor margin contracted; its Auto business gained 60bp QoQ). Guidance: 2W industry mid-to-high single digit in 2HFY27, PV domestic high single digit, CV high-single to low-double digit in 3Q; M&M cut tractor guidance from mid-single digit to flat; MSIL sees ~10% domestic growth in 2HFY27. MOFSL left FY27/FY28 estimates materially unchanged.",
+    "surprises": [
+      "AMRJ",
+      "ASHOKLEY",
+      "BAJAJ-AUTO",
+      "BIL",
+      "BOSCHLTD",
+      "CEATLTD",
+      "CIEINDIA",
+      "EXIDEIND",
+      "GABRIEL",
+      "HEROMOTOCO",
+      "M&M",
+      "MSUMI",
+      "SAMIL",
+      "SONACOMS",
+      "TMCV",
+      "TENNIND",
+      "TIINDIA",
+      "UNOMINDA"
+    ],
+    "misses": [
+      "APTY",
+      "ESCORTS",
+      "MARUTI",
+      "MRF",
+      "TMPV"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:passenger-vehicle-analysis",
+  "unit_economics": "OEM EBITDA = units x (realisation per vehicle - RM and other cost per vehicle) + incentives; realisation = list price - discounts + mix; commodity basket (~18% of revenue in PV and 2W) passes through with a one-quarter lag and partial price recovery.",
+  "price_drivers": [
+    {
+      "driver": "Margin recovery against commodity inflation",
+      "why": "Steel, rubber, copper and precious-metal costs rise ahead of price hikes; the share of cost recovered through hikes, mix and cost control decides EBITDA margin (aggregate OEM margin 10.3% in 2QFY27).",
+      "sign": "+"
+    },
+    {
+      "driver": "Segment mix and market share",
+      "why": "Share gains in SUVs, 150cc+ motorcycles and exports earn more per vehicle than entry cars and 100cc bikes; wholesale share can run ahead of retail share.",
+      "sign": "+"
+    },
+    {
+      "driver": "Retail demand versus dispatches and channel inventory",
+      "why": "Dispatches above registrations build dealer stock that is cut back next quarter; lean stock in 2QFY27 supports 2H volumes.",
+      "sign": "+"
+    },
+    {
+      "driver": "Government incentives and regulation",
+      "why": "PLI and state SGST accruals sit inside EBITDA for EV-led OEMs; GST rate cuts, CAFE III and PLI expiry in FY28 change the earnings base.",
+      "sign": "+"
+    },
+    {
+      "driver": "Exports and FX",
+      "why": "Export realisation per unit exceeds domestic; Bajaj and TVS margins move with USD/INR in the same quarter, Maruti with JPY.",
+      "sign": "+"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "ebitda_margin_house",
+      "name": "House EBITDA margin (ex other income, ex incentives)",
+      "priority": "core",
+      "definition": "Operating EBITDA on revenue from operations after removing treasury income, PLI and state grants and named one-offs.",
+      "formula": "(Revenue - operating costs - grants - one-offs) / Revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Stocks react to margin versus consensus, not volume: Maruti printed 8.2% in 1QFY27 against ~9.6-10.0% expected. Incentive-free margin shows what survives after PLI ends in FY28.",
+      "history_source": "get_financials for P&L lines (revenue from operations, material cost, employee, other expenses, other operating revenue); broker results-update notes in the report library (Motilal Oswal tables carry 8 quarters); get_investor_presentation with metric filter 'EBITDA margin' for company-reported margin.",
+      "estimate_source": "get_consensus_estimates for Bloomberg Sales/EBITDA/PAT/EPS; broker models for incentive-free margin (no consensus exists for ex-PLI margin); company guidance from transcripts (Hyundai guides margin, Maruti and M&M do not).",
+      "traps": "Other operating revenue carries PLI/grants (Bajaj ~22% of FY26 EBITDA); Maruti margin basis moved from EBIT to EBITDA; Ather/Ola divide by total income; SMG merger breaks Maruti's standalone series.",
+      "examples": [
+        "MARUTI",
+        "M&M",
+        "BAJAJ-AUTO",
+        "HEROMOTOCO",
+        "TVSMOTOR"
+      ]
+    },
+    {
+      "code": "ebitda_per_vehicle",
+      "name": "EBITDA per vehicle",
+      "priority": "core",
+      "definition": "House EBITDA divided by total units (domestic, OEM supply, exports).",
+      "formula": "House EBITDA / total units (Rs per vehicle)",
+      "unit": "Rs/vehicle",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Rising volume with falling EBITDA per vehicle means growth is hiding a unit-margin squeeze (Maruti ~Rs87-92k in FY26 quarters to ~Rs63k in 1QFY27); the market re-rates on per-unit recovery.",
+      "history_source": "Derived: get_financials EBITDA divided by dispatch volumes from get_investor_presentation (metric filter 'volume' or 'dispatches'); broker results notes (Kotak, Motilal) publish EBITDA per vehicle.",
+      "estimate_source": "No consensus field; derive from get_consensus_estimates EBITDA divided by broker volume forecasts, or take broker models.",
+      "traps": "Units basis differs (Maruti domestic includes Toyota supply and LCV; TVS EV includes exports); street figures include incentives.",
+      "examples": [
+        "MARUTI",
+        "HYUNDAI",
+        "TVSMOTOR",
+        "EICHERMOT",
+        "BAJAJ-AUTO"
+      ]
+    },
+    {
+      "code": "segment_share_vahan",
+      "name": "Market share by segment (retail, VAHAN) and wholesale gap",
+      "priority": "core",
+      "definition": "Registration share within a named segment (SUV, 125cc+, scooter, e-2W) and wholesale minus retail over three months.",
+      "formula": "Company registrations / segment registrations; (wholesale - VAHAN) over 3 months",
+      "unit": "% and units",
+      "frequency": "monthly",
+      "why_it_moves_price": "Wholesale share gains that outrun retail (Maruti +230bp wholesale vs falling VAHAN share in festive weeks) reverse as dealers destock; retail share in growing segments is what sustains volume growth multiples.",
+      "history_source": "get_investor_presentation with metric filter 'market share' and 'retail'; transcripts for company share claims; sector reports in the library (Nuvama, JM, MOFSL monthly auto notes) for VAHAN and SIAM series. VAHAN/SIAM primary data is outside Airavat.",
+      "estimate_source": "No consensus; broker sector notes and company guidance on volume growth in transcripts.",
+      "traps": "Share bases differ (Bajaj 8-14% depending on base); VAHAN omits Telangana; festive timing shifts Q2/Q3.",
+      "examples": [
+        "MARUTI",
+        "M&M",
+        "TVSMOTOR",
+        "HEROMOTOCO",
+        "EICHERMOT"
+      ]
+    },
+    {
+      "code": "price_vs_commodity_recovery",
+      "name": "Price hikes versus commodity cost (recovery ratio)",
+      "priority": "core",
+      "definition": "Realisation gain from price (ex mix) divided by commodity cost increase over the same base.",
+      "formula": "Price realisation gain / commodity cost increase (cumulative, same base)",
+      "unit": "ratio",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Margins track the recovery ratio with a 1-3 quarter lag; OEMs with taken price (M&M 5.3% hikes Jan-Sep 26) defend margin, those with ~1% hikes (Maruti, Tata PV) see gross margin fall.",
+      "history_source": "Company margin walks in transcripts (get_qa, search_research); get_financials material cost % of revenue; commodity series via get_commodity_prices (steel, aluminium, copper, rubber).",
+      "estimate_source": "No consensus; broker notes (Nomura, Kotak, Axis) publish hike tables and gross margin forecasts; get_consensus_estimates EBITDA as an output check.",
+      "traps": "Hike announcements differ from retained price after discounts; inventory absorption moves margin 30-60bp and reverses.",
+      "examples": [
+        "MARUTI",
+        "M&M",
+        "TMPV",
+        "HYUNDAI",
+        "BAJAJ-AUTO"
+      ]
+    },
+    {
+      "code": "export_share_usd",
+      "name": "Export volume share and USD/INR sensitivity",
+      "priority": "secondary",
+      "definition": "Exports as a share of volume and revenue, with export price per unit and realised FX.",
+      "formula": "Export units / total units; export revenue / export units",
+      "unit": "% and USD/unit",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Exports earn above domestic margins (Hyundai ~2x profitability) and a weaker rupee lifts Bajaj and TVS margin in the same quarter; Nigeria and LatAm swings change the mix.",
+      "history_source": "get_investor_presentation metric filter 'exports'; get_financials segment data; transcripts for USD/unit and hedged rates; SIAM export data via sector reports.",
+      "estimate_source": "Broker models (Kotak, Jefferies) and company commentary; no Bloomberg export field.",
+      "traps": "Bajaj hedge gains sit in revenue; Maruti exports include Toyota supply to Africa.",
+      "examples": [
+        "BAJAJ-AUTO",
+        "TVSMOTOR",
+        "MARUTI",
+        "HYUNDAI",
+        "EICHERMOT"
+      ]
+    },
+    {
+      "code": "ev_share_and_incentives",
+      "name": "EV share and PLI/state incentive dependence",
+      "priority": "secondary",
+      "definition": "EV volume or revenue share, and incentives as a share of EBITDA.",
+      "formula": "PLI + grants / house EBITDA; EV units / total units",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Incentives above 10-15% of EBITDA mean the margin falls when PLI ends in FY28; EV margin ex-PLI near zero caps a premium multiple.",
+      "history_source": "get_financials other operating revenue and grant lines; annual report notes via library (read_library_document); transcripts for PLI accrual; get_investor_presentation 'EV'.",
+      "estimate_source": "Broker models only; company-level PLI accrual has no consensus field.",
+      "traps": "PLI sits in other income statutorily but inside deck EBITDA at TMPV; quarterly split rarely disclosed.",
+      "examples": [
+        "TMPV",
+        "M&M",
+        "BAJAJ-AUTO",
+        "TVSMOTOR",
+        "ATHERENERG"
+      ]
+    },
+    {
+      "code": "ancillary_cpv_vs_production",
+      "name": "Ancillary growth versus industry production (content per vehicle)",
+      "priority": "secondary",
+      "definition": "Component maker revenue growth minus relevant vehicle production growth, with realised content per vehicle.",
+      "formula": "Company revenue growth - weighted OEM production growth",
+      "unit": "pp",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Outperformance over production from content gains and new orders earns premium multiples; commodity pass-through lags squeeze margin in the first quarter.",
+      "history_source": "get_financials revenue and EBITDA; get_investor_presentation metric filter 'order win' and 'content per vehicle'; broker results notes.",
+      "estimate_source": "get_consensus_estimates for Sales/EBITDA; broker models for outperformance assumptions.",
+      "traps": "Acquisitions, JV look-through, grants and other income inside EBITDA, and order-win values that are lifetime not annual.",
+      "examples": [
+        "UNOMINDA",
+        "SONACOMS",
+        "BOSCHLTD",
+        "ENDURANCE",
+        "EXIDEIND"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "Steel (HRC), aluminium, copper, rubber",
+      "source": "Airavat get_commodity_prices",
+      "why": "Core RM basket; gross margin with ~1-quarter lag"
+    },
+    {
+      "series": "USD/INR, JPY/INR, GBP/USD",
+      "source": "Airavat get_commodity_prices (INR:USD); broker notes for JPY and GBP",
+      "why": "Export realisation, Maruti royalty and JLR translation"
+    },
+    {
+      "series": "VAHAN, SIAM, FADA monthly data",
+      "source": "Airavat sector reports in the library (Nuvama, JM, MOFSL auto monthlies); primary portals outside Airavat",
+      "why": "Retail share, wholesale gap and inventory days"
+    },
+    {
+      "series": "Monthly company dispatches",
+      "source": "Company releases via search_research and broker notes",
+      "why": "Quarterly volume known ~4 weeks before results"
+    }
+  ],
+  "valuation_anchor": "P/E on core EPS (ex treasury and incentives) for PV and 2W; EV/EBITDA with SOTP for TMPV, M&M and Eicher (VECV); EV/EBITDA for ancillaries; mid-cycle margin cross-check.",
+  "watch_next_quarter": "Per MOFSL, near-term input cost headwinds persist through 3Q, so track retained price hikes, mix and cost control against margin; 3Q festive retail, post-GST-2.0 base effects, M&M tractor guidance (cut to flat), TMCV's high-single to low-double digit industry view and export momentum."
+}

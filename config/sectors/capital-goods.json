@@ -1,0 +1,236 @@
+{
+  "code": "capital-goods",
+  "name": "Capital Goods",
+  "group": "Industrials",
+  "subsectors": [
+    "T&D and grid equipment",
+    "Electrical products and automation",
+    "EPC",
+    "Defence and aerospace",
+    "Industrial capex products"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      15
+    ],
+    "headline": "Healthy ordering momentum, though margins remain under pressure",
+    "read": "Aggregate order inflow across the coverage universe rose 31% YoY: L&T inflow +28% and KPIL +222% among EPC, ABB and Siemens strong, KEC down 31% on a high base; T&D ordering improved as TBCB tendering ramped from Jul-26; defence ordering stayed subdued with a ramp-up likely in 2H. Aggregate EBITDA margin contracted 90bp YoY to 12.0% (versus MOFSL estimate of 12.9%) on commodity and logistics costs, forex, delayed pass-through and fixed-price contracts, though most companies improved sequentially; aggregate revenue growth was 17.3%, EBITDA growth 8.9% and PAT growth 21.6%. Guidance: L&T FY27 order inflow and revenue growth 10-12% with core E&C margin ~7.8%; BHEL (BHE) FY27 revenue +15%, margin ~28%, order inflow INR550b+; GVTD base ordering INR70-80b with HVDC execution from FY28. MOFSL upgraded Hitachi Energy and ABB to BUY and downgraded Thermax to Neutral.",
+    "surprises": [
+      "LT",
+      "HAL",
+      "BEL",
+      "SOLARINDS",
+      "CGPOWER",
+      "SIEMENS",
+      "GVT&D",
+      "BDL",
+      "KPIL",
+      "ATLANTAELE",
+      "ZENTEC",
+      "ASTRAMICRO",
+      "MTARTECH"
+    ],
+    "misses": [
+      "KKC",
+      "THERMAX",
+      "KIRLOSENG",
+      "TRITURBINE",
+      "KEC"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:electrical-equipment-analysis",
+  "unit_economics": "Revenue = opening order book x execution ratio + in-year orders x conversion; EBITDA = revenue x (gross margin - fixed costs), with price-variation clauses and fixed-price exposure deciding commodity pass-through; HV transformers add MVA x realisation per MVA.",
+  "price_drivers": [
+    {
+      "driver": "Order inflow quality and book-to-bill",
+      "why": "Base (repeatable) orders versus HVDC, group exports and one-off mega orders decide visibility; inflow +31% YoY in 2Q is the stock-level support.",
+      "sign": "+"
+    },
+    {
+      "driver": "Gross margin on new orders versus legacy backlog",
+      "why": "Fixed-price and low-margin legacy orders held aggregate EBITDA margin at 12.0%; improvement depends on pass-through and run-off of legacy projects.",
+      "sign": "+"
+    },
+    {
+      "driver": "Government capex and TBCB awards",
+      "why": "Transmission awards lead OEM orders by ~1-4 months; defence procurement ramp in 2H is a timing swing.",
+      "sign": "+"
+    },
+    {
+      "driver": "Commodity, FX and EUR/INR",
+      "why": "Copper, silver, CRGO and EUR cost reach fixed-price orders with a lag; parent-invoiced imports at MNC subsidiaries hit margin directly.",
+      "sign": "-"
+    },
+    {
+      "driver": "Capacity cycle and pricing",
+      "why": "Transformer and switchgear capacity additions can turn pricing; peer gross margin trends and shortening lead times are the early signal.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "order_inflow_book_to_bill",
+      "name": "Order inflow, backlog and book-to-bill",
+      "priority": "core",
+      "definition": "Orders booked in the period, closing order book on the company's definition, and inflow divided by revenue.",
+      "formula": "Inflow / revenue; backlog / TTM revenue",
+      "unit": "Rs cr, x",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Multiples for HV, defence and EPC names follow order momentum: KPIL +222% and L&T +28% inflow underpin forward revenue, while a drop (KEC -31%) forces estimate cuts. Book-to-bill under 1.0x for two quarters flags peak.",
+      "history_source": "get_investor_presentation with metric filter 'order inflow' or 'order book'; transcripts via search_research and get_qa for large-order commentary; broker results-update notes (Motilal Oswal tables carry 8 quarters). get_financials does not carry order data.",
+      "estimate_source": "Order inflow has no Bloomberg consensus field; use broker models, company guidance (L&T 10-12% FY27, BHEL INR550b+, GVTD INR70-80b) from transcripts; get_consensus_estimates only for the resulting Sales.",
+      "traps": "Companies define backlog differently (GVTD books HVDC on internal milestones, Siemens counts parent allocations and loco value adjustments); large single orders distort YoY; TARIL backlog excludes price variation.",
+      "examples": [
+        "LT",
+        "HAL",
+        "BEL",
+        "CGPOWER",
+        "SIEMENS"
+      ]
+    },
+    {
+      "code": "base_vs_large_orders",
+      "name": "Base inflow versus HVDC, group and mega orders",
+      "priority": "core",
+      "definition": "Inflow ex HVDC, ex group/related-party export allocations and ex orders above 10% of trailing inflow.",
+      "formula": "Inflow - HVDC - RPT export - orders >=10% of TTM inflow",
+      "unit": "Rs cr",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Base orders drive recurring revenue; a headline beat built on one large or group order does not repeat. Hitachi's Q1FY27 inflow was ~Rs34bn base plus ~Rs17bn HVDC export.",
+      "history_source": "Transcripts and decks via get_investor_presentation (metric filter 'base orders'); call commentary via get_qa; related-party note in annual reports via read_library_document.",
+      "estimate_source": "Broker models only (Ambit, Nomura, Axis); no consensus. Company guidance on base ordering (GVTD INR70-80b FY27).",
+      "traps": "Definitions of 'large' differ; HVDC awards not booked by the company must stay in scenarios; group allocations are parent decisions.",
+      "examples": [
+        "POWERINDIA",
+        "GVT&D",
+        "SIEMENS",
+        "CGPOWER",
+        "ABB"
+      ]
+    },
+    {
+      "code": "ebitda_margin_house",
+      "name": "EBITDA margin (house: ex other income, ex one-offs)",
+      "priority": "core",
+      "definition": "Operating EBITDA on revenue from operations after removing treasury income, write-backs, unrealised FX/commodity MTM and exceptional charges.",
+      "formula": "(Revenue - operating costs, ex OI and MTM) / revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "The 90bp YoY margin contraction to 12.0% against a 12.9% estimate was the main negative of the quarter; gradual improvement from scale and price hikes is the base case in most multiples.",
+      "history_source": "get_financials (revenue, material cost, employee, other expenses, other income); get_investor_presentation metric filter 'EBITDA margin'; broker results notes for 8-quarter tables.",
+      "estimate_source": "get_consensus_estimates for Bloomberg Sales/EBITDA/PAT/EPS; segment margins (HV, IS, PS, defence) from broker models and guidance (BHEL ~28%, LT core E&C ~7.8%).",
+      "traps": "Hitachi EBITDA appears on three bases (14.6%, 16.0%, 17.0%); labour-code charge treated as exceptional by some, operating by ABB; segment margin may be EBIT, not EBITDA; PR EBITDA at CG includes other income.",
+      "examples": [
+        "CGPOWER",
+        "POWERINDIA",
+        "LT",
+        "BEL",
+        "SIEMENS"
+      ]
+    },
+    {
+      "code": "revenue_execution_ratio",
+      "name": "Execution ratio and revenue growth versus backlog",
+      "priority": "core",
+      "definition": "Revenue in the period divided by opening order book, plus revenue growth versus order growth.",
+      "formula": "Revenue / opening backlog",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Slow execution of a large backlog (HVDC executes 6-54 months, <30% in two years) delays earnings; BEL, HAL and BDL surprises came from delivery timing and provision write-backs.",
+      "history_source": "Derived from get_investor_presentation order book and get_financials revenue; delivery commentary in transcripts.",
+      "estimate_source": "Broker models; guidance on revenue growth in transcripts (BHEL 15%, L&T 10-12%); get_consensus_estimates Sales as output.",
+      "traps": "Delivery-based seasonality in defence PSUs (Q4 heavy); price-variation revenue inflates growth; mega contracts carved separately.",
+      "examples": [
+        "HAL",
+        "BDL",
+        "BEL",
+        "GVT&D",
+        "BHEL"
+      ]
+    },
+    {
+      "code": "working_capital_cash_conversion",
+      "name": "Net working capital days and OCF/EBITDA",
+      "priority": "secondary",
+      "definition": "Inventory + receivables + contract assets - payables - advances, in days of revenue; operating cash flow over EBITDA.",
+      "formula": "House NWC / TTM revenue x 365; OCF / EBITDA",
+      "unit": "days, %",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "L&T's NWC-to-revenue target under 10% and advance-funded HVDC awards drive FCF; receivable stretch at EPC names (retention, state discoms) precedes derating.",
+      "history_source": "get_financials balance sheet and cash flow (annual and half-yearly); investor presentation metric filter 'working capital'.",
+      "estimate_source": "Company targets in transcripts (L&T <10%); broker models; no consensus field.",
+      "traps": "Supplier finance outside borrowings; advances on one award flatter NWC; defence PSU advances inflate other income.",
+      "examples": [
+        "LT",
+        "KEC",
+        "KPIL",
+        "BEL",
+        "POWERINDIA"
+      ]
+    },
+    {
+      "code": "defence_order_pipeline",
+      "name": "Defence order inflow and development versus production mix",
+      "priority": "secondary",
+      "definition": "Defence orders won, unexecuted firm order book, and share of development revenue in sales.",
+      "formula": "Firm order book / TTM defence revenue",
+      "unit": "x",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Defence ordering was subdued in 2Q with a 2H ramp likely; HAL, BEL, BDL and ZEN valuations assume the fast-track procurement conversion; timing misses compress multiples quickly.",
+      "history_source": "get_investor_presentation metric filter 'order book'; transcripts via get_qa for L1 wins and expected awards; annual reports for provisioning notes.",
+      "estimate_source": "Management inflow guidance in transcripts (BEL, HAL); broker models; Bloomberg consensus covers Sales/EBITDA/PAT only.",
+      "traps": "Provision write-backs and price catch-ups inflate PSU margins; advance float income in other income; negotiated versus firm orders.",
+      "examples": [
+        "HAL",
+        "BEL",
+        "BDL",
+        "ASTRAMICRO",
+        "DATAPATTNS"
+      ]
+    },
+    {
+      "code": "hv_capacity_pricing",
+      "name": "Capacity, lead times and pricing in HV equipment",
+      "priority": "secondary",
+      "definition": "Operating MVA, utilisation, lead times in months and gross margin on new orders versus legacy.",
+      "formula": "MVA produced / average operating MVA; gross margin trend",
+      "unit": "MVA, %, months",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Industry transformer capacity ~460 to ~690 GVA by FY28 (PL) risks pricing; falling GVTD and Hitachi gross margin (about 41% and 43% in Q1FY27) is the early signal.",
+      "history_source": "get_investor_presentation metric filter 'MVA' and 'capacity'; transcripts for lead time commentary.",
+      "estimate_source": "Capacity guidance in transcripts; broker models (Ambit, Axis); no consensus field.",
+      "traps": "Installed versus operating MVA (TARIL 40,200 vs 75,000); MVA is misleading across kV classes.",
+      "examples": [
+        "POWERINDIA",
+        "GVT&D",
+        "CGPOWER",
+        "TARIL",
+        "VOLTAMP"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "Copper, silver, aluminium, steel; EUR/INR",
+      "source": "Airavat get_commodity_prices",
+      "why": "Pass-through lag on fixed-price orders and parent-invoiced imports"
+    },
+    {
+      "series": "NCT/TBCB awards, CEA GVA added, PGCIL capex",
+      "source": "Broker sector reports in the library; company transcripts",
+      "why": "Leads T&D orders by 1-4 quarters"
+    },
+    {
+      "series": "IEEMA production index, IIP",
+      "source": "Broker notes in the library (MOFSL sector update)",
+      "why": "Short-cycle volume read"
+    },
+    {
+      "series": "Government defence capex and fast-track procurement",
+      "source": "Transcripts and broker defence notes",
+      "why": "Timing of PSU and private defence orders"
+    }
+  ],
+  "valuation_anchor": "P/E on core EPS against own band (50-75x for HV leaders in the upcycle, lower for EPC); EV/EBITDA for L&T core and PSUs; order-book-adjusted SOTP by module.",
+  "watch_next_quarter": "Per MOFSL, watch margin improvement as new capacity scales and price hikes pass through, L&T's 10-12% inflow target, ramp-up in defence ordering in 2H, TBCB-led T&D awards, GVTD HVDC execution from FY28 and BHEL's ~28% margin guide."
+}

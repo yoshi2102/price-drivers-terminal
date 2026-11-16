@@ -1,0 +1,143 @@
+{
+  "code": "infrastructure",
+  "name": "Infrastructure (EPC, roads, construction)",
+  "group": "Industrials",
+  "subsectors": ["Road EPC", "BOT/HAM and toll assets", "Non-road EPC (power T&D, water, oil and gas, solar)", "Airports and diversified"],
+  "mofsl_2qfy27": {
+    "pages": [30],
+    "headline": "INFRASTRUCTURE: Project awarding remains muted in 2QFY27",
+    "read": "NHAI awarded only ~596km against an FY27 target of 5,140km, delaying appointed dates, yet coverage revenue (ex-IRB and AEL) rose 45% YoY (GRIL +64% on a low base, KNR -3%). Gross margin fell 434bp and EBITDA margin 64bp YoY (to 9.4%) on elevated costs; IRB revenue/EBITDA grew 8%/14% on BOT income and InvIT gains, AEL 75%/67% on copper and airports. NHAI set an INR300-350b asset monetisation target via TOT and InvITs (17 assets, 1,693km); FASTag value rose ~17% in Oct'26.",
+    "surprises": [],
+    "misses": []
+  },
+  "buoyant_skill": null,
+  "unit_economics": "Revenue = opening order book x execution rate (progress on appointed projects); EBITDA = revenue x (gross margin after commodity/subcontract cost - overheads); PAT burdened by interest on working capital and equity-funded BOT/HAM assets",
+  "price_drivers": [
+    { "driver": "Order inflow and project awarding", "why": "NHAI awarded only ~596km of a 5,140km FY27 target, so inflow decides FY28 revenue visibility.", "sign": "+" },
+    { "driver": "Order book to revenue cover", "why": "Companies with healthy backlogs and strong balance sheets are favoured in a muted award cycle.", "sign": "+" },
+    { "driver": "Execution and appointed dates", "why": "Revenue +45% YoY despite weak awarding shows backlog execution, but appointed-date delays cap growth.", "sign": "+" },
+    { "driver": "Commodity and cost inflation", "why": "Gross margin fell 434bp YoY; bitumen, steel and cement pass-through lag in fixed-price contracts.", "sign": "-" },
+    { "driver": "Working capital and asset monetisation", "why": "NHAI's INR300-350b TOT/InvIT programme releases equity from BOT/HAM assets and eases leverage.", "sign": "+" }
+  ],
+  "kpis": [
+    {
+      "code": "order_inflow",
+      "name": "Order inflow",
+      "priority": "core",
+      "definition": "Value of new orders won in the period, by segment (road, non-road, export)",
+      "formula": "reported; or change in order book + revenue",
+      "unit": "INR b",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Inflow replenishes the book; with NHAI awarding ~596km against a 5,140km target, any large award re-rates road EPC names, and diversification into non-road orders (KNR, GRIL) shows resilience.",
+      "history_source": "get_investor_presentation 'order inflow' filter; transcripts for pipeline; Motilal Oswal results update tables (8 quarters)",
+      "estimate_source": "No Bloomberg inflow field; company inflow guidance on calls and broker models",
+      "traps": "L1 status vs LoA vs appointed date; bids won but not yet in book; inflow includes variations.",
+      "examples": ["LT", "KNRCON", "GRINFRA", "PNCINFRA"]
+    },
+    {
+      "code": "order_book_to_revenue",
+      "name": "Order book and book-to-bill",
+      "priority": "core",
+      "definition": "Unexecuted order book and its ratio to trailing-12M revenue",
+      "formula": "order book / TTM revenue",
+      "unit": "x",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Book-to-bill of 2.5-3x signals 2-3 years of revenue; MOFSL favours companies with healthy backlogs given weak awarding.",
+      "history_source": "get_investor_presentation 'order book' filter; get_financials for revenue; transcripts",
+      "estimate_source": "get_consensus_estimates Sales FY27-FY29 as cross-check; company guidance on order-book composition",
+      "traps": "Orders not yet appointed (zero date) inflate the book; HAM and BOT projects sit separately; slow-moving legacy orders.",
+      "examples": ["LT", "HGINFRA", "NCC", "KNRCON"]
+    },
+    {
+      "code": "execution_revenue_growth",
+      "name": "Execution rate (revenue / opening order book)",
+      "priority": "core",
+      "definition": "Revenue booked in the year as % of opening order book",
+      "formula": "revenue / opening order book",
+      "unit": "%",
+      "frequency": "annual",
+      "why_it_moves_price": "Speed of conversion drives revenue growth and working capital; coverage revenue +45% YoY in 2QFY27 shows healthy execution that awarding gaps will eventually test.",
+      "history_source": "get_financials revenue; order book from get_investor_presentation; derive 5+ years",
+      "estimate_source": "Management revenue guidance (L&T FY27 revenue and inflow growth 10-12%); get_consensus_estimates Sales",
+      "traps": "Monsoon seasonality (Q2 weakest); appointed-date delays; revenue including pass-through materials.",
+      "examples": ["LT", "KALPATPOWR", "KNRCON", "GRINFRA"]
+    },
+    {
+      "code": "ebitda_margin",
+      "name": "EBITDA margin and gross margin",
+      "priority": "core",
+      "definition": "EBITDA and gross margin of the construction business, ex BOT/InvIT gains",
+      "formula": "EBITDA / revenue; (revenue - raw material and subcontract) / revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Coverage EBITDA margin dipped 64bp YoY to 9.4% and gross margin 434bp; L&T core E&C margin target is ~7.8%, so price-linked escalation clauses decide earnings.",
+      "history_source": "get_financials 5+ years; Motilal Oswal results tables; get_investor_presentation margin filters",
+      "estimate_source": "get_consensus_estimates Bloomberg EBITDA FY27-FY29; company margin guidance on calls",
+      "traps": "IRB EBITDA includes toll and InvIT gains; AEL EBITDA driven by copper trading; fixed-price contracts lag commodity moves.",
+      "examples": ["LT", "KNRCON", "PNCINFRA", "HGINFRA"]
+    },
+    {
+      "code": "nwc_days",
+      "name": "Net working capital days",
+      "priority": "secondary",
+      "definition": "Net working capital including retention money and unbilled revenue as days of revenue",
+      "formula": "(receivables + unbilled + inventory - payables) / revenue x 365; L&T uses NWC-to-revenue under 10%",
+      "unit": "days / %",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "Government payment delays and retention money tie up cash; L&T targets NWC-to-revenue under 10%, and improvement flows to net debt and interest cost.",
+      "history_source": "get_financials balance sheet and cash flow 5+ years; get_investor_presentation NWC filter",
+      "estimate_source": "Management NWC targets on calls; broker models; no consensus",
+      "traps": "Cut-off at balance date; inclusion of BOT/HAM receivables; mobilisation advances flatter NWC.",
+      "examples": ["LT", "NCC", "KALPATPOWR", "GRINFRA"]
+    },
+    {
+      "code": "equity_commitment_bot_ham",
+      "name": "HAM/BOT equity commitment and monetisation",
+      "priority": "secondary",
+      "definition": "Equity invested and pending in HAM/BOT projects and proceeds from asset sales to InvITs",
+      "formula": "reported equity requirement; monetisation proceeds",
+      "unit": "INR b",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Equity lock-up constrains growth and lifts leverage; NHAI's INR300-350b TOT/InvIT target and IRB InvIT gains show how capital is recycled.",
+      "history_source": "Transcripts and get_qa; get_investor_presentation 'equity' and 'monetisation' filters; get_financials investments",
+      "estimate_source": "Management equity-requirement guidance and broker SOTP models",
+      "traps": "InvIT gains inflate EBITDA/PAT (IRB); stake sales shift reported leverage.",
+      "examples": ["IRB", "HGINFRA", "PNCINFRA", "ASHOKA"]
+    },
+    {
+      "code": "net_debt_equity",
+      "name": "Net debt to equity and interest cover",
+      "priority": "secondary",
+      "definition": "Consolidated net debt (ex non-recourse project debt) over equity, with EBITDA/interest",
+      "formula": "(borrowings - cash) / equity; EBITDA / interest",
+      "unit": "x",
+      "frequency": "half-yearly",
+      "why_it_moves_price": "Strong balance sheets are what MOFSL favours in a muted award cycle; leverage determines ability to bid for BOT/HAM projects.",
+      "history_source": "get_financials balance sheet; transcripts for debt guidance",
+      "estimate_source": "Broker models and company guidance; get_consensus_estimates for PAT/EPS only",
+      "traps": "Project-level non-recourse debt vs standalone; mobilisation advances treated as liabilities.",
+      "examples": ["KNRCON", "NCC", "IRB", "LT"]
+    },
+    {
+      "code": "nhai_awarding_km",
+      "name": "NHAI awarding (km) and highway ordering pace",
+      "priority": "secondary",
+      "definition": "Kilometres of highway projects awarded and appointed against annual target",
+      "formula": "km awarded / FY target (5,140km FY27)",
+      "unit": "km",
+      "frequency": "monthly/quarterly",
+      "why_it_moves_price": "Single best lead indicator for road EPC inflow; 596km in 2QFY27 vs a 5,140km target explains subdued order wins.",
+      "history_source": "Broker sector notes in the report library via list_library_documents; MOFSL strategy review",
+      "estimate_source": "No consensus; ministry targets and broker projections",
+      "traps": "Awarded vs appointed date; bundling of projects into larger packages.",
+      "examples": ["KNRCON", "PNCINFRA", "HGINFRA", "GRINFRA"]
+    }
+  ],
+  "macro_inputs": [
+    { "series": "Bitumen, steel and cement prices", "source": "Airavat get_commodity_prices (steel) and broker notes", "why": "Gross margin on fixed-price contracts" },
+    { "series": "NHAI awarding pace and FASTag collections", "source": "Broker sector notes in the report library", "why": "Order inflow and BOT toll revenue" },
+    { "series": "Central and state capex budgets", "source": "Broker notes via search_research", "why": "Order pipeline" }
+  ],
+  "valuation_anchor": "P/E and EV/EBITDA on forward earnings with SOTP for BOT/HAM assets at equity value and InvIT monetisation",
+  "watch_next_quarter": "Whether NHAI awarding picks up against the 5,140km FY27 target, progress on the INR300-350b asset monetisation (17 assets), and whether gross margin recovers from the 434bp YoY contraction."
+}

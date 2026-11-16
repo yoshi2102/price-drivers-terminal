@@ -1,0 +1,143 @@
+{
+  "code": "defence",
+  "name": "Defence",
+  "group": "Industrials",
+  "subsectors": ["Aerospace platform and MRO (HAL)", "Defence electronics (BEL, Data Patterns)", "Missiles (BDL)", "Defence shipyards"],
+  "mofsl_2qfy27": {
+    "pages": [15, 21],
+    "headline": "CAPITAL GOODS: Healthy ordering momentum, though margins remain under pressure (MOFSL 2QFY27 has no separate Defense section; defence is covered here and DATAPATT under EMS)",
+    "read": "Defense ordering remained subdued in 2QFY27, with a ramp-up likely in 2H aided by fast-track procurement and a few large contracts. MOFSL listed HAL, BEL, BDL, ZEN and MTAR among capital goods surprises. BEL (printed BHE) guided FY27 revenue growth of 15%, margin ~28%, order inflow of INR550b+, R&D INR22b, capex INR12b and a 90:10 defence to non-defence mix. DATAPATT revenue fell 57% YoY with EBITDA margin 23.5% (+130bp) and order book up 2.5x, and it kept FY27 guidance of 20-25% growth and 35-40% EBITDA margin.",
+    "surprises": ["HAL", "BEL", "BDL", "ZENTEC", "MTARTECH"],
+    "misses": ["DATAPATTNS"]
+  },
+  "buoyant_skill": "anthropic-skills:defence-psu-analysis",
+  "unit_economics": "Revenue = opening order book x execution rate (delivery-gated, Q4-heavy); EBITDA = revenue x (gross margin set by in-house vs bought-out mix) - fixed employee cost; PAT is lifted by interest on customer advances",
+  "price_drivers": [
+    { "driver": "Order inflow and book-to-bill", "why": "Premium multiples (BEL ~40x, DATAPATTNS ~54x) assume large nominated orders such as QRSAM and Tejas follow-ons; MOFSL notes inflow was subdued in 2QFY27.", "sign": "+" },
+    { "driver": "Execution and delivery timing", "why": "Revenue is booked on acceptance, so Q4 holds 45-60% of annual profit and a slipped delivery moves a quarter.", "sign": "+" },
+    { "driver": "Margin mix and provision swings", "why": "HAL write-backs and BDL system mix swing EBITDA margin by several points; BEL guides ~28%.", "sign": "+" },
+    { "driver": "Nomination vs competitive awards", "why": "Next platforms going to private consortia cuts the premium; ULPGM-V3 is dual-sourced with Adani Defence.", "sign": "-" },
+    { "driver": "Cash conversion and working capital", "why": "Private defence electronics run 300-450 working-capital days; weak CFO is the main de-rating trigger.", "sign": "-" }
+  ],
+  "kpis": [
+    {
+      "code": "order_book",
+      "name": "Order book (firm)",
+      "priority": "core",
+      "definition": "Signed, executable orders on the company's definition, dated, with negotiated or L1-pending orders shown separately",
+      "formula": "reported; HAL order book liquidates at turnover, not revenue from operations",
+      "unit": "INR cr",
+      "frequency": "quarterly",
+      "why_it_moves_price": "The order book sets 3-5 years of revenue visibility; DATAPATT book at 2.5x YoY and BEL inflow guidance of INR550b+ are what hold premium multiples.",
+      "history_source": "get_investor_presentation 'order book' filter (BEL, BDL, Data Patterns decks); transcripts for definitions; Motilal Oswal results updates carry order book rows",
+      "estimate_source": "Order book has no Bloomberg field; use management inflow guidance (BEL INR550b+ FY27) and broker models",
+      "traps": "Data Patterns leads with an on-date book incl. negotiated orders (about 1.7 of 2.65 bn firm vs negotiated); services AMC inflates book-to-bill; brokers' HAL order book ranges INR2.4-2.55tn.",
+      "examples": ["HAL", "BEL", "BDL", "DATAPATTNS"]
+    },
+    {
+      "code": "order_inflow_book_to_bill",
+      "name": "Order inflow and book-to-bill",
+      "priority": "core",
+      "definition": "Signed orders in the period and closing order book divided by trailing-12M revenue",
+      "formula": "inflow = change in order book + revenue; book-to-bill = order book / TTM revenue",
+      "unit": "x",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Inflow lumpiness drives re-rating (QRSAM, MRSAM, Su-30 upgrade); BEL book-to-bill fell from 3.8x (FY24) to ~2.3x TTM, so a missed inflow guide hits sentiment immediately.",
+      "history_source": "Derive from get_financials revenue plus order book from get_investor_presentation; transcripts for inflow splits; Motilal Oswal tables",
+      "estimate_source": "Management inflow guidance on calls; broker models; no consensus inflow",
+      "traps": "Guided inflow quoted with or without QRSAM and emergency procurement; named-order dates slip 8-10 months.",
+      "examples": ["BEL", "HAL", "BDL", "ASTRAMICRO"]
+    },
+    {
+      "code": "execution_rate",
+      "name": "Execution rate",
+      "priority": "core",
+      "definition": "Revenue in the year as % of opening order book",
+      "formula": "revenue / opening order book",
+      "unit": "%",
+      "frequency": "annual",
+      "why_it_moves_price": "Shows how fast a record book becomes revenue; HAL ~17% on turnover and BDL 10-17% mean growth guidance depends on delivery clearances, not inflow.",
+      "history_source": "get_financials (revenue) with order book from get_investor_presentation, derived over 5+ years",
+      "estimate_source": "Management revenue guidance (BEL +15% FY27, DATAPATTNS +20-25%); get_consensus_estimates Sales for FY27-FY29",
+      "traps": "HAL turnover vs revenue from operations; DATAPATT execution above 100% in years with a low opening book.",
+      "examples": ["HAL", "BDL", "BEL", "MAZDOCK"]
+    },
+    {
+      "code": "core_ebitda_margin",
+      "name": "Core EBITDA margin (ex write-backs)",
+      "priority": "core",
+      "definition": "EBITDA before other income, excluding provision write-backs, price catch-ups and relabelled treasury",
+      "formula": "(revenue from operations - operating costs - write-backs) / revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "HAL FY26 core margin ~27% vs 29.6% reported; BEL guides ~28% and DATAPATT 35-40%; margin is mix-driven so the quality of margin sets the multiple.",
+      "history_source": "get_financials (other operating revenue, provisions notes); get_investor_presentation margin filters; Motilal Oswal tables",
+      "estimate_source": "get_consensus_estimates Bloomberg EBITDA FY27-FY29; company guidance (BEL ~28%, DATAPATTNS 35-40%)",
+      "traps": "Company EBITDA includes other income at HAL and shipyards; write-backs sit inside revenue; capitalised development flatters Data Patterns.",
+      "examples": ["HAL", "BEL", "DATAPATTNS", "BDL"]
+    },
+    {
+      "code": "gross_margin_mix",
+      "name": "Gross margin and mix",
+      "priority": "secondary",
+      "definition": "Revenue less materials as % of revenue, split by in-house design vs bought-out content",
+      "formula": "(revenue - materials +/- inventory change) / revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "BDL gross margin swings 41-83% with system mix and Data Patterns 38-80%; a 10pp move signals low-margin system contracts, not efficiency.",
+      "history_source": "get_financials materials lines; get_investor_presentation gross margin filter; transcripts",
+      "estimate_source": "Broker models only; no consensus gross margin",
+      "traps": "No segment disclosure for government producers; materials include imported semiconductors with ERV clauses.",
+      "examples": ["BDL", "DATAPATTNS", "BEL", "ASTRAMICRO"]
+    },
+    {
+      "code": "customer_advances_other_income",
+      "name": "Customer advances and other income share of PBT",
+      "priority": "secondary",
+      "definition": "Advances held against the order book and other income (interest on that float) as % of PBT",
+      "formula": "other income / PBT; advances / order book",
+      "unit": "%",
+      "frequency": "annual",
+      "why_it_moves_price": "Other income was ~30% of HAL PBT and ~75% of BDL PBT in FY26; as advances are consumed, earnings quality falls.",
+      "history_source": "get_financials (other income, contract liabilities); annual report notes via read_library_document",
+      "estimate_source": "Bloomberg PAT/EPS consensus includes it; separate forecasts from broker models",
+      "traps": "Gross cash includes customer float; adding it to a P/E double counts.",
+      "examples": ["HAL", "BDL", "MAZDOCK", "GRSE"]
+    },
+    {
+      "code": "working_capital_cash_conversion",
+      "name": "Working-capital days and cash conversion",
+      "priority": "secondary",
+      "definition": "Net working capital days and 3-year cumulative CFO to EBITDA",
+      "formula": "(receivables + inventory + unbilled - payables - advances) / revenue x 365; CFO / EBITDA",
+      "unit": "days / %",
+      "frequency": "annual",
+      "why_it_moves_price": "Data Patterns runs 365-430 cash conversion days; a CFO well below EBITDA caps valuation for private names.",
+      "history_source": "get_financials balance sheet and cash flow 5+ years; Data Patterns deck working-capital slide",
+      "estimate_source": "No consensus; house model and broker models",
+      "traps": "Day counts differ by base (COGS vs revenue); acceptance delays push receipts to Q4.",
+      "examples": ["DATAPATTNS", "ASTRAMICRO", "APOLLO", "BEL"]
+    },
+    {
+      "code": "deliveries_by_programme",
+      "name": "Deliveries by programme vs guidance",
+      "priority": "secondary",
+      "definition": "Units of aircraft, helicopters, missiles or ships delivered against guided numbers",
+      "formula": "reported units",
+      "unit": "units",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Platform deliveries trigger revenue recognition; Tejas FY27 guidance fell from 20 to at least 10, which cut estimates.",
+      "history_source": "Transcripts and get_qa; HAL annual call; broker company updates in the report library",
+      "estimate_source": "Company guidance on calls and broker models",
+      "traps": "Engine supply (GE F404) and customer acceptance gate deliveries; pre-built inventory delivered quickly on contract signing.",
+      "examples": ["HAL", "BDL", "COCHINSHIP", "MAZDOCK"]
+    }
+  ],
+  "macro_inputs": [
+    { "series": "Union Budget defence capital outlay", "source": "Broker sector notes in the report library", "why": "Order pipeline" },
+    { "series": "DAC approvals (AoN) and CCS clearances", "source": "Broker and company updates via search_research", "why": "Timing of large nominated orders" },
+    { "series": "INR/USD", "source": "Airavat get_commodity_prices", "why": "Imported electronics and engine content" }
+  ],
+  "valuation_anchor": "P/E on 1-year-forward core EPS (HAL ~32x, BEL ~41x, DATAPATTNS ~54x street), with EV/order book and own cash per share for DPSUs",
+  "watch_next_quarter": "Whether the 2H ramp-up in defence ordering through fast-track procurement and large contracts (QRSAM, MRSAM) converts to signed inflow, and whether DATAPATTNS negotiated orders firm up against its 20-25% FY27 revenue guide."
+}

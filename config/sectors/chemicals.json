@@ -1,0 +1,229 @@
+{
+  "code": "chemicals",
+  "name": "Chemicals",
+  "group": "Materials",
+  "subsectors": [
+    "Specialty chemicals",
+    "Fluorochemicals",
+    "Agrochemical intermediates",
+    "Aromatics and phenolics",
+    "Industrial gases",
+    "Soda ash"
+  ],
+  "mofsl_2qfy27": {
+    "pages": [
+      17
+    ],
+    "headline": "Margin under pressure due to raw material volatility",
+    "read": "Revenue beat MOFSL estimates (AACL, ATPL, CLEAN, DN, FINE, GALSUF, NFIL and SRF beat), while EBITDA was in line with a beat from AACL, DN, FINE, GALSUF and NFIL; adj. PAT came in below estimates. Aggregate revenue grew 25% YoY to INR218.1b, EBITDA rose 13% to INR48.3b and adj. PAT grew 5% to INR20b. Gross margin contracted 290bp YoY and EBITDA margin 180bp YoY to 17.6%, with contraction at ATPL, CLEAN, ELLEN, PI, SRF, TTCH and VO. Guidance: Clean Science expanding HALS to 12,500 MTPA; Deepak Nitrite sees phenolics profit sustained in 3Q and a 14-15% EBIT margin in advanced intermediates by FY28; Ellenbarrie guides ~20% core gases growth; SRF chemical growth ~15-20% with specialty recovering in 2H; Vinati FY27 EBITDA margin ~24-25%; GALSUF raised full-year EBITDA/kg guide to INR26-27. No upgrades or downgrades.",
+    "surprises": [
+      "AACL",
+      "DEEPAKNTR",
+      "FINEORG",
+      "GALAXYSURF",
+      "NAVINFLUOR"
+    ],
+    "misses": [
+      "ATLP",
+      "PIIND",
+      "SRF",
+      "TATVA",
+      "VINATIORGA"
+    ]
+  },
+  "buoyant_skill": "anthropic-skills:niche-specialty-chemicals-analysis",
+  "unit_economics": "EBITDA = volume x (realisation/kg - raw material/kg - conversion cost/kg); contracted and formula-priced products pass through input moves, spot products carry the spread; new plants earn margin only after utilisation passes breakeven.",
+  "price_drivers": [
+    {
+      "driver": "Spread between product price and raw material (gross margin)",
+      "why": "Aggregate gross margin fell 290bp YoY in 2Q as raw material volatility (phenol, methanol, chloroform) outpaced contract pass-through; contracts reset with a 1-2 quarter lag.",
+      "sign": "+"
+    },
+    {
+      "driver": "Utilisation of new capacity and project timing",
+      "why": "CLEAN HALS, Navin HFO/R-32 lines, DN advanced intermediates and SRF specialty earn returns only at higher utilisation; slips defer EBITDA and add depreciation.",
+      "sign": "+"
+    },
+    {
+      "driver": "China pricing and trade remedies",
+      "why": "Chinese HQ, phenol and intermediate prices cap domestic price; anti-dumping duties (DGTR to MoF lag) restore it.",
+      "sign": "-"
+    },
+    {
+      "driver": "Refrigerant quota and contract pricing (fluoro)",
+      "why": "R-32 prices and the HFC freeze from 2028 plus HFO contract run-rate set Navin, SRF and GFL earnings.",
+      "sign": "+"
+    },
+    {
+      "driver": "Customer concentration and contract renewals",
+      "why": "Single customers above 10% of revenue (Navin three at 38.6%, CLEAN Kemin lock-in) make renewals binary for revenue.",
+      "sign": "-"
+    }
+  ],
+  "kpis": [
+    {
+      "code": "gross_margin",
+      "name": "Gross margin (material cost basis)",
+      "priority": "core",
+      "definition": "Revenue less materials, purchases and change in stock, as a share of revenue.",
+      "formula": "(Revenue - RM consumed - purchases +/- inventory change) / revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Gross margin shows pass-through before fixed costs blur it; the 290bp aggregate decline in 2Q is why ATPL, PI, SRF, TTCH and VO missed on EBITDA even with revenue up 25%.",
+      "history_source": "get_financials (RM consumed, purchases, inventory change, revenue); get_investor_presentation metric filter 'gross margin'; broker results tables (Motilal Oswal 8 quarters).",
+      "estimate_source": "get_consensus_estimates gives Sales/EBITDA/PAT only: no gross margin consensus, so use broker models and management commentary.",
+      "traps": "Two bases at some companies (after fuel or not); inventory gains and losses in volatile quarters; CFCL-type subsidiaries move gross margin 26-49%.",
+      "examples": [
+        "CLEAN",
+        "DEEPAKNTR",
+        "VINATIORGA",
+        "NAVINFLUOR",
+        "GALAXYSURF"
+      ]
+    },
+    {
+      "code": "ebitda_margin_house",
+      "name": "House EBITDA margin (ex other income, FX and one-offs)",
+      "priority": "core",
+      "definition": "EBITDA on revenue from operations after removing other income, FX gains and named one-offs.",
+      "formula": "(Revenue - operating costs, ex OI/FX/one-offs) / revenue",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Aggregate margin fell to 17.6% (from 19.4% a year ago); margin versus guidance (Vinati 24-25%, Navin ~34%, NFIL, Ellenbarrie 40% long-term gases) drives re-rating more than revenue.",
+      "history_source": "get_financials; get_investor_presentation metric filter 'EBITDA margin'; transcripts via get_qa for guidance; broker results notes.",
+      "estimate_source": "get_consensus_estimates for Bloomberg Sales/EBITDA/PAT/EPS; margin guidance from company transcripts.",
+      "traps": "Deck margins on sale of products versus total revenue; FX gains inside EBITDA (GFL Rs88.6cr FY26); promoter bonus reversals; SRF deck EBITDA includes other income.",
+      "examples": [
+        "CLEAN",
+        "NAVINFLUOR",
+        "SRF",
+        "VINATIORGA",
+        "PIIND"
+      ]
+    },
+    {
+      "code": "volume_vs_price_bridge",
+      "name": "Volume and price split of revenue growth",
+      "priority": "core",
+      "definition": "Revenue growth separated into volume, realisation and mix, with new-platform contribution.",
+      "formula": "(1+volume growth) x (1+realisation change) - 1",
+      "unit": "%",
+      "frequency": "quarterly",
+      "why_it_moves_price": "Revenue +25% YoY with EBITDA +13% shows volume or pass-through-led growth without spread; Navin's refrigerant gain was volume and mix QoQ, not price, while price-led gains reverse.",
+      "history_source": "Transcripts via get_qa and search_research (volume/price bridge is call-only at CLEAN); get_investor_presentation metric filter 'volume'; get_financials segment revenue.",
+      "estimate_source": "Broker models and management guidance (Ellenbarrie ~20% gases growth, SRF 15-20%, Privi 20%); no consensus split.",
+      "traps": "Segment series restated (CLEAN HALS inside performance chemicals); R-32 price quoted without a basis (domestic, China, export).",
+      "examples": [
+        "CLEAN",
+        "SRF",
+        "NAVINFLUOR",
+        "ELLEN",
+        "GALAXYSURF"
+      ]
+    },
+    {
+      "code": "capacity_utilisation_projects",
+      "name": "Capacity, utilisation and project milestones",
+      "priority": "core",
+      "definition": "Installed capacity by product, utilisation on a stated denominator, and dated project commissioning versus guidance.",
+      "formula": "Production / average commercial capacity; project date versus first guided date",
+      "unit": "MTPA, %",
+      "frequency": "quarterly",
+      "why_it_moves_price": "CLEAN HALS expansion to 12,500 MTPA, Navin R-32 and HFO plants and DN's EBIT target of INR4.0-4.2b in FY28 all rest on plant ramps; a slipped date moves EBITDA out a year while depreciation starts.",
+      "history_source": "get_investor_presentation metric filter 'capacity' or 'utilisation'; transcripts for commissioning dates; annual reports for capex and CWIP via read_library_document.",
+      "estimate_source": "Management guidance in transcripts; broker models; no consensus field.",
+      "traps": "Capacity quoted as par revenue rather than tonnes; 'commissioned' versus commercial; CWIP ageing over two years.",
+      "examples": [
+        "CLEAN",
+        "NAVINFLUOR",
+        "DEEPAKNTR",
+        "SRF",
+        "FLUOROCHEM"
+      ]
+    },
+    {
+      "code": "refrigerant_price_quota",
+      "name": "Refrigerant price (R-32/R-22) and quota position",
+      "priority": "secondary",
+      "definition": "R-32 domestic, China and export price on a stated basis and capacity against estimated HFC quota entitlement.",
+      "formula": "Reported price (Rs/kg or US$/kg); capacity / estimated quota",
+      "unit": "Rs/kg, US$/kg",
+      "frequency": "monthly",
+      "why_it_moves_price": "R-32 prices up ~27-49% YoY lifted fluoro earnings, but India R-32 capacity of 113-152 kt against 17-20 kt demand makes the 2027 free year a price risk; Kotak values R-32 earnings at 7x.",
+      "history_source": "Broker weekly notes in the library (Kotak 'Chemical Reactions', IDBI, Equirus); transcripts for contracted share; company decks via get_investor_presentation 'refrigerant'.",
+      "estimate_source": "No consensus; broker price decks and company guidance only.",
+      "traps": "Basis (domestic vs export ~30-35% lower) must be stated; quota estimates are analyst figures.",
+      "examples": [
+        "NAVINFLUOR",
+        "SRF",
+        "FLUOROCHEM",
+        "TANFAC",
+        "STALLION"
+      ]
+    },
+    {
+      "code": "input_price_spread",
+      "name": "Key input price (phenol, methanol, acetone, chloroform) and China prices",
+      "priority": "secondary",
+      "definition": "Price of the dominant input and the competing Chinese product price.",
+      "formula": "Tracked price in Rs/kg or RMB/t",
+      "unit": "Rs/kg, RMB/t",
+      "frequency": "weekly",
+      "why_it_moves_price": "Phenol rose from Rs101/kg to Rs180/kg in Feb-Sep 2026 and CLEAN gross margin fell 456bp YoY in 1QFY27; the input move reaches margin within the quarter and price 1-2 quarters later.",
+      "history_source": "get_commodity_prices for crude derivatives where available; broker sector notes (Kotak weekly, IDBI monthly, 360 ONE) in the library.",
+      "estimate_source": "No consensus; Kotak commodity forward assumptions via get_commodity_assumptions for a house view.",
+      "traps": "Company quotes may be landed or China domestic; no public price series for MEHQ, HALS, HQ.",
+      "examples": [
+        "CLEAN",
+        "DEEPAKNTR",
+        "AARTIIND",
+        "VINATIORGA",
+        "PIIND"
+      ]
+    },
+    {
+      "code": "customer_concentration_contract",
+      "name": "Customer concentration and contract run-rate",
+      "priority": "secondary",
+      "definition": "Revenue share of top customers and annualised value of long-term contracts (HFO, CDMO, innovator agro).",
+      "formula": "Top-3 customers' revenue / total revenue; contract value / years",
+      "unit": "%, US$mn per year",
+      "frequency": "annual",
+      "why_it_moves_price": "Navin's three customers at 38.6% and the Solstice extension at ~US$45mn a year versus ~US$59mn originally show how contract terms change the earnings base; CLEAN's Kemin deal raises concentration.",
+      "history_source": "Annual report notes via read_library_document (customers above 10%); transcripts via get_qa; get_investor_presentation for contract disclosures.",
+      "estimate_source": "Broker models and management statements; no consensus field.",
+      "traps": "Customers unnamed; contract value lumps incl. pass-through; extension years versus original run-rate.",
+      "examples": [
+        "NAVINFLUOR",
+        "CLEAN",
+        "PIIND",
+        "ANURAS",
+        "VINATIORGA"
+      ]
+    }
+  ],
+  "macro_inputs": [
+    {
+      "series": "Phenol, methanol, acetone, crude, natural gas",
+      "source": "Airavat get_commodity_prices; Kotak commodity assumptions via get_commodity_assumptions",
+      "why": "Raw material spread"
+    },
+    {
+      "series": "China chemical prices (R-32, HQ, PTFE, phenol)",
+      "source": "Broker weekly notes in the library (Kotak, Dolat, IDBI)",
+      "why": "Competing price and import parity"
+    },
+    {
+      "series": "DGTR recommendations and MoF notifications",
+      "source": "Broker monthly notes (IIFL, Dolat, 360 ONE)",
+      "why": "Trade remedy timing for protected products"
+    },
+    {
+      "series": "USD/INR",
+      "source": "Airavat get_commodity_prices (INR:USD)",
+      "why": "Export realisation; exports are ~61% of CLEAN revenue"
+    }
+  ],
+  "valuation_anchor": "P/E on core EPS plus net cash against own band (Nifty Chemicals ~40x) for niche names; EV/EBITDA by module (SOTP) for fluorochemical groups; regime split between pre-FY26 scarcity premium and contested-moat valuations.",
+  "watch_next_quarter": "Per MOFSL, margins stay exposed to raw material volatility into 3Q: track pass-through of phenol and methanol, DN phenolics profit sustaining in 3Q, SRF specialty volume recovery in 2H, Galaxy's raised INR26-27/kg EBITDA guide, CLEAN HALS ramp and global soda ash weakness for Tata Chemicals."
+}
