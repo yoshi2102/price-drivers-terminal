@@ -27,3 +27,16 @@ export const sectorOf = (t: string): string => {
   const row = (load("index.json").stocks as any[]).find((s) => s.ticker === t);
   return row?.sector || "cement";
 };
+
+/* Sector KPI framework: one JSON per sector, copied from config/sectors by scripts/sync-data.mjs. */
+const KPI_DIR = path.join(process.cwd(), "content", "sectors");
+export type SectorKpis = any;
+export function kpiSectors(): SectorKpis[] {
+  if (!existsSync(KPI_DIR)) return [];
+  return readdirSync(KPI_DIR).filter((f) => f.endsWith(".json"))
+    .map((f) => JSON.parse(readFileSync(path.join(KPI_DIR, f), "utf8")))
+    .sort((a, b) => (a.group + a.name).localeCompare(b.group + b.name));
+}
+export const kpiSector = (code: string) => kpiSectors().find((s) => s.code === code);
+/* Sectors with live price-driver models in the terminal. */
+export const LIVE_MODEL: Record<string, string> = { cement: "cement", technology: "it-services", "it-services": "it-services" };

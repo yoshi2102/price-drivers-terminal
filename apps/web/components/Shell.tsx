@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import {
   LayoutDashboard, Layers, CandlestickChart, Sigma, CalendarClock, Scale, Route, FlaskConical, Activity,
-  FileStack, Search, Sun, Moon, Command, X, BookOpen,
+  FileStack, Search, Sun, Moon, Command, X, BookOpen, ListTree,
 } from "lucide-react";
 
 export const NAV = [
@@ -18,6 +18,7 @@ export const NAV = [
   { href: "/backtest", label: "Backtest lab", icon: FlaskConical },
   { href: "/health", label: "Data health", icon: Activity },
   { href: "/studio", label: "Research studio", icon: FileStack },
+  { href: "/kpis", label: "KPI library", icon: ListTree },
   { href: "/guide", label: "Guide", icon: BookOpen },
 ];
 

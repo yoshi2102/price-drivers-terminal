@@ -21,6 +21,13 @@ if (base) {
   console.log(`pulled snapshot ${id} (${files.length} files)`);
 }
 if (!existsSync(src)) { console.error("No published snapshot in apps/web/data. Run the worker: python -m pdt.run"); process.exit(1); }
+// Sector KPI framework (config/sectors/*.json at the repo root) -> content/sectors
+const kpiSrc = path.join(root, "..", "..", "config", "sectors");
+if (existsSync(kpiSrc)) {
+  rmSync(path.join(root, "content", "sectors"), { recursive: true, force: true });
+  cpSync(kpiSrc, path.join(root, "content", "sectors"), { recursive: true });
+  console.log("synced sector KPI framework");
+}
 const dst = path.join(root, "public", "data");
 rmSync(dst, { recursive: true, force: true });
 cpSync(path.join(src, "scenarios"), path.join(dst, "scenarios"), { recursive: true });
